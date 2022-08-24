@@ -1,0 +1,110 @@
+
+
+<title>LURIGOR</title>
+<link rel="icon" href="{{ asset('images/Lurigor.jpg') }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
+
+<style>
+        #btn-access {
+                position: absolute;
+                width: 200px;
+                height: 50px;
+                background:hsl(219.6,43.9%,21%);
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                margin: auto auto 15px;
+                border-radius: 20px;
+                text-align: center;
+                padding-top: 20px;
+                font-family: 'Source Code Pro', monospace;
+                transition: all 0.4s ease-out;
+        }
+        a {
+                text-decoration: none;
+                color: hsl(39.6,100%,59.6%);
+                font-weight: bold;
+                font-size: 1.2rem;
+        }
+        #btn-access:hover {
+                background:hsl(203, 100%, 38%);
+        }
+        /*-----------------------------------------*/
+
+        #text-animation {
+                width: 100%;
+                height: 50px;
+                color: white;
+                background: linear-gradient(45deg, hsl(219.6,43.9%,21%), hsl(39.6,100%,59.6%));
+                z-index: 1;
+                font-family: 'Source Code Pro', monospace;
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                margin: 15px auto auto;
+                text-align: center;
+                padding-top: 7px;
+                transition: all 0.4s ease-out;
+        }
+
+        #text-animation:hover {
+                background: linear-gradient(135deg, hsl(219.6,43.9%,21%), hsl(39.6,100%,59.6%));;
+        }
+
+
+        /*-----------------------------------------*/
+
+        img {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                margin: auto;
+        }
+
+        /*Animation*/
+
+        span {
+                animation: blinker 1s linear infinite;
+        }
+
+        @keyframes blinker {
+                50% {
+                        opacity: 0;
+                }
+        }
+
+</style>
+
+<script>
+        const txt = ["Laboratoire Universitaire de recherche en Instrumentations et Gestion des Organisations."];
+        let textPosition = 0;
+        const speed = 100;
+
+        const typewriter = () => {
+                document.querySelector('#text-animation')
+                        .innerHTML = txt[0].substring(0,textPosition) + `<span>&#119078;</span>`;
+                if (textPosition++ !== txt[0].length){
+                        setTimeout(typewriter, speed);
+                }
+        }
+
+        window.addEventListener('load', typewriter);
+
+</script>
+
+{% block body %}
+
+        <h3 id="text-animation"></h3>
+        <img src="{{ asset('images/Lurigor500.jpg') }}" alt="LURIGOR">
+        <div id="btn-access">
+                <a href="{{ path('app_accueil') }}">Accédez au site</a>
+        </div>
+
+{% endblock %}
