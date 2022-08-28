@@ -8,9 +8,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class WebSiteController extends AbstractController
 {
-
     #[Route('/', name: 'app')]
-    public function root(){
+    public function root(): Response{
         return $this->render('web_site/root.html.twig', [
 
         ]);
@@ -28,14 +27,6 @@ class WebSiteController extends AbstractController
     public function us(): Response
     {
         return $this->render('web_site/us.html.twig', [
-            'controller_name' => 'WebSiteController',
-        ]);
-    }
-
-    #[Route('/site/pub_science', name: 'app_pub')]
-    public function pub(): Response
-    {
-        return $this->render('web_site/pub.html.twig', [
             'controller_name' => 'WebSiteController',
         ]);
     }

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ ouvrage.title }}{% endblock %}
+
+{% block body %}
+
+    <div class="m-5">
+        <div class="border-2 border-secondary">
+            <div class="p-5 flex flex-row justify-between">
+                <div>{{ ouvrage.title }}</div>
+                <div>{{ ouvrage.createdAt | date('d/m/Y') }} à {{ ouvrage.createdAt | date('H:i') }}</div>
+                <div><button class="text-primary bg-green-400 rounded-xl hover:bg-green-500/95 w-32 h-16"><a class="font-bold text-xl" href="{{ asset(ouvrage.document, 'docs') }}" target="_blank">Obtenir le fichier</a></button></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

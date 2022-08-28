@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos Ouvrages{% endblock %}
+
+{% block body %}
+
+    <div class="m-5 flex flex-col justify-between">
+        {% for ouvrage in ouvrages %}
+            <div class="border-2 border-secondary">
+                <div class="p-5 flex flex-row justify-between">
+                    <div>{{ ouvrage.title }}</div>
+                    <div>{{ ouvrage.createdAt | date('d/m/Y') }} à {{ ouvrage.createdAt | date('H:i') }}</div>
+                </div>
+                <div class="p-5 flex flex-row justify-center items-center">
+                    <button class="text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[95px] h-12 mr-5">
+                        <a class="text-xs font-bold" href="{{ path("app_ouvrage", {"slug" : ouvrage.slug}) }}">Accès au fichier de L'Ouvrage</a>
+                    </button>
+                    {% if 'ROLE_ADMIN' in app.user.roles %}
+                    <button class="text-primary bg-green-400 rounded-xl hover:bg-green-500/95 w-[85px] h-12 mr-5">
+                        <a href="{{ path("app_edit_ouvrage", {"slug" : ouvrage.slug}) }}" target="_blank"><i class="fa-solid fa-file-pen text-4xl"></i></a>
+                    </button>
+                    <button class="text-primary bg-red-400 rounded-xl hover:bg-red-500/95 w-[85px] h-12 mr-5">
+                        <a href="{{ path("app_delete_ouvrage", {"slug" : ouvrage.slug}) }}" target="_blank"><i class="fa-solid fa-square-minus text-4xl"></i></a>
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
