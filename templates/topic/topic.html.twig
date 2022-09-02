@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle thématique!{% endblock %}
+
+{% block main %}
+    <div class="flex flex-row items-center justify-center mt-7">
+        {{ form_start(form, {
+            'attr' : {
+                'class': 'ml-16 mr-16 h-[855px] w-[750px] rounded-xl bg-black/5 dark:bg-yellow-500/80 dark:text-black mb-5'
+            }
+        }) }}
+
+        <div class="p-5">
+            <h1 class="text-center text-2xl mb-7">Remplissez Ces Champs Pour Déclancher Un Nouveau Sujet...</h1>
+
+            <label class="text-xl font-bold text-blue-500 dark:text-white">Titre descriptif du sujet</label>
+            {{ form_widget(form.title, {
+                'attr': {
+                    'class': 'mb-5 flex flex-row justify-between pl-2 border-2 border-secondary w-full'
+                }
+            }) }}
+
+            <label class="text-xl font-bold text-blue-500 mt-5 dark:text-white">Dans quel projet ce sujet appartient?</label>
+            {{ form_widget(form.project, {
+                'attr': {
+                    'class': 'mb-5 flex flex-row justify-between pl-2 border-2 border-secondary w-full'
+                }
+            }) }}
+
+            <label class="text-xl font-bold text-blue-500 mt-5 dark:text-white">Membres d'équipe concerné(e)s par ce sujet <span class="text-sm">( Maintenir le bouton CTRL pour la selection multiple )</span></label>
+            {{ form_widget(form.members, {
+                'attr': {
+                    'class': 'mb-5 flex flex-row justify-between pl-2 border-2 border-secondary w-full'
+                }
+            }) }}
+
+            <label class="text-xl font-bold text-blue-500 mt-5 dark:text-white">Corps du sujet (problématique, questions au public...)</label>
+            {{ form_widget(form.content, {
+                'attr': {
+                    'class': 'mb-5 flex flex-row justify-between pl-2 border-2 border-secondary w-full'
+                }
+            }) }}
+
+            {% if edit %}
+                <button type="submit" class="mt-5 text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[85px] h-10">Enregistrer</button>
+            {% else %}
+                <button type="submit" class="mt-5 text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[85px] h-10">Soumettre</button>
+            {% endif %}
+
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

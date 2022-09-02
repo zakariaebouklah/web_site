@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Thématiques{% endblock %}
+
+{% block main %}
+
+    <main class="main">
+        <div class="m-5 flex flex-col">
+            {% for topic in topics %}
+                <div class="border-2 border-secondary mb-10">
+                    <div class="p-5 flex flex-row justify-between">
+                        <div>{{ topic.title }}</div>
+                        <div>{{ topic.createdAt | date('d/m/Y') }} à {{ topic.createdAt | date('H:i') }}</div>
+                        <div>Equipe :
+                            <span class="text-xl font-bold">
+                                {% for member in topic.members %}
+                                    <p>{{ member.username }}</p>
+                                {% endfor %}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-5 flex flex-row justify-center items-center">
+                        <button class="dark:text-black dark:bg-thirdly text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[95px] h-12 mr-5">
+                            <a class="text-xs font-bold" href="{{ path("app_show_topic", {"slug" : topic.slug}) }}">Voir le contenu du thème</a>
+                        </button>
+                        {% if topic in app.user.topics %}
+                            <button class="text-primary bg-green-400 rounded-xl hover:bg-green-500/95 w-[85px] h-12 mr-5">
+                                <a href="{{ path("app_edit_topic", {"slug" : topic.slug}) }}" target="_blank">
+                                    <i class="fa-solid fa-marker text-4xl"></i>
+                                </a>
+                            </button>
+                            <button class="text-primary bg-red-400 rounded-xl hover:bg-red-500/95 w-[85px] h-12 mr-5">
+                                <a href="#" target="_blank">
+                                    <i class="fa-solid fa-square-minus text-4xl"></i>
+                                </a>
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </main>
+
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fil des événements{% endblock %}
+
+{% block main %}
+
+    <main class="main">
+        <div class="m-5 h-screen">
+            {% for event in events %}
+                <div class="border-2 border-secondary rounded-xl mb-10">
+                    <div class="p-5 flex flex-col justify-between">
+                        <div class="text-center text-3xl">
+                            <em>{{ event.title }}</em>
+                        </div>
+                        <div class="flex flex-col justify-between items-center text-center">
+                            <div>{{ event.description }}</div>
+                            <div class="mt-9 mb-9">
+                                <img src="{{ asset('uploads/fiches/' ~ event.fiche) }}" alt="{{ event.title }}">
+                            </div>
+                        </div>
+                        <div class="flex flex-row justify-evenly">
+                            <div>{{ event.programme }}</div>
+                            <div>{{ event.droppedAt | date('d/m/Y') }} à {{ event.droppedAt | date('H:i') }}</div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="p-5 flex flex-row justify-center items-center">
+                        <div>
+                            <button class="dark:text-black dark:bg-thirdly font-bold text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[125px] h-12 mr-5 text-center">
+                                <a href="{{ asset(event.programme, 'programmes') }}" target="_blank">Obtenir le programme</a>
+                            </button>
+                        </div>
+                        {% if 'ROLE_ADMIN' in app.user.roles %}
+                            <button class="text-primary bg-green-400 rounded-xl hover:bg-green-500/95 w-[85px] h-12 mr-5">
+                                <a href="{{ path("app_edit_event", {"slug" : event.slug}) }}" target="_blank">
+                                    <i class="fa-solid fa-file-pen text-4xl"></i>
+                                </a>
+                            </button>
+                            <button class="text-primary bg-red-400 rounded-xl hover:bg-red-500/95 w-[85px] h-12 mr-5">
+                                <a href="{{ path("app_delete_event", {"slug" : event.slug}) }}" target="_blank">
+                                    <i class="fa-solid fa-square-minus text-4xl"></i>
+                                </a>
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+            {% if 'ROLE_ADMIN' in app.user.roles %}
+                <div class="items-center text-center mb-7 mt-7">
+                    <button class="dark:bg-secondary dark:text-black font-bold p-2 text-thirdly bg-primary rounded-xl hover:bg-cyan-800/95 w-[175px] h-16 mr-5 mt-0">
+                        <a href="{{ path("app_new_event") }}" target="_blank">Ajouter Un Nouveau Événement</a>
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+    </main>
+
+{% endblock %}
+

@@ -1,7 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
+{% block title %}Nos Événements{% endblock %}
 
-    <div>Manifestations</div>
+{% block main %}
+
+    <main class="main">
+        <div>
+            <img src="{{ asset('images/manif.jpg') }}" alt="manifestation">
+        </div>
+        <div class="flex flex-row h-96 items-center text-center justify-center centred">
+            <div class="w-52 h-36 flex flex-col justify-between mr-14 hover:bg-gray-300 hover:rounded-xl dark:hover:bg-black/20">
+                <div class="items-center text-center">
+                    <i class="fa-brands fa-elementor text-7xl mt-2"></i>
+                </div>
+                <div><a href="{{ path("app_events") }}" target="_blank">Consultez Nos Événements</a></div>
+            </div>
+        </div>
+    </main>
 
 {% endblock %}
+

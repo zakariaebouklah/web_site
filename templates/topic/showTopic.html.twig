@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LURIGOR Thème : {{ topic.title }}{% endblock %}
+
+{% block main %}
+
+    <main class="main">
+        <div class="m-5">
+            <div class="border-2 border-secondary">
+                <div class="p-5">
+                    <div class="text-center text-3xl font-bold mb-3">{{ topic.title }}</div>
+                    <div class="text-center">Dans le Projet <em class="text-center font-bold">{{ topic.project }}</em></div>
+                    <div class="flex flex-row justify-between">
+                        <div class="w-full text-center">Déposé Le <span class="text-xl font-bold">{{ topic.createdAt | date('d/m/Y') }}</span> à <span class="text-xl font-bold">{{ topic.createdAt | date('H:i') }}</span></div>
+                    </div>
+                    <div class="ml-5 mr-5 mt-7 mb-7">
+                        <p>{{ topic.content | raw }}</p>
+                    </div>
+                </div>
+                <hr>
+                <div>
+                    <p class="text-center text-2xl text-green-500 font-bold mt-5 mb-5">Interactions</p>
+                    {% for comment in topic.comments %}
+                        <div class="flex flex-row m-5">
+                            <div class="flex flex-col">
+                                <div class="mr-5 text-center">
+                                    <em>{{ comment.author.username }}</em>
+                                    le <span class="font-bold">{{ comment.createdAt | date('d/m/Y') }}</span>
+                                    à
+                                    <span class="font-bold">{{ comment.createdAt | date('H:i') }}</span>
+                                </div>
+                                <div class="mt-3 flex flex-row">
+                                    {% if 'ROLE_ADMIN' in app.user.roles %}
+                                        {% if comment in app.user.comments %}
+                                            <button class="text-primary bg-green-400 rounded-xl hover:bg-green-500/95 w-[85px] h-12 mr-5">
+                                                <a href="{{ path("app_edit_comment", {"slug_comment" : comment.slug}) }}" target="_blank">
+                                                    <i class="fa-solid fa-marker"></i>
+                                                </a>
+                                            </button>
+                                        {% endif %}
+                                        <button class="text-primary bg-red-400 rounded-xl hover:bg-red-500/95 w-[85px] h-12 mr-5">
+                                            <a href="{{ path("app_delete_comment", {"slug" : comment.slug}) }}" target="_blank">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </a>
+                                        </button>
+                                    {% else %}
+                                        {% if comment in app.user.comments %}
+                                            <button class="text-primary bg-green-400 rounded-xl hover:bg-green-500/95 w-[85px] h-12 mr-5">
+                                                <a href="{{ path("app_edit_comment", {"slug_comment" : comment.slug}) }}" target="_blank">
+                                                    <i class="fa-solid fa-marker"></i>
+                                                </a>
+                                            </button>
+                                            <button class="text-primary bg-red-400 rounded-xl hover:bg-red-500/95 w-[85px] h-12 mr-5">
+                                                <a href="{{ path("app_delete_comment", {"slug" : comment.slug}) }}" target="_blank">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </a>
+                                            </button>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="border-2 border-green-500 rounded-xl">
+                                <p class="p-5">{{ comment.content }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <hr>
+                <div>
+                    {{ form_start(form, {
+                        'attr' : {
+                            'class': 'ml-16 mr-16 mt-5'
+                        }
+                    }) }}
+                    <label class="text-blue-500 text-base font-bold">Votre intervention</label>
+                    {{ form_widget(form.content, {
+                        'attr': {
+                            'placeholder': 'C\'est vrai que... mais pourtant...',
+                            'class': 'mb-5 flex flex-row justify-between pl-2 border-2 border-secondary w-full'
+                        }
+                    }) }}
+                    <button type="submit" class="mt-3 mb-3 text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[75px] h-10"><i class="fa-solid fa-check"></i></button>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

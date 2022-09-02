@@ -79,7 +79,7 @@ class PubOuvrageController extends AbstractController
         ]);
     }
 
-    #[Route('/delete/{slug}', name: "app_delete_ouvrage")]
+    #[Route('/delete_ouvarge/{slug}', name: "app_delete_ouvrage")]
     public function deleteOuvrage(Ouvrage $ouvrage, EntityManagerInterface $manager, Request $request): Response
     {
         $form = $this->createForm(DeleteFormType::class);
@@ -93,8 +93,8 @@ class PubOuvrageController extends AbstractController
             return $this->redirectToRoute("app_ouvrages");
         }
 
-        return $this->render("pub/delete.html.twig", [
-            'form'=>$form
+        return $this->render("web_site/delete.html.twig", [
+            'form'=>$form->createView()
         ]);
     }
 }

@@ -25,12 +25,8 @@ navLinks.forEach(link => {
 /*DarkMode setup*/
 const switcher = document.getElementById('switch-toggle');
 const html = document.querySelector('html');
-const moon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0e166c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-              </svg>`;
-const sun = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0e166c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/>
-                <path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/>
-             </svg>`;
+const moon = `<i class="fa-solid fa-moon text-primary"></i>`;
+const sun = `<i class="fa-solid fa-lightbulb text-primary"></i>`;
 const btn = document.getElementById('btn');
 let isDarkMode = false;
 
@@ -91,8 +87,7 @@ const speed = 100;
 let textPosition = 0;
 
 const typewriter = () => {
-    document.querySelector('#type-effect')
-        .innerHTML = txt.substring(0,textPosition) + `<span class="anim">&#119078;</span>`;
+    document.querySelector('#type-effect').innerHTML = txt.substring(0,textPosition) + `<span class="anim">&#119078;</span>`;
     if (textPosition++ !== txt.length){
         setTimeout(typewriter, speed);
     }
@@ -100,4 +95,25 @@ const typewriter = () => {
 
 window.addEventListener('load', typewriter);
 
-/*-----------------------------*/
+/*-------------------------User Settings/Logout------------------*/
+
+const user = document.querySelector("#user");
+const userModal = document.querySelector("#user-modal");
+
+user.addEventListener("mouseover", () => {
+    userModal.classList.remove("invisible");
+    userModal.classList.add("visible");
+    console.log("yes")
+})
+
+userModal.addEventListener("mouseover", () => {
+    userModal.classList.remove("invisible");
+    userModal.classList.add("visible");
+    console.log("yes")
+})
+
+userModal.addEventListener("mouseout", () => {
+    userModal.classList.remove("visible");
+    userModal.classList.add("invisible");
+    console.log("ok")
+})

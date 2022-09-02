@@ -16,7 +16,7 @@ class OuvrageFormType extends AbstractType
         $builder
             ->add('title')
             ->add('document', FileType::class, [
-                'label' => 'Pièce Jointe (des fichiers PDF ou Word)',
+                'label' => 'Pièce Jointe (des fichiers PDF, Word ou PowerPoint)',
 
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
@@ -32,8 +32,10 @@ class OuvrageFormType extends AbstractType
                         'maxSize' => '30M',
                         'mimeTypes' => [
                             'application/pdf',
-                            'application/docx',
-                            'application/pptx',
+                            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                            'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                            'application/vnd.ms-powerpoint',
+                            'application/msword',
                         ],
                         'mimeTypesMessage' => 'Please upload a valid [PDF | Word | PowerPoint] document',
                     ])

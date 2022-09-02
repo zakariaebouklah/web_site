@@ -1,23 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ article.title }}{% endblock %}
+{% block title %}LURIGOR Article : {{ article.title }}{% endblock %}
 
-{% block body %}
+{% block main %}
 
-    <div class="m-5">
-        <div class="border-2 border-secondary">
-            <div class="p-5">
-                <div class="text-center text-2xl">{{ article.title }}</div>
-                <div class="text-center">Dans la category <em class="text-center font-bold">{{ article.category }}</em></div>
-                <div class="flex flex-row justify-between">
-                    <div>Ecrit par <span class="text-xl font-bold">{{ article.author }}</span></div>
-                    <div>Le <span class="text-xl font-bold">{{ article.createdAt | date('d/m/Y') }}</span> à <span class="text-xl font-bold">{{ article.createdAt | date('H:i') }}</span></div>
-                </div>
-                <div class="m5">
-                    <p>{{ article.content }}</p>
+    <main class="main">
+        <div class="m-5">
+            <div class="border-2 border-secondary">
+                <div class="p-5">
+                    <div class="text-center text-2xl">{{ article.title }}</div>
+                    <div class="text-center">Dans la category <em class="text-center font-bold">{{ article.category }}</em></div>
+                    <div class="flex flex-row justify-between">
+                        <div>Ecrit par <span class="text-xl font-bold">{{ article.author }}</span></div>
+                        <div>Le <span class="text-xl font-bold">{{ article.createdAt | date('d/m/Y') }}</span> à <span class="text-xl font-bold">{{ article.createdAt | date('H:i') }}</span></div>
+                    </div>
+                    <div class="m5">
+                        <p>{{ article.content }}</p>
+                    </div>
+                    <hr class="mt-7 mb-7 font-bold">
+                    <div>
+                        {{ form_start(form, {
+                            'attr' : {
+                                'class': 'ml-16 mr-16'
+                            }
+                        }) }}
+                        {{ form_row(form.content, {
+                            label: 'Laissez Un Commentaire',
+                            'attr': {
+                                'placeholder': 'Bon Article...',
+                                'class': 'mb-5 flex flex-row justify-between pl-2 border-2 border-secondary w-full'
+                            }
+                        }) }}
+                        <button type="submit" class="mt-3 text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[75px] h-10"><i class="fa-solid fa-check"></i></button>
+                        {{ form_end(form) }}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
 {% endblock %}

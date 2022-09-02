@@ -8,6 +8,22 @@ module.exports = {
       "./templates/web_site/*.{html,twig}"
   ],
   theme: {
+      screens: {
+          '2xl': {'max': '1535px'},
+          // => @media (max-width: 1535px) { ... }
+
+          'xl': {'max': '1285px'},
+          // => @media (max-width: 1285px) { ... }
+
+          'lg': {'max': '1023px'},
+          // => @media (max-width: 1023px) { ... }
+
+          'md': {'max': '767px'},
+          // => @media (max-width: 767px) { ... }
+
+          'sm': {'max': '670px'},
+          // => @media (max-width: 670px) { ... }
+      },
     extend: {
         colors: {
             primary: 'hsl(219.6,43.9%,21%)',

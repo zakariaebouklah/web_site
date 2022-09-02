@@ -37,6 +37,8 @@ class PubArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
+            $article->setCreatedAt(new \DateTimeImmutable());
+
             $manager->persist($article);
             $manager->flush();
 
@@ -49,7 +51,7 @@ class PubArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/delete/{slug}', name: "app_delete_article")]
+    #[Route('/delete_article/{slug}', name: "app_delete_article")]
     public function deleteArticle(Article $article, EntityManagerInterface $em, Request $request): Response
     {
         $form = $this->createForm(DeleteFormType::class);
@@ -62,7 +64,7 @@ class PubArticleController extends AbstractController
             return $this->redirectToRoute("app_articles");
         }
 
-        return $this->render("pub/delete.html.twig", [
+        return $this->render("web_site/delete.html.twig", [
             'form'=> $form->createView()
         ]);
 

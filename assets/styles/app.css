@@ -7,10 +7,10 @@
         @apply text-thirdly;
     }
     .modal {
-        @apply fixed left-0 top-0 w-full h-full overflow-auto bg-primary opacity-70 flex justify-center items-center;
+        @apply fixed left-0 top-0 w-full h-full overflow-auto bg-primary bg-opacity-70 flex justify-center items-center;
     }
     .modal-content {
-        @apply z-[1] bg-white p-[20px] border-2 border-secondary w-[80%] flex flex-col text-indigo-800 font-bold dark:bg-white dark:opacity-100 rounded-xl;
+        @apply z-[1] bg-white p-[20px] border-2 border-secondary w-[80%] opacity-100 flex flex-col text-indigo-800 font-bold dark:bg-white dark:opacity-100 rounded-xl;
     }
     .close {
         @apply text-center text-red-900 text-4xl border-2 border-red-900 bg-red-400 font-bold cursor-pointer mt-10 rounded-xl;
@@ -19,7 +19,7 @@
         @apply absolute top-0 right-0 left-0 bottom-0 m-auto bg-cover overflow-hidden flex justify-center items-center;
     }
     .txt-type {
-        @apply text-center text-3xl font-bold;
+        @apply text-center text-3xl font-bold mt-5;
     }
     .anim {
         @apply animate-blink;
@@ -27,10 +27,10 @@
     .contacts {
         @apply bg-gray-200 rounded-xl shadow-zinc-400 h-64 mt-14 dark:bg-gray-500;
     }
-    /*.login-btn {*/
-    /*    @apply text-secondary hover:rounded-xl hover:bg-secondary hover:text-black w-7 h-5;*/
-    /*}*/
-    /*.register-btn {*/
-    /*    @apply text-secondary hover:rounded-xl hover:bg-secondary hover:text-black w-7 h-5;*/
-    /*}*/
+    .centred {
+        @apply relative top-52 left-1/2 -translate-y-1/2 -translate-x-1/2;
+    }
+    .main {
+        @apply w-screen min-h-[100%];
+    }
 }

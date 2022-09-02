@@ -1,0 +1,2344 @@
+Index: templates/pub/showArticle.html.twig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/pub/showArticle.html.twig b/templates/pub/showArticle.html.twig
+--- a/templates/pub/showArticle.html.twig	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/templates/pub/showArticle.html.twig	(date 1661940122733)
+@@ -1,23 +1,42 @@
+ {% extends 'base.html.twig' %}
+ 
+-{% block title %}{{ article.title }}{% endblock %}
++{% block title %}LURIGOR Article : {{ article.title }}{% endblock %}
+ 
+-{% block body %}
++{% block main %}
+ 
+-    <div class="m-5">
+-        <div class="border-2 border-secondary">
+-            <div class="p-5">
+-                <div class="text-center text-2xl">{{ article.title }}</div>
+-                <div class="text-center">Dans la category <em class="text-center font-bold">{{ article.category }}</em></div>
+-                <div class="flex flex-row justify-between">
+-                    <div>Ecrit par <span class="text-xl font-bold">{{ article.author }}</span></div>
+-                    <div>Le <span class="text-xl font-bold">{{ article.createdAt | date('d/m/Y') }}</span> à <span class="text-xl font-bold">{{ article.createdAt | date('H:i') }}</span></div>
+-                </div>
+-                <div class="m5">
+-                    <p>{{ article.content }}</p>
+-                </div>
+-            </div>
+-        </div>
+-    </div>
++    <main class="main">
++        <div class="m-5">
++            <div class="border-2 border-secondary">
++                <div class="p-5">
++                    <div class="text-center text-2xl">{{ article.title }}</div>
++                    <div class="text-center">Dans la category <em class="text-center font-bold">{{ article.category }}</em></div>
++                    <div class="flex flex-row justify-between">
++                        <div>Ecrit par <span class="text-xl font-bold">{{ article.author }}</span></div>
++                        <div>Le <span class="text-xl font-bold">{{ article.createdAt | date('d/m/Y') }}</span> à <span class="text-xl font-bold">{{ article.createdAt | date('H:i') }}</span></div>
++                    </div>
++                    <div class="m5">
++                        <p>{{ article.content }}</p>
++                    </div>
++                    <hr class="mt-7 mb-7 font-bold">
++                    <div>
++                        {{ form_start(form, {
++                            'attr' : {
++                                'class': 'ml-16 mr-16'
++                            }
++                        }) }}
++                        {{ form_row(form.content, {
++                            label: 'Laissez Un Commentaire',
++                            'attr': {
++                                'placeholder': 'Bon Article...',
++                                'class': 'mb-5 flex flex-row justify-between pl-2 border-2 border-secondary w-full'
++                            }
++                        }) }}
++                        <button type="submit" class="mt-3 text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[75px] h-10"><i class="fa-solid fa-check"></i></button>
++                        {{ form_end(form) }}
++                    </div>
++                </div>
++            </div>
++        </div>
++    </main>
+ 
+ {% endblock %}
+Index: templates/web_site/root.html.twig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/web_site/root.html.twig b/templates/web_site/root.html.twig
+--- a/templates/web_site/root.html.twig	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/templates/web_site/root.html.twig	(date 1661939782845)
+@@ -99,7 +99,7 @@
+ 
+ </script>
+ 
+-{% block body %}
++{% block main %}
+ 
+         <h3 id="text-animation"></h3>
+         <img src="{{ asset('images/Lurigor500.jpg') }}" alt="LURIGOR">
+Index: templates/base.html.twig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/base.html.twig b/templates/base.html.twig
+--- a/templates/base.html.twig	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/templates/base.html.twig	(date 1662136911341)
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html>
+-<html>
++<html lang="fr">
+     <head>
+         <meta charset="UTF-8">
+         <title>{% block title %}Welcome!{% endblock %}</title>
+@@ -16,29 +16,51 @@
+             {{ encore_entry_script_tags('app') }}
+         {% endblock %}
+     </head>
+-    <body class="dark:bg-primary dark:text-white transition-colors duration-300">
++    <body class="dark:bg-primary dark:text-white transition-colors duration-300 flex flex-col justify-between">
+         {% if app.user %}
+-        <header class="fixed bg-secondary w-screen h-16 top-0">
++        <header class="fixed bg-secondary w-screen h-16 top-0 z-20">
+             <div class="pt-3.5 pl-3.5">
+                 <a href="https://www.facebook.com/LaboratoireLURIGOR/" target="_blank">
+                     <i class="fa-brands fa-facebook"></i>
+                     <span class="hover:underline">La page Facebook</span>
+                 </a>
+-                <button id="btn" class="absolute top-5 right-7 w-10 h-5 md:w-12 md:h-6 rounded-2xl bg-white flex items-center transition duration-300 focus:outline-none shadow">
+-                    <div id="switch-toggle" class="w-6 h-6 md:w-7 md:h-7 relative rounded-full transition duration-500 transform bg-thirdly -translate-x-2 pt-1 pl-0.5 text-white">
+-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0e166c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
++                <button id="btn" class="absolute top-5 right-7 w-10 h-5 rounded-2xl bg-white flex items-center transition duration-300 focus:outline-none shadow">
++                    <div id="switch-toggle" class="w-6 h-6 relative rounded-full transition duration-500 transform bg-thirdly -translate-x-2 text-white">
++                        <i class="fa-solid fa-lightbulb text-primary"></i>
+                     </div>
+                 </button>
+             </div>
+         </header>
+-        <nav class="fixed bg-primary h-16 w-screen flex flex-row justify-between top-16">
+-            <ul id="nav_ul" class="flex flex-row justify-evenly h-16 w-screen">
+-                <li data-common="items" class="text-secondary text-lg text-center pt-3.5"><a href="{{ path("app_accueil") }}">Accueil</a></li>
+-                <li data-common="items" class="text-secondary text-lg text-center pt-3.5"><a href="{{ path("app_us") }}">Qui sommes nous?</a></li>
+-                <li data-common="items" class="text-secondary text-lg text-center pt-3.5"><a href="{{ path("app_pub") }}">Publications scientifiques</a></li>
+-                <li data-common="items" class="text-secondary text-lg text-center pt-3.5"><a href="{{ path("app_manifestation") }}">Manifestations scientifiques</a></li>
+-                <li data-common="items" class="text-secondary text-lg text-center pt-3.5"><a href="{{ path("app_formation_doctorale") }}">Formation doctorale</a></li>
+-                <li data-common="items" class="text-secondary text-lg text-center pt-3.5"><a href="{{ path("app_themes") }}">Groupes d'intérêt thématique</a></li>
++        <nav class="fixed bg-primary h-16 w-screen flex flex-row justify-between top-16 xl:h-24 z-20">
++            <div class="text-center pt-3.5 ml-5">
++                <div id="user" class="flex flex-row">
++                    <i class="fa-solid fa-circle-user cursor-pointer text-3xl text-thirdly"></i>
++                    <span class="ml-1 text-center text-base text-white p-2">{{ app.user.username }}</span>
++                </div>
++                <div class="bg-secondary w-40 h-36 rounded-xl invisible group-hover:arrow" id="user-modal">
++                    <ul class="flex flex-col m-2 pt-10">
++                        <li class="mb-2">
++                            <a href="{{ path("app_logout") }}" class="flex flex-row justify-between">
++                                <span class="font-bold text-base xl:text-sm">Déconnexion</span>
++                                <i class="fa-solid fa-right-from-bracket pt-[8px] text-blue-500"></i>
++                            </a>
++                        </li>
++                        <li>
++                            <a href="{{ path("app_user_edit", {"slug": app.user.slug}) }}" target="_blank" class="flex flex-row justify-between">
++                                <span class="font-bold text-base xl:text-sm">Réglages</span>
++                                <i class="fa-solid fa-gear pt-[8px] text-blue-500"></i>
++                            </a>
++                        </li>
++                    </ul>
++                </div>
++            </div>
++            <ul id="nav_ul" class="flex flex-row justify-evenly h-16 w-screen xl:h-24">
++                <li data-common="items" class="text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs"><a href="{{ path("app_accueil") }}">Accueil</a></li>
++                <li data-common="items" class="text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs"><a href="{{ path("app_us") }}">Qui sommes nous?</a></li>
++                <li data-common="items" class="text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs"><a href="{{ path("app_pub") }}">Publications scientifiques</a></li>
++                <li data-common="items" class="text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs"><a href="{{ path("app_manifestation") }}">Manifestations scientifiques</a></li>
++                <li data-common="items" class="text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs"><a href="{{ path("app_formation_doctorale") }}">Onboarding doctoring</a></li>
++                <li data-common="items" class="text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs"><a href="{{ path("app_themes") }}">Groupes d'intérêt thématique</a></li>
+             </ul>
+         </nav>
+         <nav class="bg-white border-2 border-secondary text-primary w-screen h-32 flex flex-row mt-[127px] dark:bg-white dark:text-primary">
+@@ -70,7 +92,7 @@
+                             <li><a class="hover:text-green-800" href="{{ path("app_manifestation") }}">Manifestations scientifiques</a></li>
+                             <div class="border-b-4 border-secondary"></div>
+                             <br>
+-                            <li><a class="hover:text-green-800" href="{{ path("app_formation_doctorale") }}">Formation doctorale</a></li>
++                            <li><a class="hover:text-green-800" href="{{ path("app_formation_doctorale") }}">Onboarding doctoring</a></li>
+                             <div class="border-b-4 border-secondary"></div>
+                             <br>
+                             <li><a class="hover:text-green-800" href="{{ path("app_themes") }}">Groupes d'intérêt thématique</a></li>
+@@ -83,17 +105,27 @@
+             </div>
+         </div>
+         {% else %}
+-            <header class="bg-thirdly h-16 w-screen">
++            <header class="bg-thirdly h-24 w-screen flex flex-row justify-between">
++                <div>
++                    <img class="h-[95px]" src="{{ asset('images/ump.jpg') }}" alt="UMP-FSJES">
++                </div>
+                 <div class="flex flex-row justify-end pr-10">
+-                    <button class="mr-5 mt-3 text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[75px] h-10">
+-                        <a href="{{ path("app_login") }}">Login</a>
++                    <button class="mr-5 mt-3 text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[95px] h-10">
++                        <a href="{{ path("app_login") }}">Connexion</a>
+                     </button>
+-                    <button class="mt-3 text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[75px] h-10">
+-                        <a href="{{ path("app_register") }}">Register</a>
++                    <button class="mt-3 text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[95px] h-10">
++                        <a href="{{ path("app_register") }}">Inscription</a>
+                     </button>
+                 </div>
+             </header>
+         {% endif %}
+-        {% block body %}{% endblock %}
++        {% block main %}{% endblock %}
++            {% if not app.user %}
++                <footer class="flex flex-col text-center items-center justify-center dark:bg-secondary dark:text-black h-16">
++                    Copyright © LURIGOR <script>document.write(new Date().getFullYear())</script>. Tous les droits sont réservés.
++                </footer>
++                <!-- Made By Zakariae Bouklah : https://zakariaebouklah.github.io/ -->
++            {% endif %}
++        {% block footer %}{% endblock %}
+     </body>
+ </html>
+Index: assets/app.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/assets/app.js b/assets/app.js
+--- a/assets/app.js	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/assets/app.js	(date 1661972615143)
+@@ -25,12 +25,8 @@
+ /*DarkMode setup*/
+ const switcher = document.getElementById('switch-toggle');
+ const html = document.querySelector('html');
+-const moon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0e166c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+-              </svg>`;
+-const sun = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0e166c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/>
+-                <path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/>
+-             </svg>`;
++const moon = `<i class="fa-solid fa-moon text-primary"></i>`;
++const sun = `<i class="fa-solid fa-lightbulb text-primary"></i>`;
+ const btn = document.getElementById('btn');
+ let isDarkMode = false;
+ 
+@@ -91,8 +87,7 @@
+ let textPosition = 0;
+ 
+ const typewriter = () => {
+-    document.querySelector('#type-effect')
+-        .innerHTML = txt.substring(0,textPosition) + `<span class="anim">&#119078;</span>`;
++    document.querySelector('#type-effect').innerHTML = txt.substring(0,textPosition) + `<span class="anim">&#119078;</span>`;
+     if (textPosition++ !== txt.length){
+         setTimeout(typewriter, speed);
+     }
+@@ -100,4 +95,25 @@
+ 
+ window.addEventListener('load', typewriter);
+ 
+-/*-----------------------------*/
++/*-------------------------User Settings/Logout------------------*/
++
++const user = document.querySelector("#user");
++const userModal = document.querySelector("#user-modal");
++
++user.addEventListener("mouseover", () => {
++    userModal.classList.remove("invisible");
++    userModal.classList.add("visible");
++    console.log("yes")
++})
++
++userModal.addEventListener("mouseover", () => {
++    userModal.classList.remove("invisible");
++    userModal.classList.add("visible");
++    console.log("yes")
++})
++
++userModal.addEventListener("mouseout", () => {
++    userModal.classList.remove("visible");
++    userModal.classList.add("invisible");
++    console.log("ok")
++})
+Index: src/Entity/User.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Entity/User.php b/src/Entity/User.php
+--- a/src/Entity/User.php	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/src/Entity/User.php	(date 1662133502101)
+@@ -3,10 +3,14 @@
+ namespace App\Entity;
+ 
+ use App\Repository\UserRepository;
++use Doctrine\Common\Collections\ArrayCollection;
++use Doctrine\Common\Collections\Collection;
++use Doctrine\DBAL\Types\Types;
+ use Doctrine\ORM\Mapping as ORM;
+ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+ use Symfony\Component\Security\Core\User\UserInterface;
++use Gedmo\Mapping\Annotation as Gedmo;
+ 
+ #[ORM\Entity(repositoryClass: UserRepository::class)]
+ #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+@@ -36,6 +40,24 @@
+     #[ORM\Column(length: 255)]
+     private ?string $username = null;
+ 
++    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comment::class)]
++    private Collection $comments;
++
++    /**
++     * @Gedmo\Slug(fields={"username"})
++     */
++    #[ORM\Column(type: Types::TEXT)]
++    private string $slug;
++
++    #[ORM\ManyToMany(targetEntity: Topic::class, mappedBy: 'members')]
++    private Collection $topics;
++
++    public function __construct()
++    {
++        $this->comments = new ArrayCollection();
++        $this->topics = new ArrayCollection();
++    }
++
+     public function getId(): ?int
+     {
+         return $this->id;
+@@ -121,4 +143,79 @@
+ 
+         return $this;
+     }
++
++    /**
++     * @return Collection<int, Comment>
++     */
++    public function getComments(): Collection
++    {
++        return $this->comments;
++    }
++
++    public function addComment(Comment $comment): self
++    {
++        if (!$this->comments->contains($comment)) {
++            $this->comments->add($comment);
++            $comment->setAuthor($this);
++        }
++
++        return $this;
++    }
++
++    public function removeComment(Comment $comment): self
++    {
++        if ($this->comments->removeElement($comment)) {
++            // set the owning side to null (unless already changed)
++            if ($comment->getAuthor() === $this) {
++                $comment->setAuthor(null);
++            }
++        }
++
++        return $this;
++    }
++
++    public function getSlug(): string
++    {
++        return $this->slug;
++    }
++
++    public function setSlug(string $slug): self
++    {
++        $this->slug = $slug;
++
++        return $this;
++    }
++
++    /**
++     * @return Collection<int, Topic>
++     */
++    public function getTopics(): Collection
++    {
++        return $this->topics;
++    }
++
++    public function addTopic(Topic $topic): self
++    {
++        if (!$this->topics->contains($topic)) {
++            $this->topics->add($topic);
++            $topic->addMember($this);
++        }
++
++        return $this;
++    }
++
++    public function removeTopic(Topic $topic): self
++    {
++        if ($this->topics->removeElement($topic)) {
++            $topic->removeMember($this);
++        }
++
++        return $this;
++    }
++
++    public function __toString(): string
++    {
++        return "@" . $this->username;
++    }
++
+ }
+Index: templates/pub/ouvrages.html.twig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/pub/ouvrages.html.twig b/templates/pub/ouvrages.html.twig
+--- a/templates/pub/ouvrages.html.twig	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/templates/pub/ouvrages.html.twig	(date 1661940109977)
+@@ -2,30 +2,39 @@
+ 
+ {% block title %}Nos Ouvrages{% endblock %}
+ 
+-{% block body %}
++{% block main %}
+ 
+-    <div class="m-5 flex flex-col justify-between">
+-        {% for ouvrage in ouvrages %}
+-            <div class="border-2 border-secondary">
+-                <div class="p-5 flex flex-row justify-between">
+-                    <div>{{ ouvrage.title }}</div>
+-                    <div>{{ ouvrage.createdAt | date('d/m/Y') }} à {{ ouvrage.createdAt | date('H:i') }}</div>
+-                </div>
+-                <div class="p-5 flex flex-row justify-center items-center">
+-                    <button class="text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[95px] h-12 mr-5">
+-                        <a class="text-xs font-bold" href="{{ path("app_ouvrage", {"slug" : ouvrage.slug}) }}">Accès au fichier de L'Ouvrage</a>
+-                    </button>
+-                    {% if 'ROLE_ADMIN' in app.user.roles %}
+-                    <button class="text-primary bg-green-400 rounded-xl hover:bg-green-500/95 w-[85px] h-12 mr-5">
+-                        <a href="{{ path("app_edit_ouvrage", {"slug" : ouvrage.slug}) }}" target="_blank"><i class="fa-solid fa-file-pen text-4xl"></i></a>
+-                    </button>
+-                    <button class="text-primary bg-red-400 rounded-xl hover:bg-red-500/95 w-[85px] h-12 mr-5">
+-                        <a href="{{ path("app_delete_ouvrage", {"slug" : ouvrage.slug}) }}" target="_blank"><i class="fa-solid fa-square-minus text-4xl"></i></a>
+-                    </button>
+-                    {% endif %}
+-                </div>
+-            </div>
+-        {% endfor %}
+-    </div>
++    <main class="main">
++        <div class="m-5 flex flex-col">
++            {% for ouvrage in ouvrages %}
++                <div class="border-2 border-secondary mb-10">
++                    <div class="p-5 flex flex-row justify-between">
++                        <div>{{ ouvrage.title }}</div>
++                        <div>{{ ouvrage.createdAt | date('d/m/Y') }} à {{ ouvrage.createdAt | date('H:i') }}</div>
++                    </div>
++                    <div class="p-5 flex flex-row justify-center items-center">
++                        <button class="dark:text-black dark:bg-thirdly text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[95px] h-12 mr-5">
++                            <a class="text-xs font-bold" href="{{ path("app_ouvrage", {"slug" : ouvrage.slug}) }}">Accès au fichier de L'Ouvrage</a>
++                        </button>
++                        {% if 'ROLE_ADMIN' in app.user.roles %}
++                            <button class="text-primary bg-green-400 rounded-xl hover:bg-green-500/95 w-[85px] h-12 mr-5">
++                                <a href="{{ path("app_edit_ouvrage", {"slug" : ouvrage.slug}) }}" target="_blank"><i class="fa-solid fa-file-pen text-4xl"></i></a>
++                            </button>
++                            <button class="text-primary bg-red-400 rounded-xl hover:bg-red-500/95 w-[85px] h-12 mr-5">
++                                <a href="{{ path("app_delete_ouvrage", {"slug" : ouvrage.slug}) }}" target="_blank"><i class="fa-solid fa-square-minus text-4xl"></i></a>
++                            </button>
++                        {% endif %}
++                    </div>
++                </div>
++            {% endfor %}
++
++            {% if 'ROLE_ADMIN' in app.user.roles %}
++                <div class="mt-16 items-center text-center">
++                    <button class="dark:bg-secondary dark:text-black font-bold p-2 text-thirdly bg-primary rounded-xl hover:bg-cyan-800/95 w-[165px] h-16 mr-5"><a href="{{ path("app_new_ouvrage") }}" target="_blank">Ajouter Un Nouveau Ouvrage</a></button>
++                </div>
++            {% endif %}
++
++        </div>
++    </main>
+ 
+ {% endblock %}
+Index: assets/styles/app.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/assets/styles/app.css b/assets/styles/app.css
+--- a/assets/styles/app.css	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/assets/styles/app.css	(date 1662113534727)
+@@ -7,10 +7,10 @@
+         @apply text-thirdly;
+     }
+     .modal {
+-        @apply fixed left-0 top-0 w-full h-full overflow-auto bg-primary opacity-70 flex justify-center items-center;
++        @apply fixed left-0 top-0 w-full h-full overflow-auto bg-primary bg-opacity-70 flex justify-center items-center;
+     }
+     .modal-content {
+-        @apply z-[1] bg-white p-[20px] border-2 border-secondary w-[80%] flex flex-col text-indigo-800 font-bold dark:bg-white dark:opacity-100 rounded-xl;
++        @apply z-[1] bg-white p-[20px] border-2 border-secondary w-[80%] opacity-100 flex flex-col text-indigo-800 font-bold dark:bg-white dark:opacity-100 rounded-xl;
+     }
+     .close {
+         @apply text-center text-red-900 text-4xl border-2 border-red-900 bg-red-400 font-bold cursor-pointer mt-10 rounded-xl;
+@@ -19,7 +19,7 @@
+         @apply absolute top-0 right-0 left-0 bottom-0 m-auto bg-cover overflow-hidden flex justify-center items-center;
+     }
+     .txt-type {
+-        @apply text-center text-3xl font-bold;
++        @apply text-center text-3xl font-bold mt-5;
+     }
+     .anim {
+         @apply animate-blink;
+@@ -27,10 +27,10 @@
+     .contacts {
+         @apply bg-gray-200 rounded-xl shadow-zinc-400 h-64 mt-14 dark:bg-gray-500;
+     }
+-    /*.login-btn {*/
+-    /*    @apply text-secondary hover:rounded-xl hover:bg-secondary hover:text-black w-7 h-5;*/
+-    /*}*/
+-    /*.register-btn {*/
+-    /*    @apply text-secondary hover:rounded-xl hover:bg-secondary hover:text-black w-7 h-5;*/
+-    /*}*/
++    .centred {
++        @apply relative top-52 left-1/2 -translate-y-1/2 -translate-x-1/2;
++    }
++    .main {
++        @apply w-screen min-h-[100%];
++    }
+ }
+\ No newline at end of file
+Index: src/Controller/PubArticleController.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Controller/PubArticleController.php b/src/Controller/PubArticleController.php
+--- a/src/Controller/PubArticleController.php	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/src/Controller/PubArticleController.php	(date 1661886179323)
+@@ -37,6 +37,8 @@
+ 
+         if ($form->isSubmitted() && $form->isValid())
+         {
++            $article->setCreatedAt(new \DateTimeImmutable());
++
+             $manager->persist($article);
+             $manager->flush();
+ 
+@@ -49,7 +51,7 @@
+         ]);
+     }
+ 
+-    #[Route('/delete/{slug}', name: "app_delete_article")]
++    #[Route('/delete_article/{slug}', name: "app_delete_article")]
+     public function deleteArticle(Article $article, EntityManagerInterface $em, Request $request): Response
+     {
+         $form = $this->createForm(DeleteFormType::class);
+@@ -62,7 +64,7 @@
+             return $this->redirectToRoute("app_articles");
+         }
+ 
+-        return $this->render("pub/delete.html.twig", [
++        return $this->render("web_site/delete.html.twig", [
+             'form'=> $form->createView()
+         ]);
+ 
+Index: symfony.lock
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/symfony.lock b/symfony.lock
+--- a/symfony.lock	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/symfony.lock	(date 1662131608707)
+@@ -56,6 +56,18 @@
+             "ref": "b131e6cbfe1b898a508987851963fff485986285"
+         }
+     },
++    "friendsofsymfony/ckeditor-bundle": {
++        "version": "2.4",
++        "recipe": {
++            "repo": "github.com/symfony/recipes-contrib",
++            "branch": "main",
++            "version": "2.0",
++            "ref": "f5ad42002183a6881962683e6d84bbb25cdfce5d"
++        },
++        "files": [
++            "./config/packages/fos_ckeditor.yaml"
++        ]
++    },
+     "phpunit/phpunit": {
+         "version": "9.5",
+         "recipe": {
+Index: templates/web_site/pub.html.twig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/web_site/pub.html.twig b/templates/web_site/pub.html.twig
+--- a/templates/web_site/pub.html.twig	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/templates/web_site/pub.html.twig	(date 1661939947902)
+@@ -2,25 +2,28 @@
+ 
+ {% block title %}Nos Publications Scientifiques{% endblock %}
+ 
+-{% block body %}
++{% block main %}
+ 
+-    <div class="m-5 h-96">
+-        <div class="flex flex-row justify-between h-96 items-center">
+-            <div class="w-44 h-32 flex flex-col justify-between">
+-                <div class="items-center text-center"><i class="fa-solid fa-note-sticky text-7xl mt-2"></i></div>
+-                <div><a href="{{ path("app_articles") }}" target="_blank">Consultez Nos Articles</a></div>
+-            </div>
+-            <div class="w-44 h-32 flex flex-col justify-between">
+-                <div class="items-center text-center"><i class="fa-solid fa-book-bookmark text-7xl mt-2"></i></div>
+-                <div><a href="{{ path("app_ouvrages") }}" target="_blank">Consultez Nos Ouvrages</a></div>
+-            </div>
+-            <div class="w-44 h-32 flex flex-col justify-between">
+-                <div class="items-center text-center"><i class="fa-solid fa-newspaper text-7xl mt-2"></i></div>
+-                <div><a href="#" target="_blank">Consultez Notre Revue</a></div>
+-            </div>
+-        </div>
+-    </div>
++    <main class="main">
++        <div>
++            <img src="{{ asset('images/library.jpg') }}" alt="lib">
++            <div class="flex flex-row h-96 items-center text-center justify-center centred">
++                <div class="w-52 h-36 flex flex-col justify-between mr-14 hover:bg-gray-300 hover:rounded-xl dark:hover:bg-black/20">
++                    <div class="items-center text-center"><i class="fa-solid fa-note-sticky text-7xl mt-2"></i></div>
++                    <div><a href="{{ path("app_articles") }}" target="_blank">Consultez Nos Articles</a></div>
++                </div>
++                <div class="w-52 h-36 flex flex-col justify-between mr-14 hover:bg-gray-300 hover:rounded-xl dark:hover:bg-black/20">
++                    <div class="items-center text-center"><i class="fa-solid fa-book-bookmark text-7xl mt-2"></i></div>
++                    <div><a href="{{ path("app_ouvrages") }}" target="_blank">Consultez Nos Ouvrages</a></div>
++                </div>
++                <div class="w-52 h-36 flex flex-col justify-between mr-14 hover:bg-gray-300 hover:rounded-xl dark:hover:bg-black/20">
++                    <div class="items-center text-center"><i class="fa-solid fa-newspaper text-7xl mt-2"></i></div>
++                    <div><a href="#" target="_blank">Consultez Notre Revue</a></div>
++                </div>
++            </div>
++        </div>
+ 
+-    <div class="mt-15 h-16"></div>
++        <div class="mt-15 h-16"></div>
++    </main>
+ 
+ {% endblock %}
+\ No newline at end of file
+Index: composer.lock
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/composer.lock b/composer.lock
+--- a/composer.lock	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/composer.lock	(date 1662131410512)
+@@ -4,7 +4,7 @@
+         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+         "This file is @generated automatically"
+     ],
+-    "content-hash": "19fe480ee036516a1c8863d1548193a5",
++    "content-hash": "e4575c4fc5ce81765f504be0ec553fb6",
+     "packages": [
+         {
+             "name": "behat/transliterator",
+@@ -1661,6 +1661,87 @@
+             "time": "2022-05-05T09:31:05+00:00"
+         },
+         {
++            "name": "friendsofsymfony/ckeditor-bundle",
++            "version": "2.4.0",
++            "source": {
++                "type": "git",
++                "url": "https://github.com/FriendsOfSymfony/FOSCKEditorBundle.git",
++                "reference": "a4df4056b2832881e17b939e83f25406a6cc6414"
++            },
++            "dist": {
++                "type": "zip",
++                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSCKEditorBundle/zipball/a4df4056b2832881e17b939e83f25406a6cc6414",
++                "reference": "a4df4056b2832881e17b939e83f25406a6cc6414",
++                "shasum": ""
++            },
++            "require": {
++                "ext-json": "*",
++                "ext-zip": "*",
++                "php": "^7.1|^8.0",
++                "symfony/asset": "^4.4 || ^5.0 || ^6.0",
++                "symfony/config": "^4.4 || ^5.0 || ^6.0",
++                "symfony/dependency-injection": "^4.4 || ^5.0 || ^6.0",
++                "symfony/expression-language": "^4.4 || ^5.0 || ^6.0",
++                "symfony/form": "^4.4 || ^5.0 || ^6.0",
++                "symfony/framework-bundle": "^4.4 || ^5.0 || ^6.0",
++                "symfony/http-foundation": "^4.4 || ^5.0 || ^6.0",
++                "symfony/http-kernel": "^4.4 || ^5.0 || ^6.0",
++                "symfony/options-resolver": "^4.4 || ^5.0 || ^6.0",
++                "symfony/property-access": "^4.4 || ^5.0 || ^6.0",
++                "symfony/routing": "^4.4 || ^5.0 || ^6.0",
++                "symfony/twig-bundle": "^4.4 || ^5.0 || ^6.0",
++                "twig/twig": "^2.4 || ^3.0"
++            },
++            "conflict": {
++                "sebastian/environment": "<1.3.4",
++                "sebastian/exporter": "<2.0.0"
++            },
++            "require-dev": {
++                "friendsofphp/php-cs-fixer": "^2.0",
++                "matthiasnoback/symfony-dependency-injection-test": "^3.0 || ^4.0",
++                "symfony/console": "^4.4 || ^5.0 || ^6.0",
++                "symfony/phpunit-bridge": "^4.4 || ^5.0 || ^6.0",
++                "symfony/yaml": "^4.4 || ^5.0 || ^6.0"
++            },
++            "suggest": {
++                "egeloen/form-extra-bundle": "Allows to load CKEditor asynchronously"
++            },
++            "type": "symfony-bundle",
++            "extra": {
++                "branch-alias": {
++                    "dev-master": "3.x-dev"
++                }
++            },
++            "autoload": {
++                "psr-4": {
++                    "FOS\\CKEditorBundle\\": "src/"
++                }
++            },
++            "notification-url": "https://packagist.org/downloads/",
++            "license": [
++                "MIT"
++            ],
++            "authors": [
++                {
++                    "name": "Eric GELOEN",
++                    "email": "geloen.eric@gmail.com"
++                },
++                {
++                    "name": "FriendsOfSymfony Community",
++                    "homepage": "https://github.com/FriendsOfSymfony/FOSCKEditorBundle/graphs/contributors"
++                }
++            ],
++            "description": "Provides a CKEditor integration for your Symfony project.",
++            "keywords": [
++                "CKEditor"
++            ],
++            "support": {
++                "issues": "https://github.com/FriendsOfSymfony/FOSCKEditorBundle/issues",
++                "source": "https://github.com/FriendsOfSymfony/FOSCKEditorBundle/tree/2.4.0"
++            },
++            "time": "2022-01-07T12:34:18+00:00"
++        },
++        {
+             "name": "gedmo/doctrine-extensions",
+             "version": "v3.8.0",
+             "source": {
+Index: tailwind.config.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/tailwind.config.js b/tailwind.config.js
+--- a/tailwind.config.js	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/tailwind.config.js	(date 1661951068859)
+@@ -8,6 +8,22 @@
+       "./templates/web_site/*.{html,twig}"
+   ],
+   theme: {
++      screens: {
++          '2xl': {'max': '1535px'},
++          // => @media (max-width: 1535px) { ... }
++
++          'xl': {'max': '1285px'},
++          // => @media (max-width: 1285px) { ... }
++
++          'lg': {'max': '1023px'},
++          // => @media (max-width: 1023px) { ... }
++
++          'md': {'max': '767px'},
++          // => @media (max-width: 767px) { ... }
++
++          'sm': {'max': '670px'},
++          // => @media (max-width: 670px) { ... }
++      },
+     extend: {
+         colors: {
+             primary: 'hsl(219.6,43.9%,21%)',
+Index: templates/web_site/us.html.twig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/web_site/us.html.twig b/templates/web_site/us.html.twig
+--- a/templates/web_site/us.html.twig	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/templates/web_site/us.html.twig	(date 1661944892175)
+@@ -1,223 +1,227 @@
+ {% extends 'base.html.twig' %}
+ 
+-{% block body %}
+-    <div class="mr-16 ml-16 mt-14 mb-14 border-2 border-gray-700 dark:border-green-500 text-primary h-full dark:text-white">
+-        <div class="m-5">
+-            <h4 class="text-primary text-2xl font-bold dark:text-secondary mb-5 underline decoration-secondary">Mission Et Objectifs :</h4>
+-            <div>
+-                <p class="text-xl mb-4">Les instruments de gestion sont consubstantiels aux pratiques et au développement des organisations publiques comme privées. Ces outils qui devraient occuper une place de choix dans les programmes de recherche universitaire au Maroc, demeurent néanmoins un domaine insuffisamment exploré, souvent réduit à un ensemble de techniques, restreint à une conception techno-centrique dite « représentationniste» ou « prescriptive ». Une telle conception ne permet pas de comprendre leur rôle dans les dynamiques organisationnelles (de changement, d’innovation, d’apprentissage, d’appropriation, de régulation, etc.).</p>
+-                <p class="text-xl mb-4">Chemin faisant, le programme de recherche initié par LURIGOR vise à ouvrir la voie à l’exploration de ce rôle. La parti-pris est ainsi de repenser les relations que les outils de gestion entretiennent avec leur contexte interne et externe, et ce à travers 4 problématiques complémentaires :</p>
+-                <ol class="ml-5 mb-4">
+-                    <li class="font-bold text-blue-500">1]  La première s'intéresse aux logiques d’anticipations et d’innovations des organisations et des acteurs suite aux mutations de l’environnement (économique, financière, technologique, sanitaire, sécuritaire, etc.) sous le prisme de la contingence ou non.</li>
+-                    <li class="font-bold text-blue-500">2]  La seconde s’intéresse aux pratiques d’instrumentation de gestion envisagée ici comme résultant d’une activité de construction sous le prisme de la méthode;</li>
+-                    <li class="font-bold text-blue-500">3]  La troisième aux dynamiques d’apprentissage et d’appropriation des outils par les acteurs sous le prisme de la complexité ou de l’expérience.</li>
+-                    <li class="font-bold text-blue-500">4]  La quatrième s’intéresse aux dynamiques de développement via le déploiement de nouveaux outils de gestion sous le prisme de la spécificité et de l’innovation.</li>
+-                </ol>
+-                <p class="text-xl mb-4">
+-                    Le laboratoire LURGOR met l'accent sur la recherche fondamentale et la formalisation théorique, tout en revendiquant une approche concrète, à finalité «appliquée », ancrée dans les problèmes posés par la mise en place et le développement des modèles de gestion des organisations au sens large. Il a aussi pour mission :
+-                </p>
+-                <ol class="ml-5">
+-                    <li class="font-bold text-green-800 dark:text-green-500">- d’initier des recherches portant sur les questions et problèmes de gestion & développement des organisations (privées et publiques);</li>
+-                    <li class="font-bold text-green-800 dark:text-green-500">- d’organiser, à la demande, des séminaires de formation et cycles de perfectionnement de courte durée ;</li>
+-                    <li class="font-bold text-green-800 dark:text-green-500">- d’effectuer des études à la demande des opérateurs publics et privés ;</li>
+-                    <li class="font-bold text-green-800 dark:text-green-500">- d’exercer des activités de consultation et de coopération en matière gestion & développement des organisations ;</li>
+-                    <li class="font-bold text-green-800 dark:text-green-500">- d’organiser des conférences, des rencontres, colloques, journées d’études, symposiums, tables rondes,  intéressant les acteurs privés et publics.</li>
+-                </ol>
+-            </div>
+-        </div>
+-    </div>
+-    <div class="mr-16 ml-16 mt-14 mb-14 pb-5 border-2 border-gray-700 dark:border-green-500 text-primary h-full dark:text-white">
+-        <div class="m-5">
+-            <h4 class="text-primary text-2xl font-bold dark:text-secondary mb-5 underline decoration-secondary">Axes de recherche :</h4>
+-            <div>
+-                <p class="text-xl mb-4">Le programme de recherche initié par LURIGOR vise à ouvrir la voie à l’exploration du rôle des instruments de gestion dans les dynamiques organisationnelles (de changement, d’innovation, d’apprentissage, d’appropriation, etc.) et ce, à travers plusieurs axes de recherche déclinés par équipe : </p>
+-                <p class="text-xl mb-4">Chemin faisant, le programme de recherche initié par LURIGOR vise à ouvrir la voie à l’exploration de ce rôle. La parti-pris est ainsi de repenser les relations que les outils de gestion entretiennent avec leur contexte interne et externe, et ce à travers 4 problématiques complémentaires :</p>
+-                <div>
+-                    <p>Axes de recherche de l’Equipe AIDE (Anticipations, innovations et dynamique de l’environnement) sont au nombre de 4 :</p>
+-                    <ol class="ml-5 mb-4">
+-                        <li class="font-bold text-blue-500">1]  Innovations stratégiques, managériales, organisationnelles et territoriales.</li>
+-                        <li class="font-bold text-blue-500">2]  Anticipations, innovations et mécanismes de changement.</li>
+-                        <li class="font-bold text-blue-500">3]  Complexité des situations de gestion face aux incertitudes et situations de crise.</li>
+-                        <li class="font-bold text-blue-500">4]  Dynamique des organisations en situation de crise et de risques.</li>
+-                    </ol>
+-                </div>
+-                <div>
+-                    <p>Axes de recherche de l’Equipe IDA (Instruments de gestion et dynamique d’apprentissage) sont au nombre de 4 :</p>
+-                    <ol class="ml-5 mb-4">
+-                        <li class="font-bold text-blue-500">1]  Outils de gestion et évolution des comportements humains.</li>
+-                        <li class="font-bold text-blue-500">2]  Dynamique d’appropriation des outils de gestion et processus de régulation.</li>
+-                        <li class="font-bold text-blue-500">3]  Outils de gestion et pilotage dynamique de l’action collective.</li>
+-                        <li class="font-bold text-blue-500">4]  Outils de gestion et transformation digitale.</li>
+-                    </ol>
+-                </div>
+-                <div>
+-                    <p>Axes de recherche de l’Equipe IDO (Instruments de gestion et dynamique des organisations) sont au nombre de 4 :</p>
+-                    <ol class="ml-5 mb-4">
+-                        <li class="font-bold text-blue-500">1]  Méthodes de conception et d’implémentation des instruments en Sciences de gestion.</li>
+-                        <li class="font-bold text-blue-500">2]  Outils de gestion et management des organisations publiques/privées.</li>
+-                        <li class="font-bold text-blue-500">3]  Les paradoxes organisationnels et le déploiement des outils.</li>
+-                        <li class="font-bold text-blue-500">4]  Outils de gestion et management de la performance.</li>
+-                    </ol>
+-                </div>
+-                <div>
+-                    <p>Axes de recherche de l’Equipe I2D (Instruments et dynamique de développement) sont au nombre de 4 :</p>
+-                    <ol class="ml-5 mb-4">
+-                        <li class="font-bold text-blue-500">1]  Intelligence économique et développement territorial.</li>
+-                        <li class="font-bold text-blue-500">2]  Innovations financière et dynamique de développement des organisations.</li>
+-                        <li class="font-bold text-blue-500">3]  Evaluation des projets d’investissement privé et public.</li>
+-                        <li class="font-bold text-blue-500">4]  Organisations, institutions et développement.</li>
+-                    </ol>
+-                </div>
+-            </div>
+-        </div>
+-    </div>
+-    <div class="mr-16 ml-16 mt-14 mb-14 border-2 border-gray-700 dark:border-green-500 text-primary h-full dark:text-white">
+-        <div class="m-5">
+-            <h4 class="text-primary text-2xl font-bold dark:text-secondary mb-5 underline decoration-secondary">Equipes du Laboratoire :</h4>
+-            <div>
+-                <p class="text-center text-xl text-blue-500 dark:text-thirdly">Equipe 1 : AIDE (Anticipations, innovations et dynamique de l’environnement) Coordonnateur : Mostafa LEKHAL</p>
+-                <div class="grid place-self-center">
+-                    <table class="border-collapse border-spacing-16 border-2 border-primary dark:border-secondary mt-7 text-center">
+-                        <thead>
+-                        <tr>
+-                            <th class="border-2 border-primary dark:border-secondary">Nom et prénoms</th>
+-                            <th class="border-2 border-primary dark:border-secondary">Etablissement</th>
+-                            <th class="border-2 border-primary dark:border-secondary">Email institutionnel</th>
+-                        </tr>
+-                        </thead>
+-                        <tbody>
+-                        <tr>
+-                            <td class="border-2 border-primary dark:border-secondary">Abdelouahed BERRICHI</td>
+-                            <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
+-                            <td class="border-2 border-primary dark:border-secondary">abd.berrichi@ump.ac.ma</td>
+-                        </tr>
+-                        <tr>
+-                            <td class="border-2 border-primary dark:border-secondary">Mostafa LEKHAL</td>
+-                            <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
+-                            <td class="border-2 border-primary dark:border-secondary">Lekhal.mostapha@gmail.com</td>
+-                        </tr>
+-                        <tr>
+-                            <td class="border-2 border-primary dark:border-secondary">Med Amine HAFIANE</td>
+-                            <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
+-                            <td class="border-2 border-primary dark:border-secondary">m.hafiane@ump.ac.ma</td>
+-                        </tr>
+-                        <tr>
+-                            <td class="border-2 border-primary dark:border-secondary">Abderrahman TOUBTOU</td>
+-                            <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
+-                            <td class="border-2 border-primary dark:border-secondary"></td>
+-                        </tr>
+-                        </tbody>
+-                    </table>
+-                </div>
+-            </div>
+-            <div class="mt-4">
+-                <p class="text-center text-xl text-blue-500 dark:text-thirdly">Equipe 2 : IDO (Instruments de gestion et dynamique des organisations) Coordonnateur : Khalid FIKRI</p>
+-                <div class="grid place-self-center">
+-                    <table class="border-collapse border-spacing-16 border-2 border-primary dark:border-secondary mt-7 text-center">
+-                        <thead>
+-                        <tr>
+-                            <th class="border-2 border-primary dark:border-secondary">Nom et prénoms</th>
+-                            <th class="border-2 border-primary dark:border-secondary">Etablissement</th>
+-                            <th class="border-2 border-primary dark:border-secondary">Email institutionnel</th>
+-                        </tr>
+-                        </thead>
+-                        <tbody>
+-                        <tr>
+-                            <td class="border-2 border-primary dark:border-secondary">Khalid FIKRI</td>
+-                            <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
+-                            <td class="border-2 border-primary dark:border-secondary">k.fikri@ump.ac.ma</td>
+-                        </tr>
+-                        <tr>
+-                            <td class="border-2 border-primary dark:border-secondary">Mohamed AL MAACHE</td>
+-                            <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
+-                            <td class="border-2 border-primary dark:border-secondary">m.almaache@ump.ac.ma</td>
+-                        </tr>
+-                        <tr>
+-                            <td class="border-2 border-primary dark:border-secondary">El Kebir  EL AKRY</td>
+-                            <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
+-                            <td class="border-2 border-primary dark:border-secondary">e.elakry@ump.ac.ma</td>
+-                        </tr>
+-                        <tr>
+-                            <td class="border-2 border-primary dark:border-secondary">Naoual BENAINI</td>
+-                            <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
+-                            <td class="border-2 border-primary dark:border-secondary">n.benaini@ump.ac.ma</td>
+-                        </tr>
+-                        </tbody>
+-                    </table>
+-                </div>
+-            </div>
+-            <div class="mt-4">
+-                <p class="text-center text-xl text-blue-500 dark:text-thirdly">Equipe 3 : IDA (Instruments de gestion et dynamique d’apprentissage) Coordonnateur : Omar ZAHRAOUI</p>
+-                <div class="grid place-self-center">
+-                    <table class="border-collapse border-spacing-16 border-2 border-primary dark:border-secondary mt-7 text-center">
+-                        <thead>
+-                        <tr>
+-                            <th class="border-2 border-primary dark:border-secondary">Nom et prénoms</th>
+-                            <th class="border-2 border-primary dark:border-secondary">Etablissement</th>
+-                            <th class="border-2 border-primary dark:border-secondary">Email institutionnel</th>
+-                        </tr>
+-                        </thead>
+-                        <tbody>
+-                        <tr>
+-                            <td class="border-2 border-primary dark:border-secondary">Omar ZAHRAOUI</td>
+-                            <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
+-                            <td class="border-2 border-primary dark:border-secondary">omarzah.prf.univ@gmail.com</td>
+-                        </tr>
+-                        <tr>
+-                            <td class="border-2 border-primary dark:border-secondary">Najib GUEMMI</td>
+-                            <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
+-                            <td class="border-2 border-primary dark:border-secondary">n.guemmi@ump.ac.ma</td>
+-                        </tr>
+-                        <tr>
+-                            <td class="border-2 border-primary dark:border-secondary">Bahija SAKHRAOUI</td>
+-                            <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
+-                            <td class="border-2 border-primary dark:border-secondary">b.sakhraoui@ump.ac.ma</td>
+-                        </tr>
+-                        <tr>
+-                            <td class="border-2 border-primary dark:border-secondary">Abdelmalek BEKKAOUI</td>
+-                            <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
+-                            <td class="border-2 border-primary dark:border-secondary">a.malekbekkaoui@gmail.com</td>
+-                        </tr>
+-                        </tbody>
+-                    </table>
+-                </div>
+-            </div>
+-            <div class="mt-4">
+-                <p class="text-center text-xl text-blue-500 dark:text-thirdly">Equipe 4 : I2D (Instruments et dynamique de développement) Coordonnateur : Abdelilah EL ATTAR</p>
+-                <div class="grid place-self-center">
+-                    <table class="border-collapse border-spacing-16 border-2 border-primary dark:border-secondary mt-7 text-center">
+-                        <thead>
+-                        <tr>
+-                            <th class="border-2 border-primary dark:border-secondary">Nom et prénoms</th>
+-                            <th class="border-2 border-primary dark:border-secondary">Etablissement</th>
+-                            <th class="border-2 border-primary dark:border-secondary">Email institutionnel</th>
+-                        </tr>
+-                        </thead>
+-                        <tbody>
+-                        <tr>
+-                            <td class="border-2 border-primary dark:border-secondary">Abdelilah EL ATTAR</td>
+-                            <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
+-                            <td class="border-2 border-primary dark:border-secondary">a.elattar@ump.ac.ma</td>
+-                        </tr>
+-                        <tr>
+-                            <td class="border-2 border-primary dark:border-secondary">Fouzia MAJIDI</td>
+-                            <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
+-                            <td class="border-2 border-primary dark:border-secondary">majidi_fouzia@yahoo.fr</td>
+-                        </tr>
+-                        <tr>
+-                            <td class="border-2 border-primary dark:border-secondary">Mohamed BOUAZA</td>
+-                            <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
+-                            <td class="border-2 border-primary dark:border-secondary">bouazza.md@gmail.com</td>
+-                        </tr>
+-                        <tr>
+-                            <td class="border-2 border-primary dark:border-secondary">Mohammed Amine EL MOUSSALI</td>
+-                            <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
+-                            <td class="border-2 border-primary dark:border-secondary">mn.elmoussali@ump.ac.ma </td>
+-                        </tr>
+-                        </tbody>
+-                    </table>
+-                </div>
+-            </div>
+-        </div>
+-    </div>
++{% block title %}Laboratoire{% endblock %}
++
++{% block main %}
++    <main class="main">
++        <div class="mr-16 ml-16 mt-14 mb-14 border-2 border-gray-700 dark:border-green-500 text-primary h-full dark:text-white">
++            <div class="m-5">
++                <h4 class="text-primary text-2xl font-bold dark:text-secondary mb-5 underline decoration-secondary">Mission Et Objectifs :</h4>
++                <div>
++                    <p class="text-xl mb-4">Les instruments de gestion sont consubstantiels aux pratiques et au développement des organisations publiques comme privées. Ces outils qui devraient occuper une place de choix dans les programmes de recherche universitaire au Maroc, demeurent néanmoins un domaine insuffisamment exploré, souvent réduit à un ensemble de techniques, restreint à une conception techno-centrique dite « représentationniste» ou « prescriptive ». Une telle conception ne permet pas de comprendre leur rôle dans les dynamiques organisationnelles (de changement, d’innovation, d’apprentissage, d’appropriation, de régulation, etc.).</p>
++                    <p class="text-xl mb-4">Chemin faisant, le programme de recherche initié par LURIGOR vise à ouvrir la voie à l’exploration de ce rôle. La parti-pris est ainsi de repenser les relations que les outils de gestion entretiennent avec leur contexte interne et externe, et ce à travers 4 problématiques complémentaires :</p>
++                    <ol class="ml-5 mb-4">
++                        <li class="font-bold text-blue-500">1]  La première s'intéresse aux logiques d’anticipations et d’innovations des organisations et des acteurs suite aux mutations de l’environnement (économique, financière, technologique, sanitaire, sécuritaire, etc.) sous le prisme de la contingence ou non.</li>
++                        <li class="font-bold text-blue-500">2]  La seconde s’intéresse aux pratiques d’instrumentation de gestion envisagée ici comme résultant d’une activité de construction sous le prisme de la méthode;</li>
++                        <li class="font-bold text-blue-500">3]  La troisième aux dynamiques d’apprentissage et d’appropriation des outils par les acteurs sous le prisme de la complexité ou de l’expérience.</li>
++                        <li class="font-bold text-blue-500">4]  La quatrième s’intéresse aux dynamiques de développement via le déploiement de nouveaux outils de gestion sous le prisme de la spécificité et de l’innovation.</li>
++                    </ol>
++                    <p class="text-xl mb-4">
++                        Le laboratoire LURGOR met l'accent sur la recherche fondamentale et la formalisation théorique, tout en revendiquant une approche concrète, à finalité «appliquée », ancrée dans les problèmes posés par la mise en place et le développement des modèles de gestion des organisations au sens large. Il a aussi pour mission :
++                    </p>
++                    <ol class="ml-5">
++                        <li class="font-bold text-green-800 dark:text-green-500">- d’initier des recherches portant sur les questions et problèmes de gestion & développement des organisations (privées et publiques);</li>
++                        <li class="font-bold text-green-800 dark:text-green-500">- d’organiser, à la demande, des séminaires de formation et cycles de perfectionnement de courte durée ;</li>
++                        <li class="font-bold text-green-800 dark:text-green-500">- d’effectuer des études à la demande des opérateurs publics et privés ;</li>
++                        <li class="font-bold text-green-800 dark:text-green-500">- d’exercer des activités de consultation et de coopération en matière gestion & développement des organisations ;</li>
++                        <li class="font-bold text-green-800 dark:text-green-500">- d’organiser des conférences, des rencontres, colloques, journées d’études, symposiums, tables rondes,  intéressant les acteurs privés et publics.</li>
++                    </ol>
++                </div>
++            </div>
++        </div>
++        <div class="mr-16 ml-16 mt-14 mb-14 pb-5 border-2 border-gray-700 dark:border-green-500 text-primary h-full dark:text-white">
++            <div class="m-5">
++                <h4 class="text-primary text-2xl font-bold dark:text-secondary mb-5 underline decoration-secondary">Axes de recherche :</h4>
++                <div>
++                    <p class="text-xl mb-4">Le programme de recherche initié par LURIGOR vise à ouvrir la voie à l’exploration du rôle des instruments de gestion dans les dynamiques organisationnelles (de changement, d’innovation, d’apprentissage, d’appropriation, etc.) et ce, à travers plusieurs axes de recherche déclinés par équipe : </p>
++                    <p class="text-xl mb-4">Chemin faisant, le programme de recherche initié par LURIGOR vise à ouvrir la voie à l’exploration de ce rôle. La parti-pris est ainsi de repenser les relations que les outils de gestion entretiennent avec leur contexte interne et externe, et ce à travers 4 problématiques complémentaires :</p>
++                    <div>
++                        <p>Axes de recherche de l’Equipe AIDE (Anticipations, innovations et dynamique de l’environnement) sont au nombre de 4 :</p>
++                        <ol class="ml-5 mb-4">
++                            <li class="font-bold text-blue-500">1]  Innovations stratégiques, managériales, organisationnelles et territoriales.</li>
++                            <li class="font-bold text-blue-500">2]  Anticipations, innovations et mécanismes de changement.</li>
++                            <li class="font-bold text-blue-500">3]  Complexité des situations de gestion face aux incertitudes et situations de crise.</li>
++                            <li class="font-bold text-blue-500">4]  Dynamique des organisations en situation de crise et de risques.</li>
++                        </ol>
++                    </div>
++                    <div>
++                        <p>Axes de recherche de l’Equipe IDA (Instruments de gestion et dynamique d’apprentissage) sont au nombre de 4 :</p>
++                        <ol class="ml-5 mb-4">
++                            <li class="font-bold text-blue-500">1]  Outils de gestion et évolution des comportements humains.</li>
++                            <li class="font-bold text-blue-500">2]  Dynamique d’appropriation des outils de gestion et processus de régulation.</li>
++                            <li class="font-bold text-blue-500">3]  Outils de gestion et pilotage dynamique de l’action collective.</li>
++                            <li class="font-bold text-blue-500">4]  Outils de gestion et transformation digitale.</li>
++                        </ol>
++                    </div>
++                    <div>
++                        <p>Axes de recherche de l’Equipe IDO (Instruments de gestion et dynamique des organisations) sont au nombre de 4 :</p>
++                        <ol class="ml-5 mb-4">
++                            <li class="font-bold text-blue-500">1]  Méthodes de conception et d’implémentation des instruments en Sciences de gestion.</li>
++                            <li class="font-bold text-blue-500">2]  Outils de gestion et management des organisations publiques/privées.</li>
++                            <li class="font-bold text-blue-500">3]  Les paradoxes organisationnels et le déploiement des outils.</li>
++                            <li class="font-bold text-blue-500">4]  Outils de gestion et management de la performance.</li>
++                        </ol>
++                    </div>
++                    <div>
++                        <p>Axes de recherche de l’Equipe I2D (Instruments et dynamique de développement) sont au nombre de 4 :</p>
++                        <ol class="ml-5 mb-4">
++                            <li class="font-bold text-blue-500">1]  Intelligence économique et développement territorial.</li>
++                            <li class="font-bold text-blue-500">2]  Innovations financière et dynamique de développement des organisations.</li>
++                            <li class="font-bold text-blue-500">3]  Evaluation des projets d’investissement privé et public.</li>
++                            <li class="font-bold text-blue-500">4]  Organisations, institutions et développement.</li>
++                        </ol>
++                    </div>
++                </div>
++            </div>
++        </div>
++        <div class="mr-16 ml-16 mt-14 mb-14 border-2 border-gray-700 dark:border-green-500 text-primary h-full dark:text-white">
++            <div class="m-5">
++                <h4 class="text-primary text-2xl font-bold dark:text-secondary mb-5 underline decoration-secondary">Equipes du Laboratoire :</h4>
++                <div>
++                    <p class="text-center text-xl text-blue-500 dark:text-thirdly">Equipe 1 : AIDE (Anticipations, innovations et dynamique de l’environnement) Coordonnateur : Mostafa LEKHAL</p>
++                    <div class="grid place-self-center">
++                        <table class="border-collapse border-spacing-16 border-2 border-primary dark:border-secondary mt-7 text-center">
++                            <thead>
++                            <tr>
++                                <th class="border-2 border-primary dark:border-secondary">Nom et prénoms</th>
++                                <th class="border-2 border-primary dark:border-secondary">Etablissement</th>
++                                <th class="border-2 border-primary dark:border-secondary">Email institutionnel</th>
++                            </tr>
++                            </thead>
++                            <tbody>
++                            <tr>
++                                <td class="border-2 border-primary dark:border-secondary">Abdelouahed BERRICHI</td>
++                                <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
++                                <td class="border-2 border-primary dark:border-secondary">abd.berrichi@ump.ac.ma</td>
++                            </tr>
++                            <tr>
++                                <td class="border-2 border-primary dark:border-secondary">Mostafa LEKHAL</td>
++                                <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
++                                <td class="border-2 border-primary dark:border-secondary">Lekhal.mostapha@gmail.com</td>
++                            </tr>
++                            <tr>
++                                <td class="border-2 border-primary dark:border-secondary">Med Amine HAFIANE</td>
++                                <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
++                                <td class="border-2 border-primary dark:border-secondary">m.hafiane@ump.ac.ma</td>
++                            </tr>
++                            <tr>
++                                <td class="border-2 border-primary dark:border-secondary">Abderrahman TOUBTOU</td>
++                                <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
++                                <td class="border-2 border-primary dark:border-secondary"></td>
++                            </tr>
++                            </tbody>
++                        </table>
++                    </div>
++                </div>
++                <div class="mt-4">
++                    <p class="text-center text-xl text-blue-500 dark:text-thirdly">Equipe 2 : IDO (Instruments de gestion et dynamique des organisations) Coordonnateur : Khalid FIKRI</p>
++                    <div class="grid place-self-center">
++                        <table class="border-collapse border-spacing-16 border-2 border-primary dark:border-secondary mt-7 text-center">
++                            <thead>
++                            <tr>
++                                <th class="border-2 border-primary dark:border-secondary">Nom et prénoms</th>
++                                <th class="border-2 border-primary dark:border-secondary">Etablissement</th>
++                                <th class="border-2 border-primary dark:border-secondary">Email institutionnel</th>
++                            </tr>
++                            </thead>
++                            <tbody>
++                            <tr>
++                                <td class="border-2 border-primary dark:border-secondary">Khalid FIKRI</td>
++                                <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
++                                <td class="border-2 border-primary dark:border-secondary">k.fikri@ump.ac.ma</td>
++                            </tr>
++                            <tr>
++                                <td class="border-2 border-primary dark:border-secondary">Mohamed AL MAACHE</td>
++                                <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
++                                <td class="border-2 border-primary dark:border-secondary">m.almaache@ump.ac.ma</td>
++                            </tr>
++                            <tr>
++                                <td class="border-2 border-primary dark:border-secondary">El Kebir  EL AKRY</td>
++                                <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
++                                <td class="border-2 border-primary dark:border-secondary">e.elakry@ump.ac.ma</td>
++                            </tr>
++                            <tr>
++                                <td class="border-2 border-primary dark:border-secondary">Naoual BENAINI</td>
++                                <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
++                                <td class="border-2 border-primary dark:border-secondary">n.benaini@ump.ac.ma</td>
++                            </tr>
++                            </tbody>
++                        </table>
++                    </div>
++                </div>
++                <div class="mt-4">
++                    <p class="text-center text-xl text-blue-500 dark:text-thirdly">Equipe 3 : IDA (Instruments de gestion et dynamique d’apprentissage) Coordonnateur : Omar ZAHRAOUI</p>
++                    <div class="grid place-self-center">
++                        <table class="border-collapse border-spacing-16 border-2 border-primary dark:border-secondary mt-7 text-center">
++                            <thead>
++                            <tr>
++                                <th class="border-2 border-primary dark:border-secondary">Nom et prénoms</th>
++                                <th class="border-2 border-primary dark:border-secondary">Etablissement</th>
++                                <th class="border-2 border-primary dark:border-secondary">Email institutionnel</th>
++                            </tr>
++                            </thead>
++                            <tbody>
++                            <tr>
++                                <td class="border-2 border-primary dark:border-secondary">Omar ZAHRAOUI</td>
++                                <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
++                                <td class="border-2 border-primary dark:border-secondary">omarzah.prf.univ@gmail.com</td>
++                            </tr>
++                            <tr>
++                                <td class="border-2 border-primary dark:border-secondary">Najib GUEMMI</td>
++                                <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
++                                <td class="border-2 border-primary dark:border-secondary">n.guemmi@ump.ac.ma</td>
++                            </tr>
++                            <tr>
++                                <td class="border-2 border-primary dark:border-secondary">Bahija SAKHRAOUI</td>
++                                <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
++                                <td class="border-2 border-primary dark:border-secondary">b.sakhraoui@ump.ac.ma</td>
++                            </tr>
++                            <tr>
++                                <td class="border-2 border-primary dark:border-secondary">Abdelmalek BEKKAOUI</td>
++                                <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
++                                <td class="border-2 border-primary dark:border-secondary">a.malekbekkaoui@gmail.com</td>
++                            </tr>
++                            </tbody>
++                        </table>
++                    </div>
++                </div>
++                <div class="mt-4">
++                    <p class="text-center text-xl text-blue-500 dark:text-thirdly">Equipe 4 : I2D (Instruments et dynamique de développement) Coordonnateur : Abdelilah EL ATTAR</p>
++                    <div class="grid place-self-center">
++                        <table class="border-collapse border-spacing-16 border-2 border-primary dark:border-secondary mt-7 text-center">
++                            <thead>
++                            <tr>
++                                <th class="border-2 border-primary dark:border-secondary">Nom et prénoms</th>
++                                <th class="border-2 border-primary dark:border-secondary">Etablissement</th>
++                                <th class="border-2 border-primary dark:border-secondary">Email institutionnel</th>
++                            </tr>
++                            </thead>
++                            <tbody>
++                            <tr>
++                                <td class="border-2 border-primary dark:border-secondary">Abdelilah EL ATTAR</td>
++                                <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
++                                <td class="border-2 border-primary dark:border-secondary">a.elattar@ump.ac.ma</td>
++                            </tr>
++                            <tr>
++                                <td class="border-2 border-primary dark:border-secondary">Fouzia MAJIDI</td>
++                                <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
++                                <td class="border-2 border-primary dark:border-secondary">majidi_fouzia@yahoo.fr</td>
++                            </tr>
++                            <tr>
++                                <td class="border-2 border-primary dark:border-secondary">Mohamed BOUAZA</td>
++                                <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
++                                <td class="border-2 border-primary dark:border-secondary">bouazza.md@gmail.com</td>
++                            </tr>
++                            <tr>
++                                <td class="border-2 border-primary dark:border-secondary">Mohammed Amine EL MOUSSALI</td>
++                                <td class="border-2 border-primary dark:border-secondary">FSJES Oujda</td>
++                                <td class="border-2 border-primary dark:border-secondary">mn.elmoussali@ump.ac.ma </td>
++                            </tr>
++                            </tbody>
++                        </table>
++                    </div>
++                </div>
++            </div>
++        </div>
++    </main>
+ {% endblock %}
+Index: templates/registration/register.html.twig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/registration/register.html.twig b/templates/registration/register.html.twig
+--- a/templates/registration/register.html.twig	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/templates/registration/register.html.twig	(date 1661939782695)
+@@ -1,43 +1,47 @@
+ {% extends 'base.html.twig' %}
+ 
+-{% block title %}Register{% endblock %}
++{% block title %}Inscription!{% endblock %}
+ 
+-{% block body %}
+-    <h1 class="text-center mt-16 text-2xl">Register</h1>
+-
+-    {{ form_start(registrationForm, {
+-        'attr' : {
+-            'class': 'ml-16 mr-16 border-2 border-black h-96 absolute top-0 right-0 left-0 bottom-0 m-auto'
+-        }
+-    }) }}
++{% block main %}
++    <div class="flex flex-row items-center justify-center">
++        <div>
++            <img src="{{ asset('images/Lurigor500.jpg') }}" alt="Lurigor">
++        </div>
++        {{ form_start(registrationForm, {
++            'attr' : {
++                'class': 'ml-16 mr-16 h-96 w-[550px] rounded-xl bg-black/5'
++            }
++        }) }}
+ 
+-    <div class="p-5">
+-        {{ form_row(registrationForm.email, {
+-            label: 'Adresse Mail',
+-            'attr': {
+-                'class': 'mb-5 flex flex-row justify-between pl-2 border-2 border-secondary'
+-            }
+-        }) }}
+-        {{ form_row(registrationForm.plainPassword, {
+-            label: 'Mot de passe',
+-            'attr': {
+-                'class': 'mb-5 flex flex-row justify-between pl-2 border-2 border-secondary'
+-            }
+-        }) }}
+-        {{ form_row(registrationForm.username, {
+-            label: 'Nom d\'utilisateur',
+-            'attr': {
+-                'class': 'mb-5 flex flex-row justify-between pl-2 border-2 border-secondary'
+-            }
+-        }) }}
+-        {{ form_row(registrationForm.agreeTerms, {
+-            'attr': {
+-                'class': 'mb-10 flex flex-row justify-between'
+-            }
+-        }) }}
++        <div class="p-5">
++            <h1 class="text-center text-2xl">Inscrivez vous</h1>
++            {{ form_row(registrationForm.email, {
++                label: 'Adresse Mail',
++                'attr': {
++                    'class': 'mb-5 flex flex-row justify-between pl-2 border-2 border-secondary w-full'
++                }
++            }) }}
++            {{ form_row(registrationForm.plainPassword, {
++                label: 'Mot de passe',
++                'attr': {
++                    'class': 'mb-5 flex flex-row justify-between pl-2 border-2 border-secondary w-full'
++                }
++            }) }}
++            {{ form_row(registrationForm.username, {
++                label: 'Nom d\'utilisateur',
++                'attr': {
++                    'class': 'mb-5 flex flex-row justify-between pl-2 border-2 border-secondary w-full'
++                }
++            }) }}
++            {{ form_row(registrationForm.agreeTerms, {
++                'attr': {
++                    'class': 'mb-7 flex flex-row justify-between'
++                }
++            }) }}
+ 
+-        <button type="submit" class="mt-3 text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[75px] h-10">Register</button>
+-    </div>
++            <button type="submit" class="text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[85px] h-10">S'inscrire</button>
++        </div>
+ 
+-    {{ form_end(registrationForm) }}
++        {{ form_end(registrationForm) }}
++    </div>
+ {% endblock %}
+Index: composer.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/composer.json b/composer.json
+--- a/composer.json	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/composer.json	(date 1662131608713)
+@@ -12,6 +12,7 @@
+         "doctrine/doctrine-migrations-bundle": "^3.2",
+         "doctrine/orm": "^2.13",
+         "easycorp/easyadmin-bundle": "^4.3",
++        "friendsofsymfony/ckeditor-bundle": "^2.4",
+         "phpdocumentor/reflection-docblock": "^5.3",
+         "phpstan/phpdoc-parser": "^1.7",
+         "sensio/framework-extra-bundle": "^6.1",
+@@ -83,7 +84,8 @@
+     "scripts": {
+         "auto-scripts": {
+             "cache:clear": "symfony-cmd",
+-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
++            "assets:install %PUBLIC_DIR%": "symfony-cmd",
++            "ckeditor:install": "symfony-cmd"
+         },
+         "post-install-cmd": [
+             "@auto-scripts"
+Index: templates/pub/showOuvrage.html.twig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/pub/showOuvrage.html.twig b/templates/pub/showOuvrage.html.twig
+--- a/templates/pub/showOuvrage.html.twig	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/templates/pub/showOuvrage.html.twig	(date 1661940140374)
+@@ -2,15 +2,22 @@
+ 
+ {% block title %}{{ ouvrage.title }}{% endblock %}
+ 
+-{% block body %}
++{% block main %}
+ 
+-    <div class="m-5">
+-        <div class="border-2 border-secondary">
+-            <div class="p-5 flex flex-row justify-between">
+-                <div>{{ ouvrage.title }}</div>
+-                <div>{{ ouvrage.createdAt | date('d/m/Y') }} à {{ ouvrage.createdAt | date('H:i') }}</div>
+-                <div><button class="text-primary bg-green-400 rounded-xl hover:bg-green-500/95 w-32 h-16"><a class="font-bold text-xl" href="{{ asset(ouvrage.document, 'docs') }}" target="_blank">Obtenir le fichier</a></button></div>
+-            </div>
+-        </div>
+-    </div>
++    <main class="main">
++        <div class="m-5">
++            <div class="border-2 border-secondary">
++                <div class="p-5 flex flex-row justify-between">
++                    <div>{{ ouvrage.title }}</div>
++                    <div>{{ ouvrage.createdAt | date('d/m/Y') }} à {{ ouvrage.createdAt | date('H:i') }}</div>
++                    <div>
++                        <button class="text-primary bg-green-400 rounded-xl hover:bg-green-500/95 w-32 h-16">
++                            <a href="{{ asset(ouvrage.document, 'docs') }}" target="_blank">Obtenir le fichier</a>
++                        </button>
++                    </div>
++                </div>
++            </div>
++        </div>
++    </main>
++
+ {% endblock %}
+Index: src/Controller/PubController.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Controller/PubController.php b/src/Controller/PubController.php
+--- a/src/Controller/PubController.php	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/src/Controller/PubController.php	(date 1661938301262)
+@@ -3,10 +3,14 @@
+ namespace App\Controller;
+ 
+ use App\Entity\Article;
++use App\Entity\Comment;
+ use App\Entity\Ouvrage;
++use App\Entity\User;
+ use App\Form\ArticleFormType;
++use App\Form\CommentFormType;
+ use App\Form\DeleteFormType;
+ use App\Repository\ArticleRepository;
++use App\Repository\CommentRepository;
+ use App\Repository\OuvrageRepository;
+ use Doctrine\ORM\EntityManagerInterface;
+ use Symfony\Component\HttpFoundation\Request;
+@@ -18,28 +22,114 @@
+ #[Route("/pub")]
+ class PubController extends AbstractController
+ {
+-    //Article Entity Manipulation
+     #[Route('/', name: 'app_pub')]
+     public function pub(): Response
+     {
++        if ($this->getUser() === null)
++        {
++            return $this->redirectToRoute("app_accueil");
++        }
++
+         return $this->render('web_site/pub.html.twig');
+     }
+ 
++    //Article Entity Manipulation
+     #[Route('/articles', name: 'app_articles')]
+     public function articles(ArticleRepository $repository): Response
+     {
++        if ($this->getUser() === null)
++        {
++            return $this->redirectToRoute("app_accueil");
++        }
++
+         $articles = $repository->findAll();
+ 
+         return $this->render('pub/articles.html.twig', [
+-            'articles' => $articles
++            'articles' => $articles,
+         ]);
+     }
+ 
+     #[Route('/articles/{slug}', name: "app_article")]
+-    public function showArticle(Article $article): Response
++    public function showArticle(Article $article, Request $request, EntityManagerInterface $manager): Response
+     {
++        if ($this->getUser() === null)
++        {
++            return $this->redirectToRoute("app_accueil");
++        }
++
++        $comment = new Comment();
++
++        $form = $this->createForm(CommentFormType::class, $comment);
++        $form->handleRequest($request);
++
++        /**
++         * @var ?User $user
++         */
++        $user = $this->getUser();
++
++        if ($form->isSubmitted() && $form->isValid())
++        {
++            $comment->setCreatedAt(new \DateTimeImmutable());
++            $comment->setAuthor($user);
++            $comment->setArticle($article);
++
++            $manager->persist($comment);
++            $manager->flush();
++
++            return $this->redirectToRoute("app_articles");
++        }
++
+         return $this->render('pub/showArticle.html.twig', [
+-            'article' => $article
++            'article' => $article,
++            'form'=>$form->createView(),
++            'username'=>$user
++        ]);
++    }
++
++    #[Route('/edit_comment/{slug_comment}', name: "app_edit_comment")]
++    public function editComment(Request $request, string $_route, EntityManagerInterface $manager, CommentRepository $commentRepository): Response
++    {
++        /**
++         * @var object $comment
++         */
++        $comment = $commentRepository->findOneBy(['author'=>$this->getUser()]);
++
++        $form = $this->createForm(CommentFormType::class, $comment);
++        $form->handleRequest($request);
++
++        if ($form->isSubmitted() && $form->isValid())
++        {
++            $manager->persist($comment);
++            $manager->flush();
++
++//            return $this->redirectToRoute("app_article", [
++//                'slug'=>$comment->getArticle()->getSlug()
++//            ]);
++            return $this->redirectToRoute("app_articles");
++        }
++
++        return $this->render("/pub/edit_comment.html.twig", [
++            'form'=>$form->createView()
++//            'slug_comment'=>$comment->getSlug()
++        ]);
++    }
++
++    #[Route('/delete_comment/{slug}', name: "app_delete_comment")]
++    public function deleteComment(Request $request, Comment $comment, EntityManagerInterface $em): Response
++    {
++        $form = $this->createForm(DeleteFormType::class);
++        $form->handleRequest($request);
++
++        if ($form->isSubmitted() && $form->isValid())
++        {
++            $em->remove($comment);
++            $em->flush();
++
++            return $this->redirectToRoute("app_articles");
++        }
++
++        return $this->render("web_site/delete.html.twig", [
++            'form'=>$form->createView()
+         ]);
+     }
+ 
+@@ -47,6 +137,11 @@
+     #[Route('/ouvrages', name: "app_ouvrages")]
+     public function ouvrages(OuvrageRepository $repository): Response
+     {
++        if ($this->getUser() === null)
++        {
++            return $this->redirectToRoute("app_accueil");
++        }
++
+         $ouvrages = $repository->findAll();
+ 
+         return $this->render('pub/ouvrages.html.twig', [
+@@ -57,6 +152,11 @@
+     #[Route('/ouvrages/{slug}', name: "app_ouvrage")]
+     public function showOuvrage(Ouvrage $ouvrage): Response
+     {
++        if ($this->getUser() === null)
++        {
++            return $this->redirectToRoute("app_accueil");
++        }
++
+         return $this->render('pub/showOuvrage.html.twig', [
+             'ouvrage' => $ouvrage
+         ]);
+Index: templates/pub/article.html.twig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/pub/article.html.twig b/templates/pub/article.html.twig
+--- a/templates/pub/article.html.twig	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/templates/pub/article.html.twig	(date 1661940065396)
+@@ -10,16 +10,17 @@
+ 
+ {% endblock %}
+ 
+-{% block body %}
++{% block main %}
+ 
+-    <div class="mt-15 h-16"></div>
++    <main class="main">
++        <div class="mt-15 h-16"></div>
+ 
+-    {{ form_start(form, {
+-        label: 'titre de l\'article',
+-        'attr': {
+-            'class': 'ml-16 mr-16 border-2 border-black h-full'
+-        }
+-    }) }}
++        {{ form_start(form, {
++            label: 'titre de l\'article',
++            'attr': {
++                'class': 'ml-16 mr-16 border-2 border-black h-full'
++            }
++        }) }}
+         <div class="p-5 flex flex-col justify-between">
+             {{ form_row(form.title , {
+                 label: 'titre de l\'article',
+@@ -46,13 +47,14 @@
+                 }
+             }) }}
+             {% if edit %}
+-            <button type="submit" class="mt-3 text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[75px] h-10">Enregistrer</button>
++                <button type="submit" class="mt-3 text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[75px] h-10">Enregistrer</button>
+             {% else %}
+-            <button type="submit" class="mt-3 text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[75px] h-10">Ajouter</button>
++                <button type="submit" class="mt-3 text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[75px] h-10">Ajouter</button>
+             {% endif %}
+         </div>
+-    {{ form_end(form) }}
++        {{ form_end(form) }}
+ 
+-    <div class="mt-15 h-16"></div>
++        <div class="mt-15 h-16"></div>
++    </main>
+ 
+ {% endblock %}
+Index: config/services.yaml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/config/services.yaml b/config/services.yaml
+--- a/config/services.yaml	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/config/services.yaml	(date 1661875322826)
+@@ -5,6 +5,8 @@
+ # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+ parameters:
+     documents_directory: '%kernel.project_dir%/public/uploads/documents'
++    fiches_directory: '%kernel.project_dir%/public/uploads/fiches'
++    programmes_directory: '%kernel.project_dir%/public/uploads/programmes'
+ 
+ services:
+     # default configuration for services in *this* file
+Index: config/bundles.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/config/bundles.php b/config/bundles.php
+--- a/config/bundles.php	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/config/bundles.php	(date 1662131608664)
+@@ -17,4 +17,5 @@
+     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
+     SymfonyCasts\Bundle\VerifyEmail\SymfonyCastsVerifyEmailBundle::class => ['all' => true],
+     Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle::class => ['all' => true],
++    FOS\CKEditorBundle\FOSCKEditorBundle::class => ['all' => true],
+ ];
+Index: templates/pub/ouvrage.html.twig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/pub/ouvrage.html.twig b/templates/pub/ouvrage.html.twig
+--- a/templates/pub/ouvrage.html.twig	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/templates/pub/ouvrage.html.twig	(date 1661940095556)
+@@ -10,37 +10,38 @@
+ 
+ {% endblock %}
+ 
+-{% block body %}
++{% block main %}
+ 
+-    <div class="mt-15 h-16"></div>
++    <main class="main">
++        <div class="mt-15 h-16"></div>
+ 
+-    {{ form_start(form, {
+-        label: 'titre de l\'ouvrage',
+-        'attr': {
+-            'class': 'ml-16 mr-16 border-2 border-black h-full'
+-        }
+-    }) }}
+-    <div class="p-5 flex flex-col justify-between">
+-        {{ form_row(form.title , {
+-            label: 'titre de l\'ouvrage',
+-            'attr': {
+-                'class': 'mb-5 flex flex-row justify-between pl-2 border-2 border-secondary w-full'
+-            }
+-        }) }}
+-        {{ form_row(form.document , {
+-            label: 'contenu de l\'ouvrage',
+-            'attr': {
+-                'class': 'mb-5 flex flex-row justify-between pl-2 border-2 border-secondary w-full'
+-            }
+-        }) }}
+-        {% if edit %}
+-            <button type="submit" class="mt-3 text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[75px] h-10">Enregistrer</button>
+-        {% else %}
+-            <button type="submit" class="mt-3 text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[75px] h-10">Ajouter</button>
+-        {% endif %}
+-    </div>
+-    {{ form_end(form) }}
++        {{ form_start(form, {
++            'attr': {
++                'class': 'ml-16 mr-16 border-2 border-black h-full'
++            }
++        }) }}
++        <div class="p-5 flex flex-col justify-between">
++            {{ form_row(form.title , {
++                label: 'titre de l\'ouvrage',
++                'attr': {
++                    'class': 'mb-5 flex flex-row justify-between pl-2 border-2 border-secondary w-full'
++                }
++            }) }}
++            {{ form_row(form.document , {
++                label: 'contenu de l\'ouvrage',
++                'attr': {
++                    'class': 'mb-5 flex flex-row justify-between pl-2 border-2 border-secondary w-full'
++                }
++            }) }}
++            {% if edit %}
++                <button type="submit" class="mt-3 text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[75px] h-10">Enregistrer</button>
++            {% else %}
++                <button type="submit" class="mt-3 text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[75px] h-10">Ajouter</button>
++            {% endif %}
++        </div>
++        {{ form_end(form) }}
+ 
+-    <div class="mt-15 h-16"></div>
++        <div class="mt-15 h-16"></div>
++    </main>
+ 
+ {% endblock %}
+Index: templates/web_site/manifestation.html.twig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/web_site/manifestation.html.twig b/templates/web_site/manifestation.html.twig
+--- a/templates/web_site/manifestation.html.twig	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/templates/web_site/manifestation.html.twig	(date 1661963689688)
+@@ -1,7 +1,22 @@
+ {% extends 'base.html.twig' %}
+ 
+-{% block body %}
++{% block title %}Nos Événements{% endblock %}
+ 
+-    <div>Manifestations</div>
++{% block main %}
++
++    <main class="main">
++        <div>
++            <img src="{{ asset('images/manif.jpg') }}" alt="manifestation">
++        </div>
++        <div class="flex flex-row h-96 items-center text-center justify-center centred">
++            <div class="w-52 h-36 flex flex-col justify-between mr-14 hover:bg-gray-300 hover:rounded-xl dark:hover:bg-black/20">
++                <div class="items-center text-center">
++                    <i class="fa-brands fa-elementor text-7xl mt-2"></i>
++                </div>
++                <div><a href="{{ path("app_events") }}" target="_blank">Consultez Nos Événements</a></div>
++            </div>
++        </div>
++    </main>
+ 
+ {% endblock %}
++
+Index: config/packages/framework.yaml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/config/packages/framework.yaml b/config/packages/framework.yaml
+--- a/config/packages/framework.yaml	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/config/packages/framework.yaml	(date 1661876030101)
+@@ -7,6 +7,10 @@
+         packages:
+             docs:
+                 base_path: 'uploads/documents/'
++            fiches:
++                base_path: 'uploads/fiches/'
++            programmes:
++                base_path: 'uploads/programmes/'
+ 
+     # Enables session support. Note that the session will ONLY be started if you read or write from it.
+     # Remove or comment this section to explicitly disable session support.
+Index: templates/web_site/themes.html.twig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/web_site/themes.html.twig b/templates/web_site/themes.html.twig
+--- a/templates/web_site/themes.html.twig	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/templates/web_site/themes.html.twig	(date 1662137365778)
+@@ -1,7 +1,31 @@
+ {% extends 'base.html.twig' %}
+ 
+-{% block body %}
++{% block title %}Thématiques et Recherches{% endblock %}
+ 
+-    <div>Themes</div>
++{% block main %}
++
++    <main class="main">
++        <img src="{{ asset('images/meet.jpg') }}" alt="thématiques">
++        <div class="flex flex-row h-96 items-center text-center justify-center centred">
++            <a href="{{ path("app_all_topics") }}" target="_blank">
++                <div class="w-52 h-60 flex flex-col justify-between mr-14 hover:bg-yellow-400 hover:rounded-xl dark:hover:bg-white/30">
++                    <div class="items-center text-center"><img src="{{ asset('images/all.png') }}" alt="All"></div>
++                    <div>Tous les thématiques</div>
++                </div>
++            </a>
++            <a href="#" target="_blank">
++                <div class="w-52 h-60 flex flex-col justify-between mr-14 hover:bg-yellow-400 hover:rounded-xl dark:hover:bg-white/30">
++                    <div class="items-center text-center"><img src="{{ asset('images/discuter.png') }}" alt="Mine"></div>
++                    <div>Mes thématiques</div>
++                </div>
++            </a>
++            <a href="{{ path("app_new_topic") }}" target="_blank">
++                <div class="w-52 h-60 flex flex-col justify-between mr-14 hover:bg-yellow-400 hover:rounded-xl dark:hover:bg-white/30">
++                    <div class="items-center text-center"><img src="{{ asset('images/new.png') }}" alt=""></div>
++                    <div>Déclenchez un autre sujet...</div>
++                </div>
++            </a>
++        </div>
++    </main>
+ 
+ {% endblock %}
+Index: templates/web_site/formation.html.twig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/web_site/formation.html.twig b/templates/web_site/formation.html.twig
+--- a/templates/web_site/formation.html.twig	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/templates/web_site/formation.html.twig	(date 1661945130912)
+@@ -1,7 +1,11 @@
+ {% extends 'base.html.twig' %}
+ 
+-{% block body %}
++{% block title %}Formation doctorale{% endblock %}
+ 
+-    <div>Formations</div>
++{% block main %}
++
++    <main class="main">
++        <div>Formations</div>
++    </main>
+ 
+ {% endblock %}
+Index: templates/security/login.html.twig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/security/login.html.twig b/templates/security/login.html.twig
+--- a/templates/security/login.html.twig	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/templates/security/login.html.twig	(date 1661939782817)
+@@ -1,42 +1,47 @@
+ {% extends 'base.html.twig' %}
+ 
+-{% block title %}Log in!{% endblock %}
++{% block title %}Connexion!{% endblock %}
+ 
+-{% block body %}
+-<form method="post" class="ml-16 mr-16 border-2 border-black flex flex-col justify-evenly h-80 absolute top-0 right-0 left-0 bottom-0 m-auto">
+-    {% if error %}
+-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+-    {% endif %}
++{% block main %}
++    <div class="flex flex-row items-center justify-center">
++        <div>
++            <img src="{{ asset('images/Lurigor500.jpg') }}" alt="Lurigor">
++        </div>
++        <form method="post" class="bg-black/5 rounded-xl flex flex-col justify-evenly h-96 w-[550px]">
++            {% if error %}
++                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
++            {% endif %}
+ 
+-    {% if app.user %}
+-        <div class="mb-3">
+-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+-        </div>
+-    {% endif %}
++            {% if app.user %}
++                <div class="mb-3">
++                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
++                </div>
++            {% endif %}
+ 
+-    <h1 class="h3 mb-3 font-weight-normal text-center text-2xl">Please sign in</h1>
+-    <label class="mr-5 ml-5" for="inputEmail">Email</label>
+-    <input class="mr-5 ml-5 pl-3 border-2 border-secondary" type="email" value="{{ last_username }}" name="email" id="inputEmail" autocomplete="email" required autofocus>
+-    <label class="mr-5 ml-5" for="inputPassword">Password</label>
+-    <input class="mr-5 ml-5 pl-3 border-2 border-secondary" type="password" name="password" id="inputPassword" autocomplete="current-password" required>
++            <h1 class="h3 mb-3 font-weight-normal text-center text-2xl">Veuillez signer</h1>
++            <label class="mr-5 ml-5" for="inputEmail">Email</label>
++            <input class="mr-5 ml-5 pl-3 border-2 border-secondary" type="email" value="{{ last_username }}" name="email" id="inputEmail" autocomplete="email" required autofocus>
++            <label class="mr-5 ml-5" for="inputPassword">Mot de passe</label>
++            <input class="mr-5 ml-5 pl-3 border-2 border-secondary" type="password" name="password" id="inputPassword" autocomplete="current-password" required>
+ 
+-    <input type="hidden" name="_csrf_token"
+-           value="{{ csrf_token('authenticate') }}"
+-    >
++            <input type="hidden" name="_csrf_token"
++                   value="{{ csrf_token('authenticate') }}"
++            >
+ 
+-    {#
+-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+-        See https://symfony.com/doc/current/security/remember_me.html
++            {#
++            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
++            See https://symfony.com/doc/current/security/remember_me.html
+ 
+-        <div class="checkbox mb-3">
+-            <label>
+-                <input type="checkbox" name="_remember_me"> Remember me
+-            </label>
+-        </div>
+-    #}
++            <div class="checkbox mb-3">
++                <label>
++                    <input type="checkbox" name="_remember_me"> Remember me
++                </label>
++            </div>
++            #}
+ 
+-    <button class="ml-5 mt-3 text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[75px] h-10" type="submit">
+-        Sign in
+-    </button>
+-</form>
++            <button class="ml-5 mt-3 text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[105px] h-10" type="submit">
++                Se Connecter
++            </button>
++        </form>
++    </div>
+ {% endblock %}
+Index: src/Controller/PubOuvrageController.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Controller/PubOuvrageController.php b/src/Controller/PubOuvrageController.php
+--- a/src/Controller/PubOuvrageController.php	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/src/Controller/PubOuvrageController.php	(date 1661886228127)
+@@ -79,7 +79,7 @@
+         ]);
+     }
+ 
+-    #[Route('/delete/{slug}', name: "app_delete_ouvrage")]
++    #[Route('/delete_ouvarge/{slug}', name: "app_delete_ouvrage")]
+     public function deleteOuvrage(Ouvrage $ouvrage, EntityManagerInterface $manager, Request $request): Response
+     {
+         $form = $this->createForm(DeleteFormType::class);
+@@ -93,8 +93,8 @@
+             return $this->redirectToRoute("app_ouvrages");
+         }
+ 
+-        return $this->render("pub/delete.html.twig", [
+-            'form'=>$form
++        return $this->render("web_site/delete.html.twig", [
++            'form'=>$form->createView()
+         ]);
+     }
+ }
+Index: templates/pub/delete.html.twig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/pub/delete.html.twig b/templates/web_site/delete.html.twig
+rename from templates/pub/delete.html.twig
+rename to templates/web_site/delete.html.twig
+--- a/templates/pub/delete.html.twig	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/templates/web_site/delete.html.twig	(date 1661939872821)
+@@ -2,13 +2,14 @@
+ 
+ {% block title %}Suppression{% endblock %}
+ 
+-{% block body %}
++{% block main %}
+ 
+-    {{ form_start(form, {
+-        'attr' : {
+-            'class': 'mt-16 ml-16 mr-16 border-2 border-black h-32 items-center text-center'
+-        }
+-    }) }}
++    <main class="main">
++        {{ form_start(form, {
++            'attr' : {
++                'class': 'mt-16 ml-16 mr-16 border-2 border-black h-32 items-center text-center'
++            }
++        }) }}
+         <div class="text-red-500 text-3xl">Etes vous sur de vouloir faire cette suppression?</div>
+         {{ form_row(form.confirm, {
+             label: 'Confirmer',
+@@ -16,6 +17,7 @@
+                 'class': 'mt-3 text-primary bg-secondary rounded-xl hover:bg-red-500/95 w-[75px] h-10'
+             }
+         }) }}
+-    {{ form_end(form) }}
++        {{ form_end(form) }}
++    </main>
+ 
+ {% endblock %}
+Index: templates/pub/articles.html.twig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/pub/articles.html.twig b/templates/pub/articles.html.twig
+--- a/templates/pub/articles.html.twig	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/templates/pub/articles.html.twig	(date 1661940058188)
+@@ -2,34 +2,89 @@
+ 
+ {% block title %}Nos Articles{% endblock %}
+ 
+-{% block body %}
++{% block main %}
+ 
+-<div class="m-5 flex flex-col justify-between">
+-    {% for article in articles %}
++<main class="main">
++    <div class="m-5 flex flex-col h-screen">
++        {% for article in articles %}
+ 
+-        <div class="border-2 border-secondary">
+-            <div class="p-5 flex flex-row justify-between">
+-                <div>{{ article.title }}</div>
+-                <div>{{ article.author }}</div>
+-                <div>{{ article.category }}</div>
+-                <div>{{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}</div>
+-            </div>
+-            <div class="p-5 flex flex-row justify-center items-center">
+-                <button class="text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[85px] h-12 mr-5">
+-                    <a href="{{ path("app_article", {"slug" : article.slug}) }}" target="_blank">Lire L'Article</a>
+-                </button>
+-                {% if 'ROLE_ADMIN' in app.user.roles %}
+-                <button class="text-primary bg-green-400 rounded-xl hover:bg-green-500/95 w-[85px] h-12 mr-5">
+-                    <a href="{{ path("app_edit_article", {"slug" : article.slug}) }}" target="_blank"><i class="fa-solid fa-file-pen text-4xl"></i></a>
+-                </button>
+-                <button class="text-primary bg-red-400 rounded-xl hover:bg-red-500/95 w-[85px] h-12 mr-5">
+-                    <a href="{{ path("app_delete_article", {"slug" : article.slug}) }}" target="_blank"><i class="fa-solid fa-square-minus text-4xl"></i></a>
+-                </button>
+-                {% endif %}
+-            </div>
+-        </div>
+-
+-    {% endfor %}
+-</div>
++            <div class="border-2 border-secondary mb-10">
++                <div class="p-5 flex flex-row justify-between">
++                    <div>{{ article.title }}</div>
++                    <div>{{ article.author }}</div>
++                    <div>{{ article.category }}</div>
++                    <div>{{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }}</div>
++                </div>
++                <hr>
++                <div class="p-5 flex flex-row justify-center items-center">
++                    <button class="dark:text-black dark:bg-thirdly font-bold text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[125px] h-12 mr-5 text-center">
++                        <a href="{{ path("app_article", {"slug" : article.slug}) }}" target="_blank" class="p-2">Lire L'Article</a>
++                    </button>
++                    {% if 'ROLE_ADMIN' in app.user.roles %}
++                        <button class="text-primary bg-green-400 rounded-xl hover:bg-green-500/95 w-[85px] h-12 mr-5">
++                            <a href="{{ path("app_edit_article", {"slug" : article.slug}) }}" target="_blank"><i class="fa-solid fa-file-pen text-4xl"></i></a>
++                        </button>
++                        <button class="text-primary bg-red-400 rounded-xl hover:bg-red-500/95 w-[85px] h-12 mr-5">
++                            <a href="{{ path("app_delete_article", {"slug" : article.slug}) }}" target="_blank"><i class="fa-solid fa-square-minus text-4xl"></i></a>
++                        </button>
++                    {% endif %}
++                </div>
++                <hr>
++                <p class="text-center text-2xl text-green-500 font-bold mt-5">Commentaires</p>
++                {% for comment in article.comments %}
++                    <div class="flex flex-row m-5">
++                        <div class="flex flex-col">
++                            <div class="mr-5 text-center">
++                                <em>{{ comment.author.username }}</em>
++                                le <span class="font-bold">{{ comment.createdAt | date('d/m/Y') }}</span>
++                                à
++                                <span class="font-bold">{{ comment.createdAt | date('H:i') }}</span>
++                            </div>
++                            <div class="mt-3 flex flex-row">
++                                {% if 'ROLE_ADMIN' in app.user.roles %}
++                                    {% if comment in app.user.comments %}
++                                        <button class="text-primary bg-green-400 rounded-xl hover:bg-green-500/95 w-[85px] h-12 mr-5">
++                                            <a href="{{ path("app_edit_comment", {"slug_comment" : comment.slug}) }}" target="_blank">
++                                                <i class="fa-solid fa-marker"></i>
++                                            </a>
++                                        </button>
++                                    {% endif %}
++                                    <button class="text-primary bg-red-400 rounded-xl hover:bg-red-500/95 w-[85px] h-12 mr-5">
++                                        <a href="{{ path("app_delete_comment", {"slug" : comment.slug}) }}" target="_blank">
++                                            <i class="fa-solid fa-trash"></i>
++                                        </a>
++                                    </button>
++                                {% else %}
++                                    {% if comment in app.user.comments %}
++                                        <button class="text-primary bg-green-400 rounded-xl hover:bg-green-500/95 w-[85px] h-12 mr-5">
++                                            <a href="{{ path("app_edit_comment", {"slug_comment" : comment.slug}) }}" target="_blank">
++                                                <i class="fa-solid fa-marker"></i>
++                                            </a>
++                                        </button>
++                                        <button class="text-primary bg-red-400 rounded-xl hover:bg-red-500/95 w-[85px] h-12 mr-5">
++                                            <a href="{{ path("app_delete_comment", {"slug" : comment.slug}) }}" target="_blank">
++                                                <i class="fa-solid fa-trash"></i>
++                                            </a>
++                                        </button>
++                                    {% endif %}
++                                {% endif %}
++                            </div>
++                        </div>
++                        <div class="border-2 border-green-500 rounded-xl">
++                            <p class="p-5">{{ comment.content }}</p>
++                        </div>
++                    </div>
++                {% endfor %}
++            </div>
+ 
++        {% endfor %}
++
++        {% if 'ROLE_ADMIN' in app.user.roles %}
++            <div class="mt-16 items-center text-center">
++                <button class="dark:bg-secondary dark:text-black font-bold p-2 text-thirdly bg-primary rounded-xl hover:bg-cyan-800/95 w-[165px] h-16 mr-5"><a href="{{ path("app_new_article") }}" target="_blank">Ajouter Un Nouveau Article</a></button>
++            </div>
++        {% endif %}
++    </div>
++</main>
++
+ {% endblock %}
+Index: templates/web_site/accueil.html.twig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/web_site/accueil.html.twig b/templates/web_site/accueil.html.twig
+--- a/templates/web_site/accueil.html.twig	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/templates/web_site/accueil.html.twig	(date 1661939865511)
+@@ -2,38 +2,44 @@
+ 
+ {% block title %}Accueil{% endblock %}
+ 
+-{% block body %}
+-        <h2 class="txt-type">
+-            <span class="text-primary font-bold dark:text-white">L</span>
+-            <span class="text-secondary font-bold">U</span>
+-            <span class="text-thirdly font-bold">R</span>
+-            <span class="text-green-500 font-bold">I</span>
+-            <span class="text-purple-500 font-bold">G</span>
+-            <span class="text-orange-500 font-bold">O</span>
+-            <span class="text-red-500 font-bold">R</span>
+-        </h2>
+-        <h3 class="txt-type" id="type-effect"></h3>
+-        <div class="bottom-0 fixed mt-28">
+-            <div class="bg-primary border-2 border-secondary w-screen h-96 mb-0 dark:bg-white dark:text-primary">
+-                <div class="text-secondary text-3xl text-center pt-3" >Contacts</div>
+-                <div class="flex flex-row justify-evenly h-full text-blue-500 dark:text-black">
+-                    <div class="contacts">
+-                        <div class="pt-16 pl-7 pr-7">
+-                            <p class="text-2xl">Directeur du Laboratoire:</p>
+-                            <p class="font-bold text-primary dark:text-blue-500">Abdelouahed BERRICHI</p>
+-                            <p>Tél : <span class="font-bold text-green-500">0666 478 434</span></p>
+-                            <p>E-mail institutionnel : <span class="font-bold text-orange-500">abd.berrichi@ump.ac.ma</span></p>
+-                        </div>
+-                    </div>
+-                    <div class="contacts">
+-                        <div class="pt-16 pl-7 pr-7">
+-                            <p class="text-2xl">Directeur Adjoint:</p>
+-                            <p class="font-bold text-primary dark:text-blue-500">Omar ZAHRAOUI</p>
+-                            <p>Tél : <span class="font-bold text-green-500">0661 369 016</span></p>
+-                            <p>E-mail institutionnel : <span class="font-bold text-orange-500">omarzah.prf.univ@gmail.com</span></p>
+-                        </div>
+-                    </div>
+-                </div>
+-            </div>
+-        </div>
++{% block main %}
++        <main class="main">
++            <h2 class="txt-type">
++                <span class="text-primary font-bold dark:text-white">L</span>
++                <span class="text-secondary font-bold">U</span>
++                <span class="text-primary font-bold dark:text-white">R</span>
++                <span class="text-secondary font-bold">I</span>
++                <span class="text-primary font-bold dark:text-white">G</span>
++                <span class="text-secondary font-bold">O</span>
++                <span class="text-primary font-bold dark:text-white">R</span>
++            </h2>
++            <h3 class="txt-type h-16" id="type-effect"></h3>
++            <hr>
++            <div class="mt-16">
++                <img src="{{ asset('images/picCollective.jpg') }}" alt="team">
++            </div>
++            <div class="mt-16">
++                <div class="border-2 border-secondary w-screen h-96 mb-0 dark:bg-white dark:text-primary">
++                    <div class="text-secondary text-3xl text-center pt-3" >Contacts</div>
++                    <div class="flex flex-row justify-evenly h-full text-blue-500 dark:text-black">
++                        <div class="contacts">
++                            <div class="pt-16 pl-7 pr-7">
++                                <p class="text-2xl">Directeur du Laboratoire:</p>
++                                <p class="font-bold text-primary dark:text-blue-500">Abdelouahed BERRICHI</p>
++                                <p>Tél : <span class="font-bold text-green-500">0666 478 434</span></p>
++                                <p>E-mail institutionnel : <span class="font-bold text-secondary">abd.berrichi@ump.ac.ma</span></p>
++                            </div>
++                        </div>
++                        <div class="contacts">
++                            <div class="pt-16 pl-7 pr-7">
++                                <p class="text-2xl">Directeur Adjoint:</p>
++                                <p class="font-bold text-primary dark:text-blue-500">Omar ZAHRAOUI</p>
++                                <p>Tél : <span class="font-bold text-green-500">0661 369 016</span></p>
++                                <p>E-mail institutionnel : <span class="font-bold text-secondary">omarzah.prf.univ@gmail.com</span></p>
++                            </div>
++                        </div>
++                    </div>
++                </div>
++            </div>
++        </main>
+ {% endblock %}
+Index: src/Entity/Article.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Entity/Article.php b/src/Entity/Article.php
+--- a/src/Entity/Article.php	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/src/Entity/Article.php	(date 1661729375824)
+@@ -3,6 +3,8 @@
+ namespace App\Entity;
+ 
+ use App\Repository\ArticleRepository;
++use Doctrine\Common\Collections\ArrayCollection;
++use Doctrine\Common\Collections\Collection;
+ use Doctrine\DBAL\Types\Types;
+ use Doctrine\ORM\Mapping as ORM;
+ use Gedmo\Mapping\Annotation as Gedmo;
+@@ -36,9 +38,13 @@
+     #[ORM\Column(type: Types::TEXT)]
+     private string $slug;
+ 
++    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comment::class)]
++    private Collection $comments;
++
+     public function __construct()
+     {
+         $this->createdAt = new \DateTimeImmutable();
++        $this->comments = new ArrayCollection();
+     }
+ 
+     public function getId(): ?int
+@@ -115,6 +121,36 @@
+     {
+         $this->slug = $slug;
+ 
++        return $this;
++    }
++
++    /**
++     * @return Collection<int, Comment>
++     */
++    public function getComments(): Collection
++    {
++        return $this->comments;
++    }
++
++    public function addComment(Comment $comment): self
++    {
++        if (!$this->comments->contains($comment)) {
++            $this->comments->add($comment);
++            $comment->setArticle($this);
++        }
++
++        return $this;
++    }
++
++    public function removeComment(Comment $comment): self
++    {
++        if ($this->comments->removeElement($comment)) {
++            // set the owning side to null (unless already changed)
++            if ($comment->getArticle() === $this) {
++                $comment->setArticle(null);
++            }
++        }
++
+         return $this;
+     }
+ }
+Index: src/Controller/WebSiteController.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Controller/WebSiteController.php b/src/Controller/WebSiteController.php
+--- a/src/Controller/WebSiteController.php	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/src/Controller/WebSiteController.php	(date 1662129536662)
+@@ -26,32 +26,26 @@
+     #[Route('/site/us', name: 'app_us')]
+     public function us(): Response
+     {
++        if ($this->getUser() === null)
++        {
++            return $this->redirectToRoute("app_accueil");
++        }
++
+         return $this->render('web_site/us.html.twig', [
+             'controller_name' => 'WebSiteController',
+         ]);
+     }
+-
+-    #[Route('/site/manifestation_science', name: 'app_manifestation')]
+-    public function manifestation(): Response
+-    {
+-        return $this->render('web_site/manifestation.html.twig', [
+-            'controller_name' => 'WebSiteController',
+-        ]);
+-    }
+ 
+     #[Route('/site/formation_doctorale', name: 'app_formation_doctorale')]
+     public function formation(): Response
+     {
++        if ($this->getUser() === null)
++        {
++            return $this->redirectToRoute("app_accueil");
++        }
++
+         return $this->render('web_site/formation.html.twig', [
+             'controller_name' => 'WebSiteController',
+         ]);
+     }
+-
+-    #[Route('/site/themes', name: 'app_themes')]
+-    public function themes(): Response
+-    {
+-        return $this->render('web_site/themes.html.twig', [
+-            'controller_name' => 'WebSiteController',
+-        ]);
+-    }
+ }
+Index: src/Form/OuvrageFormType.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Form/OuvrageFormType.php b/src/Form/OuvrageFormType.php
+--- a/src/Form/OuvrageFormType.php	(revision 81169bbffa18214b0c7a74bd214512e1e5e1a9fc)
++++ b/src/Form/OuvrageFormType.php	(date 1661873328568)
+@@ -16,7 +16,7 @@
+         $builder
+             ->add('title')
+             ->add('document', FileType::class, [
+-                'label' => 'Pièce Jointe (des fichiers PDF ou Word)',
++                'label' => 'Pièce Jointe (des fichiers PDF, Word ou PowerPoint)',
+ 
+                 // unmapped means that this field is not associated to any entity property
+                 'mapped' => false,
+@@ -32,8 +32,10 @@
+                         'maxSize' => '30M',
+                         'mimeTypes' => [
+                             'application/pdf',
+-                            'application/docx',
+-                            'application/pptx',
++                            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
++                            'application/vnd.openxmlformats-officedocument.presentationml.presentation',
++                            'application/vnd.ms-powerpoint',
++                            'application/msword',
+                         ],
+                         'mimeTypesMessage' => 'Please upload a valid [PDF | Word | PowerPoint] document',
+                     ])

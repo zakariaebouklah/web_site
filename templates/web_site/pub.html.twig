@@ -2,25 +2,28 @@
 
 {% block title %}Nos Publications Scientifiques{% endblock %}
 
-{% block body %}
+{% block main %}
 
-    <div class="m-5 h-96">
-        <div class="flex flex-row justify-between h-96 items-center">
-            <div class="w-44 h-32 flex flex-col justify-between">
-                <div class="items-center text-center"><i class="fa-solid fa-note-sticky text-7xl mt-2"></i></div>
-                <div><a href="{{ path("app_articles") }}" target="_blank">Consultez Nos Articles</a></div>
-            </div>
-            <div class="w-44 h-32 flex flex-col justify-between">
-                <div class="items-center text-center"><i class="fa-solid fa-book-bookmark text-7xl mt-2"></i></div>
-                <div><a href="{{ path("app_ouvrages") }}" target="_blank">Consultez Nos Ouvrages</a></div>
-            </div>
-            <div class="w-44 h-32 flex flex-col justify-between">
-                <div class="items-center text-center"><i class="fa-solid fa-newspaper text-7xl mt-2"></i></div>
-                <div><a href="#" target="_blank">Consultez Notre Revue</a></div>
+    <main class="main">
+        <div>
+            <img src="{{ asset('images/library.jpg') }}" alt="lib">
+            <div class="flex flex-row h-96 items-center text-center justify-center centred">
+                <div class="w-52 h-36 flex flex-col justify-between mr-14 hover:bg-gray-300 hover:rounded-xl dark:hover:bg-black/20">
+                    <div class="items-center text-center"><i class="fa-solid fa-note-sticky text-7xl mt-2"></i></div>
+                    <div><a href="{{ path("app_articles") }}" target="_blank">Consultez Nos Articles</a></div>
+                </div>
+                <div class="w-52 h-36 flex flex-col justify-between mr-14 hover:bg-gray-300 hover:rounded-xl dark:hover:bg-black/20">
+                    <div class="items-center text-center"><i class="fa-solid fa-book-bookmark text-7xl mt-2"></i></div>
+                    <div><a href="{{ path("app_ouvrages") }}" target="_blank">Consultez Nos Ouvrages</a></div>
+                </div>
+                <div class="w-52 h-36 flex flex-col justify-between mr-14 hover:bg-gray-300 hover:rounded-xl dark:hover:bg-black/20">
+                    <div class="items-center text-center"><i class="fa-solid fa-newspaper text-7xl mt-2"></i></div>
+                    <div><a href="#" target="_blank">Consultez Notre Revue</a></div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="mt-15 h-16"></div>
+        <div class="mt-15 h-16"></div>
+    </main>
 
 {% endblock %}
