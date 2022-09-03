@@ -14,7 +14,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -40,27 +39,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comment::class)]
-    private Collection $articleComments;
-
-    /**
-     * @Gedmo\Slug(fields={"username"})
-     */
-    #[ORM\Column(type: Types::TEXT)]
-    private string $slug;
-
-    #[ORM\ManyToMany(targetEntity: Topic::class, mappedBy: 'members')]
-    private Collection $topics;
-
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: CommentForTopics::class)]
-    private Collection $topicsComments;
-
-    public function __construct()
-    {
-        $this->articleComments = new ArrayCollection();
-        $this->topics = new ArrayCollection();
-        $this->topicsComments = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -148,108 +126,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Comment>
-     */
-    public function getArticleComments(): Collection
-    {
-        return $this->articleComments;
-    }
 
-    public function addArticleComment(Comment $comment): self
-    {
-        if (!$this->articleComments->contains($comment)) {
-            $this->articleComments->add($comment);
-            $comment->setAuthor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeArticleComment(Comment $comment): self
-    {
-        if ($this->articleComments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getAuthor() === $this) {
-                $comment->setAuthor(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getSlug(): string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Topic>
-     */
-    public function getTopics(): Collection
-    {
-        return $this->topics;
-    }
-
-    public function addTopic(Topic $topic): self
-    {
-        if (!$this->topics->contains($topic)) {
-            $this->topics->add($topic);
-            $topic->addMember($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTopic(Topic $topic): self
-    {
-        if ($this->topics->removeElement($topic)) {
-            $topic->removeMember($this);
-        }
-
-        return $this;
-    }
-
-    public function __toString(): string
-    {
-        return "@" . $this->username;
-    }
-
-    /**
-     * @return Collection<int, CommentForTopics>
-     */
-    public function getTopicsComments(): Collection
-    {
-        return $this->topicsComments;
-    }
-
-    public function addTopicsComment(CommentForTopics $commentForTopic): self
-    {
-        if (!$this->topicsComments->contains($commentForTopic)) {
-            $this->topicsComments->add($commentForTopic);
-            $commentForTopic->setAuthor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTopicsComment(CommentForTopics $commentForTopic): self
-    {
-        if ($this->topicsComments->removeElement($commentForTopic)) {
-            // set the owning side to null (unless already changed)
-            if ($commentForTopic->getAuthor() === $this) {
-                $commentForTopic->setAuthor(null);
-            }
-        }
-
-        return $this;
-    }
 
 }

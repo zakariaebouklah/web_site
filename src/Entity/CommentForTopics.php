@@ -21,13 +21,6 @@ class CommentForTopics
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'topicsComments')]
-    private ?User $author = null;
-
-    #[ORM\ManyToOne(inversedBy: 'commentForTopics')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Topic $topic = null;
-
     /**
      * @Gedmo\Slug(fields={"content"})
      */
@@ -59,30 +52,6 @@ class CommentForTopics
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getAuthor(): ?User
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(?User $author): self
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
-    public function getTopic(): ?Topic
-    {
-        return $this->topic;
-    }
-
-    public function setTopic(?Topic $topic): self
-    {
-        $this->topic = $topic;
 
         return $this;
     }

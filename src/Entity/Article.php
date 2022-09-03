@@ -38,13 +38,9 @@ class Article
     #[ORM\Column(type: Types::TEXT)]
     private string $slug;
 
-    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comment::class)]
-    private Collection $comments;
-
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
-        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
