@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\CommentRepository;
+use App\Repository\CommentForTopicsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-#[ORM\Entity(repositoryClass: CommentRepository::class)]
-class Comment
+#[ORM\Entity(repositoryClass: CommentForTopicsRepository::class)]
+class CommentForTopics
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -21,13 +21,12 @@ class Comment
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'comments')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Article $article = null;
-
-    #[ORM\ManyToOne(inversedBy: 'articleComments')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(inversedBy: 'topicsComments')]
     private ?User $author = null;
+
+    #[ORM\ManyToOne(inversedBy: 'commentForTopics')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Topic $topic = null;
 
     /**
      * @Gedmo\Slug(fields={"content"})
@@ -64,18 +63,6 @@ class Comment
         return $this;
     }
 
-    public function getArticle(): ?Article
-    {
-        return $this->article;
-    }
-
-    public function setArticle(?Article $article): self
-    {
-        $this->article = $article;
-
-        return $this;
-    }
-
     public function getAuthor(): ?User
     {
         return $this->author;
@@ -84,6 +71,18 @@ class Comment
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getTopic(): ?Topic
+    {
+        return $this->topic;
+    }
+
+    public function setTopic(?Topic $topic): self
+    {
+        $this->topic = $topic;
 
         return $this;
     }
@@ -99,5 +98,4 @@ class Comment
 
         return $this;
     }
-
 }

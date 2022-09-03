@@ -25,6 +25,9 @@ module.exports = {
           // => @media (max-width: 670px) { ... }
       },
     extend: {
+        boxShadow: {
+            '3xl': '0 3px 10px rgb(0 0 0 / 0.2)',
+        },
         colors: {
             primary: 'hsl(219.6,43.9%,21%)',
             secondary: 'hsl(39.6,100%,59.6%)',

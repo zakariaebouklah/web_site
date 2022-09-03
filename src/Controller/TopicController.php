@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Comment;
+use App\Entity\CommentForTopics;
 use App\Entity\Topic;
 use App\Entity\User;
 use App\Form\CommentFormType;
+use App\Form\CommentForTopicsFormType;
 use App\Form\TopicFormType;
 use App\Repository\TopicRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -42,16 +44,16 @@ class TopicController extends AbstractController
     }
 
     #[Route('/topic/{slug}', name: "app_show_topic")]
-    public function topic(Request $request, EntityManagerInterface $manager, Topic $topic, Article $article = null): Response
+    public function topic(Request $request, EntityManagerInterface $manager, Topic $topic): Response
     {
-        $comment = new Comment();
+        $comment = new CommentForTopics();
 
         /**
          * @var ?User $user
          */
         $user = $this->getUser();
 
-        $form = $this->createForm(CommentFormType::class, $comment);
+        $form = $this->createForm(CommentForTopicsFormType::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
@@ -59,18 +61,18 @@ class TopicController extends AbstractController
             $comment->setCreatedAt(new \DateTimeImmutable());
             $comment->setAuthor($user);
             $comment->setTopic($topic);
-            $comment->setArticle($article);
-
-            dd($article);
 
             $manager->persist($comment);
             $manager->flush();
 
-            return $this->redirectToRoute("app_show_topic");
+            return $this->redirectToRoute("app_show_topic", [
+                'slug'=>$topic->getSlug()
+            ]);
         }
 
         return $this->render("topic/showTopic.html.twig", [
             'topic'=>$topic,
+            'all_comments'=>$topic->getCommentForTopics(),
             'form'=>$form->createView()
         ]);
     }
@@ -105,5 +107,22 @@ class TopicController extends AbstractController
             'form'=>$form->createView(),
             'edit'=>$topic->getId() !== null
         ]);
+    }
+
+    #[Route('/my_topics', name: 'app_my_themes')]
+    public function myThemes(TopicRepository $topicRepository): Response
+    {
+        if ($this->getUser() === null)
+        {
+            return $this->redirectToRoute("app_accueil");
+        }
+
+        $myTopics = $topicRepository->findOneBy(['id'=>'1'], ['createdAt'=>'DESC']);
+        dump($myTopics);
+        dd($myTopics->getMembers());
+//        $myTopics = $topicRepository->findMyTopics($this->getUser());
+        dd($this->getUser()->getTopics());
+
+        return $this->render('topic/myTopics.html.twig');
     }
 }

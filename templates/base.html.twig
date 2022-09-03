@@ -16,7 +16,7 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body class="dark:bg-primary dark:text-white transition-colors duration-300 flex flex-col justify-between">
+    <body class="dark:bg-primary dark:text-white transition-colors duration-300 flex flex-col justify-between overflow-x-hidden">
         {% if app.user %}
         <header class="fixed bg-secondary w-screen h-16 top-0 z-20">
             <div class="pt-3.5 pl-3.5">
@@ -37,9 +37,9 @@
                     <i class="fa-solid fa-circle-user cursor-pointer text-3xl text-thirdly"></i>
                     <span class="ml-1 text-center text-base text-white p-2">{{ app.user.username }}</span>
                 </div>
-                <div class="bg-secondary w-40 h-36 rounded-xl invisible group-hover:arrow" id="user-modal">
-                    <ul class="flex flex-col m-2 pt-10">
-                        <li class="mb-2">
+                <div class="bg-secondary w-40 h-24 rounded-xl invisible" id="user-modal">
+                    <ul class="flex flex-col p-5">
+                        <li class="">
                             <a href="{{ path("app_logout") }}" class="flex flex-row justify-between">
                                 <span class="font-bold text-base xl:text-sm">Déconnexion</span>
                                 <i class="fa-solid fa-right-from-bracket pt-[8px] text-blue-500"></i>
@@ -105,7 +105,7 @@
             </div>
         </div>
         {% else %}
-            <header class="bg-thirdly h-24 w-screen flex flex-row justify-between">
+            <header class="bg-white shadow-3xl h-24 w-screen flex flex-row justify-between">
                 <div>
                     <img class="h-[95px]" src="{{ asset('images/ump.jpg') }}" alt="UMP-FSJES">
                 </div>

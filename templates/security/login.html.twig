@@ -3,11 +3,11 @@
 {% block title %}Connexion!{% endblock %}
 
 {% block main %}
-    <div class="flex flex-row items-center justify-center">
+    <div class="flex flex-row items-center justify-center sm:flex-col sm:justify-between">
         <div>
-            <img src="{{ asset('images/Lurigor500.jpg') }}" alt="Lurigor">
+            <img src="{{ asset('images/Lurigor500.jpg') }}" alt="Lurigor" class="mt-5">
         </div>
-        <form method="post" class="bg-black/5 rounded-xl flex flex-col justify-evenly h-96 w-[550px]">
+        <form method="post" class="shadow-3xl rounded-xl flex flex-col justify-evenly h-96 w-[550px]">
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}

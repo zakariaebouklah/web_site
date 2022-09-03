@@ -41,7 +41,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $username = null;
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comment::class)]
-    private Collection $comments;
+    private Collection $articleComments;
 
     /**
      * @Gedmo\Slug(fields={"username"})
@@ -52,10 +52,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Topic::class, mappedBy: 'members')]
     private Collection $topics;
 
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: CommentForTopics::class)]
+    private Collection $topicsComments;
+
     public function __construct()
     {
-        $this->comments = new ArrayCollection();
+        $this->articleComments = new ArrayCollection();
         $this->topics = new ArrayCollection();
+        $this->topicsComments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -147,24 +151,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Comment>
      */
-    public function getComments(): Collection
+    public function getArticleComments(): Collection
     {
-        return $this->comments;
+        return $this->articleComments;
     }
 
-    public function addComment(Comment $comment): self
+    public function addArticleComment(Comment $comment): self
     {
-        if (!$this->comments->contains($comment)) {
-            $this->comments->add($comment);
+        if (!$this->articleComments->contains($comment)) {
+            $this->articleComments->add($comment);
             $comment->setAuthor($this);
         }
 
         return $this;
     }
 
-    public function removeComment(Comment $comment): self
+    public function removeArticleComment(Comment $comment): self
     {
-        if ($this->comments->removeElement($comment)) {
+        if ($this->articleComments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
             if ($comment->getAuthor() === $this) {
                 $comment->setAuthor(null);
@@ -216,6 +220,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString(): string
     {
         return "@" . $this->username;
+    }
+
+    /**
+     * @return Collection<int, CommentForTopics>
+     */
+    public function getTopicsComments(): Collection
+    {
+        return $this->topicsComments;
+    }
+
+    public function addTopicsComment(CommentForTopics $commentForTopic): self
+    {
+        if (!$this->topicsComments->contains($commentForTopic)) {
+            $this->topicsComments->add($commentForTopic);
+            $commentForTopic->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTopicsComment(CommentForTopics $commentForTopic): self
+    {
+        if ($this->topicsComments->removeElement($commentForTopic)) {
+            // set the owning side to null (unless already changed)
+            if ($commentForTopic->getAuthor() === $this) {
+                $commentForTopic->setAuthor(null);
+            }
+        }
+
+        return $this;
     }
 
 }

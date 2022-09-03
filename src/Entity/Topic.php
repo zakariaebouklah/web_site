@@ -38,15 +38,13 @@ class Topic
     #[ORM\Column(type: Types::TEXT)]
     private string $slug;
 
-    #[ORM\OneToMany(mappedBy: 'topic', targetEntity: Comment::class)]
-    private Collection $comments;
-
-
+    #[ORM\OneToMany(mappedBy: 'topic', targetEntity: CommentForTopics::class)]
+    private Collection $commentForTopics;
 
     public function __construct()
     {
         $this->members = new ArrayCollection();
-        $this->comments = new ArrayCollection();
+        $this->commentForTopics = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -139,32 +137,33 @@ class Topic
     }
 
     /**
-     * @return Collection<int, Comment>
+     * @return Collection<int, CommentForTopics>
      */
-    public function getComments(): Collection
+    public function getCommentForTopics(): Collection
     {
-        return $this->comments;
+        return $this->commentForTopics;
     }
 
-    public function addComment(Comment $comment): self
+    public function addCommentForTopic(CommentForTopics $commentForTopic): self
     {
-        if (!$this->comments->contains($comment)) {
-            $this->comments->add($comment);
-            $comment->setTopic($this);
+        if (!$this->commentForTopics->contains($commentForTopic)) {
+            $this->commentForTopics->add($commentForTopic);
+            $commentForTopic->setTopic($this);
         }
 
         return $this;
     }
 
-    public function removeComment(Comment $comment): self
+    public function removeCommentForTopic(CommentForTopics $commentForTopic): self
     {
-        if ($this->comments->removeElement($comment)) {
+        if ($this->commentForTopics->removeElement($commentForTopic)) {
             // set the owning side to null (unless already changed)
-            if ($comment->getTopic() === $this) {
-                $comment->setTopic(null);
+            if ($commentForTopic->getTopic() === $this) {
+                $commentForTopic->setTopic(null);
             }
         }
 
         return $this;
     }
+
 }
