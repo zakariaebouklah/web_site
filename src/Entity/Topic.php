@@ -35,6 +35,22 @@ class Topic
     #[ORM\Column(type: Types::TEXT)]
     private string $slug;
 
+    #[ORM\ManyToOne(inversedBy: 'userTopics')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $author = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'relatedTopics')]
+    private Collection $members;
+
+    #[ORM\OneToMany(mappedBy: 'topic', targetEntity: CommentForTopics::class)]
+    private Collection $comments;
+
+    public function __construct()
+    {
+        $this->members = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -97,6 +113,72 @@ class Topic
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getMembers(): Collection
+    {
+        return $this->members;
+    }
+
+    public function addMember(User $member): self
+    {
+        if (!$this->members->contains($member)) {
+            $this->members->add($member);
+        }
+
+        return $this;
+    }
+
+    public function removeMember(User $member): self
+    {
+        $this->members->removeElement($member);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CommentForTopics>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(CommentForTopics $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setTopic($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(CommentForTopics $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getTopic() === $this) {
+                $comment->setTopic(null);
+            }
+        }
 
         return $this;
     }

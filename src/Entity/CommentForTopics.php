@@ -10,6 +10,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
 #[ORM\Entity(repositoryClass: CommentForTopicsRepository::class)]
 class CommentForTopics
 {
+    const COMMENT_ADDED_SUCCESSFULLY = 'COMMENT_ADDED_SUCCESSFULLY';
+    const COMMENT_UPDATED_SUCCESSFULLY = 'COMMENT_UPDATED_SUCCESSFULLY';
+    const COMMENT_NOT_ADDED = 'COMMENT_NOT_ADDED';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -26,6 +30,14 @@ class CommentForTopics
      */
     #[ORM\Column(type: Types::TEXT)]
     private string $slug;
+
+    #[ORM\ManyToOne(inversedBy: 'topicComments')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $owner = null;
+
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Topic $topic = null;
 
     public function getId(): ?int
     {
@@ -64,6 +76,30 @@ class CommentForTopics
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getTopic(): ?Topic
+    {
+        return $this->topic;
+    }
+
+    public function setTopic(?Topic $topic): self
+    {
+        $this->topic = $topic;
 
         return $this;
     }

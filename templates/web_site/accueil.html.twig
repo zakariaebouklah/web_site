@@ -4,7 +4,7 @@
 
 {% block main %}
         <main class="main">
-            <h2 class="txt-type">
+            <h2 class="txt-type small:text-xl mt-5">
                 <span class="text-primary font-bold dark:text-white">L</span>
                 <span class="text-secondary font-bold">U</span>
                 <span class="text-primary font-bold dark:text-white">R</span>
@@ -13,16 +13,16 @@
                 <span class="text-secondary font-bold">O</span>
                 <span class="text-primary font-bold dark:text-white">R</span>
             </h2>
-            <h3 class="txt-type h-16" id="type-effect"></h3>
+            <h3 class="txt-type h-16 small:h-10 small:w-full pr-4 small:text-sm" id="type-effect"></h3>
             <hr>
             <div class="mt-16">
-                <img src="{{ asset('images/picCollective.jpg') }}" alt="team">
+                <img src="{{ asset('images/picCollective.jpg') }}" alt="team" class="small:w-screen">
             </div>
             <div class="mt-16">
-                <div class="border-2 border-secondary w-screen h-96 mb-0 dark:bg-white dark:text-primary">
-                    <div class="text-secondary text-3xl text-center pt-3" >Contacts</div>
-                    <div class="flex flex-row justify-evenly h-full text-blue-500 dark:text-black">
-                        <div class="contacts">
+                <div class="border-2 border-secondary w-screen h-96 small:h-full mb-0 dark:bg-primary dark:text-primary">
+                    <div class="text-secondary text-3xl text-center pt-3 small:text-base small:font-bold" >Contacts</div>
+                    <div class="flex flex-row small:flex-col justify-evenly small:justify-around text-blue-500 dark:text-black mt-7">
+                        <div class="contacts small:w-[300px] small:justify-self-center small:m-8">
                             <div class="pt-16 pl-7 pr-7">
                                 <p class="text-2xl">Directeur du Laboratoire:</p>
                                 <p class="font-bold text-primary dark:text-blue-500">Abdelouahed BERRICHI</p>
@@ -30,7 +30,7 @@
                                 <p>E-mail institutionnel : <span class="font-bold text-secondary">abd.berrichi@ump.ac.ma</span></p>
                             </div>
                         </div>
-                        <div class="contacts">
+                        <div class="contacts small:w-[300px] small:justify-self-center small:m-8">
                             <div class="pt-16 pl-7 pr-7">
                                 <p class="text-2xl">Directeur Adjoint:</p>
                                 <p class="font-bold text-primary dark:text-blue-500">Omar ZAHRAOUI</p>

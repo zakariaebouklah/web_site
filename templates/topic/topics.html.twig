@@ -5,40 +5,55 @@
 {% block main %}
 
     <main class="main">
-        <div class="m-5 flex flex-col">
-            {% for topic in topics %}
-                <div class="border-2 border-secondary mb-10">
-                    <div class="p-5 flex flex-row justify-between">
-                        <div>{{ topic.title }}</div>
-                        <div>{{ topic.createdAt | date('d/m/Y') }} à {{ topic.createdAt | date('H:i') }}</div>
-                        <div>Equipe :
-                            <span class="text-xl font-bold">
-                                {% for member in topic.members %}
-                                    <p>{{ member.username }}</p>
-                                {% endfor %}
-                            </span>
+        <div class="m-5 h-screen">
+            <div class="grid grid-cols-3 small:grid-cols-1 gap-5 justify-evenly">
+                {% for topic in topics %}
+                    <div class="shadow-3xl dark:border-2 dark:border-secondary rounded-xl mb-10 hover:translate-y-1.5 hover:transition-all hover:ease-in-out hover:duration-300 hidden all-topic-box">
+                        <div class="p-5 flex flex-row justify-between">
+                            <div>{{ topic.title }}</div>
+                            <div>{{ topic.createdAt | date('d/m/Y') }} à {{ topic.createdAt | date('H:i') }}</div>
+                            <div>Equipe :
+                                <span class="text-xl font-bold">
+                            {% for member in topic.members %}
+                                <p>{{ member.username }}</p>
+                            {% endfor %}
+                        </span>
+                            </div>
+                        </div>
+                        <div class="p-5 flex flex-row justify-center items-center">
+
+                                <a class="text-xs font-bold" href="{{ path("app_show_topic", {"slug" : topic.slug}) }}">
+                                    <button class="dark:text-black dark:bg-thirdly text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[95px] h-12 mr-5">
+                                        Voir le contenu du thème
+                                    </button>
+                                </a>
+
+                            {% if app.user in topic.members %}
+                                <a href="{{ path("app_edit_topic", {"slug" : topic.slug}) }}" target="_blank">
+                                    <button class="text-primary bg-green-400 rounded-xl hover:bg-green-500/95 w-[85px] h-12 mr-5">
+                                        <i class="fa-solid fa-marker text-4xl small:text-sm"></i>
+                                    </button>
+                                </a>
+                            {% endif %}
+                            {% if 'ROLE_ADMIN' in app.user.roles %}
+
+                                <a href="{{ path('app_delete_topic', {'slug': topic.slug}) }}" target="_blank">
+                                    <button class="text-primary bg-red-400 rounded-xl hover:bg-red-500/95 w-[85px] h-12 mr-5">
+                                        <i class="fa-solid fa-square-minus text-4xl small:text-sm"></i>
+                                    </button>
+                                </a>
+
+                            {% endif %}
                         </div>
                     </div>
-                    <div class="p-5 flex flex-row justify-center items-center">
-                        <button class="dark:text-black dark:bg-thirdly text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[95px] h-12 mr-5">
-                            <a class="text-xs font-bold" href="{{ path("app_show_topic", {"slug" : topic.slug}) }}">Voir le contenu du thème</a>
-                        </button>
-                        {% if topic in app.user.topics %}
-                            <button class="text-primary bg-green-400 rounded-xl hover:bg-green-500/95 w-[85px] h-12 mr-5">
-                                <a href="{{ path("app_edit_topic", {"slug" : topic.slug}) }}" target="_blank">
-                                    <i class="fa-solid fa-marker text-4xl"></i>
-                                </a>
-                            </button>
-                            <button class="text-primary bg-red-400 rounded-xl hover:bg-red-500/95 w-[85px] h-12 mr-5">
-                                <a href="#" target="_blank">
-                                    <i class="fa-solid fa-square-minus text-4xl"></i>
-                                </a>
-                            </button>
-                        {% endif %}
-                    </div>
-                </div>
-            {% endfor %}
-
+                {% endfor %}
+            </div>
+            <div class="items-center text-center mb-7 mt-7">
+                <button id="all-topics-loader" class="hidden dark:bg-secondary font-bold p-2 text-black bg-white hover:rounded-xl small:w-[100px] small:h-10 small:text-sm w-[175px] h-16 mr-5 mt-0 shadow-3xl hover:transition-all hover:ease-in-out hover:duration-700">
+                    Afficher plus
+                </button>
+            </div>
+            <div class="h-16 w-screen md:hidden small:visible"></div>
         </div>
     </main>
 

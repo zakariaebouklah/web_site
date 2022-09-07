@@ -70,7 +70,7 @@ class PubController extends AbstractController
         if ($form->isSubmitted() && $form->isValid())
         {
             $comment->setCreatedAt(new \DateTimeImmutable());
-            $comment->setAuthor($user);
+            $comment->setOwner($user);
             $comment->setArticle($article);
 
             $manager->persist($comment);

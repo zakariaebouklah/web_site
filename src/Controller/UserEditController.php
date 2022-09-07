@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserEditController extends AbstractController
 {
-    #[Route('/user/edit/{slug}', name: 'app_user_edit')]
+    #[Route('/user/edit/{username}', name: 'app_user_edit')]
     public function index(Request $request, EntityManagerInterface $manager, User $user, UserPasswordHasherInterface $hasher): Response
     {
         if ($this->getUser() === null)

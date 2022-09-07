@@ -11,11 +11,11 @@
                     <div class="text-center text-2xl">{{ article.title }}</div>
                     <div class="text-center">Dans la category <em class="text-center font-bold">{{ article.category }}</em></div>
                     <div class="flex flex-row justify-between">
-                        <div>Ecrit par <span class="text-xl font-bold">{{ article.author }}</span></div>
+                        <div>Ecrit par <span class="text-xl font-bold">{{ article.author.username }}</span></div>
                         <div>Le <span class="text-xl font-bold">{{ article.createdAt | date('d/m/Y') }}</span> à <span class="text-xl font-bold">{{ article.createdAt | date('H:i') }}</span></div>
                     </div>
                     <div class="m5">
-                        <p>{{ article.content }}</p>
+                        <p>{{ article.content | raw }}</p>
                     </div>
                     <hr class="mt-7 mb-7 font-bold">
                     <div>

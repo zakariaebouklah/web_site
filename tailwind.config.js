@@ -18,11 +18,14 @@ module.exports = {
           'lg': {'max': '1023px'},
           // => @media (max-width: 1023px) { ... }
 
-          'md': {'max': '767px'},
-          // => @media (max-width: 767px) { ... }
+          'md': '545px',
+          // => @media (min-width: 545px) { ... }
 
           'sm': {'max': '670px'},
           // => @media (max-width: 670px) { ... }
+
+          'small': {'max': '545px'},
+          // => @media (max-width: 545px) { ... }
       },
     extend: {
         boxShadow: {

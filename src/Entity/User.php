@@ -39,6 +39,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Article::class)]
+    private Collection $articles;
+
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Comment::class)]
+    private Collection $articleComments;
+
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Topic::class)]
+    private Collection $userTopics;
+
+    #[ORM\ManyToMany(targetEntity: Topic::class, mappedBy: 'members')]
+    private Collection $relatedTopics;
+
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: CommentForTopics::class)]
+    private Collection $topicComments;
+
+    public function __construct()
+    {
+        $this->articles = new ArrayCollection();
+        $this->articleComments = new ArrayCollection();
+        $this->userTopics = new ArrayCollection();
+        $this->relatedTopics = new ArrayCollection();
+        $this->topicComments = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -126,6 +150,156 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @return Collection<int, Article>
+     */
+    public function getArticles(): Collection
+    {
+        return $this->articles;
+    }
 
+    public function addArticle(Article $article): self
+    {
+        if (!$this->articles->contains($article)) {
+            $this->articles->add($article);
+            $article->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Article $article): self
+    {
+        if ($this->articles->removeElement($article)) {
+            // set the owning side to null (unless already changed)
+            if ($article->getAuthor() === $this) {
+                $article->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getArticleComments(): Collection
+    {
+        return $this->articleComments;
+    }
+
+    public function addArticleComment(Comment $articleComment): self
+    {
+        if (!$this->articleComments->contains($articleComment)) {
+            $this->articleComments->add($articleComment);
+            $articleComment->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticleComment(Comment $articleComment): self
+    {
+        if ($this->articleComments->removeElement($articleComment)) {
+            // set the owning side to null (unless already changed)
+            if ($articleComment->getOwner() === $this) {
+                $articleComment->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Topic>
+     */
+    public function getUserTopics(): Collection
+    {
+        return $this->userTopics;
+    }
+
+    public function addUserTopic(Topic $userTopic): self
+    {
+        if (!$this->userTopics->contains($userTopic)) {
+            $this->userTopics->add($userTopic);
+            $userTopic->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserTopic(Topic $userTopic): self
+    {
+        if ($this->userTopics->removeElement($userTopic)) {
+            // set the owning side to null (unless already changed)
+            if ($userTopic->getAuthor() === $this) {
+                $userTopic->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Topic>
+     */
+    public function getRelatedTopics(): Collection
+    {
+        return $this->relatedTopics;
+    }
+
+    public function addRelatedTopic(Topic $relatedTopic): self
+    {
+        if (!$this->relatedTopics->contains($relatedTopic)) {
+            $this->relatedTopics->add($relatedTopic);
+            $relatedTopic->addMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRelatedTopic(Topic $relatedTopic): self
+    {
+        if ($this->relatedTopics->removeElement($relatedTopic)) {
+            $relatedTopic->removeMember($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CommentForTopics>
+     */
+    public function getTopicComments(): Collection
+    {
+        return $this->topicComments;
+    }
+
+    public function addTopicComment(CommentForTopics $topicComment): self
+    {
+        if (!$this->topicComments->contains($topicComment)) {
+            $this->topicComments->add($topicComment);
+            $topicComment->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTopicComment(CommentForTopics $topicComment): self
+    {
+        if ($this->topicComments->removeElement($topicComment)) {
+            // set the owning side to null (unless already changed)
+            if ($topicComment->getOwner() === $this) {
+                $topicComment->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return "@" . $this->username;
+    }
 
 }

@@ -92,7 +92,7 @@ class EventManipController extends AbstractController
             $manager->persist($event);
             $manager->flush();
 
-            return $this->redirectToRoute("app_manifestation");
+            return $this->redirectToRoute("app_events");
         }
 
         return $this->render("manifestation/event.html.twig", [

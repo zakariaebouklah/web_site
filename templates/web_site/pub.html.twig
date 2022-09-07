@@ -7,25 +7,25 @@
     <main class="main">
         <div>
             <img src="{{ asset('images/library.jpg') }}" alt="lib">
-            <div class="flex flex-row h-96 items-center text-center justify-center centred">
-                <a href="{{ path("app_articles") }}" target="_blank">
-                    <div class="w-52 h-60 flex flex-col justify-between mr-14 hover:bg-gray-300 hover:rounded-xl dark:hover:bg-white/30">
+            <div class="flex flex-row small:flex-col small:mt-40 h-96 items-center text-center justify-evenly centred">
+                <a class="hover:bg-gray-300 hover:rounded-xl dark:hover:bg-white/30" href="{{ path("app_articles") }}" target="_blank">
+                    <div class="w-52 h-60 p-4 flex flex-col justify-between">
                         <div class="items-center text-center">
                             <img src="{{ asset('images/article.png') }}" alt="articles">
                         </div>
                         <div>Consultez Nos Articles</div>
                     </div>
                 </a>
-                <a href="{{ path("app_ouvrages") }}" target="_blank">
-                    <div class="w-52 h-60 flex flex-col justify-between mr-14 hover:bg-gray-300 hover:rounded-xl dark:hover:bg-white/30">
+                <a class="hover:bg-gray-300 hover:rounded-xl dark:hover:bg-white/30" href="{{ path("app_ouvrages") }}" target="_blank">
+                    <div class="w-52 h-60 p-4 flex flex-col justify-between">
                         <div class="items-center text-center p-5">
                             <img src="{{ asset('images/book.png') }}" alt="ouvrages">
                         </div>
                         <div>Consultez Nos Ouvrages</div>
                     </div>
                 </a>
-                <a href="#" target="_blank">
-                    <div class="w-52 h-60 flex flex-col justify-between mr-14 hover:bg-gray-300 hover:rounded-xl dark:hover:bg-white/30">
+                <a class="hover:bg-gray-300 hover:rounded-xl dark:hover:bg-white/30" href="#" target="_blank">
+                    <div class="w-52 h-60 p-4 flex flex-col justify-between">
                         <div class="items-center text-center">
                             <img src="{{ asset('images/magazine.png') }}" alt="revue">
                         </div>

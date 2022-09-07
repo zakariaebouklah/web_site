@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\User;
 use App\Form\ArticleFormType;
 use App\Form\DeleteFormType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,9 +36,15 @@ class PubArticleController extends AbstractController
         $form = $this->createForm(ArticleFormType::class, $article);
         $form->handleRequest($request);
 
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
+
         if ($form->isSubmitted() && $form->isValid())
         {
             $article->setCreatedAt(new \DateTimeImmutable());
+            $article->setAuthor($user);
 
             $manager->persist($article);
             $manager->flush();

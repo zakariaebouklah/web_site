@@ -3,18 +3,18 @@
 {% block title %}Inscription!{% endblock %}
 
 {% block main %}
-    <div class="flex flex-row items-center justify-center sm:flex-col sm:justify-between">
+    <div class="flex flex-row items-center justify-center small:flex-col small:justify-between">
         <div>
             <img src="{{ asset('images/Lurigor500.jpg') }}" alt="Lurigor" class="mt-5">
         </div>
         {{ form_start(registrationForm, {
             'attr' : {
-                'class': 'ml-16 mr-16 h-96 w-[550px] rounded-xl shadow-3xl'
+                'class': 'ml-16 mr-16 h-[430px] w-[550px] small:w-[350px] rounded-xl shadow-3xl'
             }
         }) }}
 
         <div class="p-5">
-            <h1 class="text-center text-2xl">Inscrivez vous</h1>
+            <h1 class="text-center text-2xl mb-5">Inscrivez vous</h1>
             {{ form_row(registrationForm.email, {
                 label: 'Adresse Mail',
                 'attr': {
@@ -39,7 +39,7 @@
                 }
             }) }}
 
-            <button type="submit" class="text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[85px] h-10">S'inscrire</button>
+            <button type="submit" class="small:text-sm text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[85px] h-10 font-bold">S'inscrire</button>
         </div>
 
         {{ form_end(registrationForm) }}
