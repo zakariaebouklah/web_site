@@ -19,21 +19,21 @@
     </head>
     <body class="dark:bg-primary dark:text-white transition-colors duration-300 flex flex-col justify-between overflow-x-hidden">
         {% if app.user %}
-        <header class="fixed bg-secondary w-screen h-16 top-0 z-20 small:w-screen" id="nav1">
-            <div class="pt-3.5 pl-3.5">
+        <header class="fixed bg-secondary w-screen h-16 top-0 z-20 small:w-screen small:h-10" id="nav1">
+            <div class="pt-3.5 pl-3.5 small:pt-1.5">
                 <a href="https://www.facebook.com/LaboratoireLURIGOR/" target="_blank">
                     <i class="fa-brands fa-facebook"></i>
                     <span class="hover:underline">La page Facebook</span>
                 </a>
-                <button id="btn" class="absolute top-5 right-7 w-10 h-5 rounded-2xl bg-white flex items-center transition duration-300 focus:outline-none shadow">
+                <button id="btn" class="absolute top-5 small:top-2 right-7 small:right-4 w-10 h-5 rounded-2xl bg-white flex items-center transition duration-300 focus:outline-none shadow">
                     <div id="switch-toggle" class="w-6 h-6 relative rounded-full transition duration-500 transform bg-thirdly -translate-x-2 text-white">
                         <i class="fa-solid fa-lightbulb text-primary"></i>
                     </div>
                 </button>
             </div>
         </header>
-        <nav class="fixed bg-primary h-16 w-screen flex flex-row justify-between top-16 z-20" id="nav2">
-            <div class="text-center pt-3.5 ml-5">
+        <nav class="fixed bg-primary h-16 w-screen flex flex-row justify-between top-16 z-20 small:h-10 small:top-10" id="nav2">
+            <div class="text-center pt-3.5 ml-5 small:pt-1.5">
                 <div id="user" class="flex flex-row">
                     <i class="fa-solid fa-circle-user cursor-pointer text-3xl text-thirdly small:text-2xl"></i>
                     <span class="ml-1 text-center text-base text-white p-2 font-bold small:text-sm">{{ app.user.username }}</span>
@@ -55,7 +55,7 @@
                     </ul>
                 </div>
             </div>
-            <ul id="nav_ul" class="flex flex-row justify-evenly h-16 w-screen small:justify-end small:mr-5 small:mt-5">
+            <ul id="nav_ul" class="flex flex-row justify-evenly h-16 w-screen small:justify-end small:mr-5 small:mt-2">
                 <li class="md:hidden small:visible small:text-white">
                     <button id="MenuBtnForSmall"><i class="fa-solid fa-bars small:text-lg"></i></button>
                 </li>
@@ -67,7 +67,7 @@
                 <li data-common="items" class="text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs small:hidden"><a href="{{ path("app_themes") }}">Groupes d'intérêt thématique</a></li>
             </ul>
         </nav>
-        <nav class="bg-white border-2 border-secondary text-primary w-screen h-32 flex flex-row mt-[127px] dark:bg-white dark:text-primary small:z-10">
+        <nav class="bg-white border-2 border-secondary text-primary w-screen h-32 flex flex-row mt-[127px] small:mt-[80px] dark:bg-white dark:text-primary small:z-10">
             <div class="flex flex-row justify-start h-16 w-1/2">
                 <img src="{{ asset('images/ump.jpg') }}" alt="ump" class="w-1/2 h-[123px] small:w-8/12 small:h-[100px]">
                 <img src="{{ asset('images/LURIGOR.jpg') }}" alt="LOGO" class="w-1/4 h-[123px] small:w-7/12">

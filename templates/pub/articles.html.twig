@@ -8,7 +8,7 @@
     <div class="m-5 flex flex-col h-screen">
         {% for article in articles %}
 
-            <div class="border-2 border-secondary mb-10">
+            <div class="shadow-3xl rounded-xl dark:border-2 dark:border-secondary mb-10">
                 <div class="p-5 flex flex-row justify-between">
                     <div>{{ article.title }}</div>
                     <div>{{ article.author.username }}</div>
@@ -17,16 +17,27 @@
                 </div>
                 <hr>
                 <div class="p-5 flex flex-row justify-center items-center">
-                    <button class="dark:text-black dark:bg-thirdly font-bold text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[125px] h-12 mr-5 text-center">
-                        <a href="{{ path("app_article", {"slug" : article.slug}) }}" target="_blank" class="p-2">Lire L'Article</a>
-                    </button>
+
+                    <a href="{{ path("app_article", {"slug" : article.slug}) }}" target="_blank" class="p-2">
+                        <button class="dark:text-black dark:bg-thirdly flex flex-row justify-center items-center font-bold text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[75px] h-12 mr-5 text-center">
+                            <img src="{{ asset('images/reading-book.png') }}" alt="Lire" class="w-[35px] h-[35px]">
+                        </button>
+                    </a>
+
                     {% if 'ROLE_ADMIN' in app.user.roles %}
-                        <button class="text-primary bg-green-400 rounded-xl hover:bg-green-500/95 w-[85px] h-12 mr-5">
-                            <a href="{{ path("app_edit_article", {"slug" : article.slug}) }}" target="_blank"><i class="fa-solid fa-file-pen text-4xl"></i></a>
-                        </button>
-                        <button class="text-primary bg-red-400 rounded-xl hover:bg-red-500/95 w-[85px] h-12 mr-5">
-                            <a href="{{ path("app_delete_article", {"slug" : article.slug}) }}" target="_blank"><i class="fa-solid fa-square-minus text-4xl"></i></a>
-                        </button>
+
+                        <a href="{{ path("app_edit_article", {"slug" : article.slug}) }}" target="_blank">
+                            <button class="text-primary bg-green-400 flex flex-row justify-center items-center rounded-xl hover:bg-green-500/95 w-[75px] h-12 mr-5">
+                                <img src="{{ asset('images/edit-file.png') }}" alt="edit" class="w-7 h-7">
+                            </button>
+                        </a>
+
+                        <a href="{{ path("app_delete_article", {"slug" : article.slug}) }}" target="_blank">
+                            <button class="text-primary bg-red-400 flex flex-row justify-center items-center rounded-xl hover:bg-red-500/95 w-[75px] h-12 mr-5">
+                                <img src="{{ asset('images/delete-file.png') }}" alt="delete" class="w-7 h-7">
+                            </button>
+                        </a>
+
                     {% endif %}
                 </div>
                 <hr>
@@ -70,7 +81,7 @@
                                 {% endif %}
                             </div>
                         </div>
-                        <div class="border-2 border-green-500 rounded-xl w-full">
+                        <div class="shadow-3xl dark:border-2 dark:border-green-500 rounded-xl w-full">
                             <div class="p-5">
                                 <p>{{ comment.content | raw }}</p>
                             </div>

@@ -15,19 +15,19 @@
                         </div>
                         <div class="p-5 flex flex-row justify-center items-center">
                             <a class="text-xs font-bold" href="{{ path("app_ouvrage", {"slug" : ouvrage.slug}) }}">
-                                <button class="dark:text-black dark:bg-thirdly text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[95px] h-12 mr-5">
-                                    Accès au fichier de L'Ouvrage
+                                <button class="dark:text-black dark:bg-thirdly flex flex-row justify-center items-center text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[75px] h-12 mr-5">
+                                    <img src="{{ asset('images/access.png') }}" alt="delete" class="w-7 h-7">
                                 </button>
                             </a>
                             {% if 'ROLE_ADMIN' in app.user.roles %}
                                 <a href="{{ path("app_edit_ouvrage", {"slug" : ouvrage.slug}) }}" target="_blank">
-                                    <button class="text-primary bg-green-400 rounded-xl hover:bg-green-500/95 w-[85px] h-12 mr-5">
-                                        <i class="fa-solid fa-file-pen text-4xl small:text-sm"></i>
+                                    <button class="text-primary bg-green-400 flex flex-row justify-center items-center rounded-xl hover:bg-green-500/95 w-[75px] h-12 mr-5">
+                                        <img src="{{ asset('images/edit-file.png') }}" alt="edit" class="w-7 h-7">
                                     </button>
                                 </a>
                                 <a href="{{ path("app_delete_ouvrage", {"slug" : ouvrage.slug}) }}" target="_blank">
-                                    <button class="text-primary bg-red-400 rounded-xl hover:bg-red-500/95 w-[85px] h-12 mr-5">
-                                        <i class="fa-solid fa-square-minus text-4xl small:text-sm"></i>
+                                    <button class="text-primary bg-red-400 flex flex-row justify-center items-center rounded-xl hover:bg-red-500/95 w-[75px] h-12 mr-5">
+                                        <img src="{{ asset('images/delete-file.png') }}" alt="delete" class="w-7 h-7">
                                     </button>
                                 </a>
                             {% endif %}

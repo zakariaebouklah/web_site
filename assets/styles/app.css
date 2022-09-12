@@ -10,10 +10,10 @@
         @apply border-b-4 border-thirdly;
     }
     .modal {
-        @apply fixed left-0 top-0 w-full h-full overflow-auto bg-primary bg-opacity-70 flex justify-center items-center z-20;
+        @apply fixed left-0 top-0 w-full h-full overflow-auto bg-primary bg-opacity-70 flex justify-center items-center z-30;
     }
     .modal-content {
-        @apply z-20 dark:bg-[#242424] bg-white p-[20px] border-2 border-secondary w-[80%] opacity-100 flex flex-col font-bold dark:opacity-100 rounded-xl;
+        @apply z-30 dark:bg-[#242424] bg-white p-[20px] border-2 border-secondary w-[80%] opacity-100 flex flex-col font-bold dark:opacity-100 rounded-xl;
     }
     .close {
         @apply text-center text-red-900 text-4xl border-2 border-red-900 bg-red-400 font-bold cursor-pointer rounded-xl w-32 m-auto;

@@ -16,7 +16,7 @@
                             <div class="flex flex-col justify-between items-center text-center">
                                 <div>{{ event.description }}</div>
                                 <div class="mt-9 mb-9">
-                                    <img src="{{ asset('uploads/fiches/' ~ event.fiche) }}" alt="{{ event.title }}">
+                                    <img src="{{ asset('uploads/fiches/' ~ event.fiche) }}" alt="{{ event.title }}" class="w-[342px] h-[485px]">
                                 </div>
                             </div>
                             <div class="flex flex-row justify-evenly">
@@ -27,20 +27,20 @@
                         <div class="p-5 flex flex-row justify-center items-center">
                             <div>
                                 <a href="{{ asset(event.programme, 'programmes') }}" target="_blank">
-                                    <button class="dark:text-black dark:bg-thirdly font-bold text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[125px] h-12 mr-5 text-center small:text-sm">
-                                        Obtenir le programme
+                                    <button class="dark:text-black dark:bg-thirdly flex flex-row justify-center items-center font-bold text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[75px] h-12 mr-5 text-center small:text-sm">
+                                        <img src="{{ asset('images/search.png') }}" alt="acces" class="w-7 h-7">
                                     </button>
                                 </a>
                             </div>
                             {% if 'ROLE_ADMIN' in app.user.roles %}
                                 <a href="{{ path("app_edit_event", {"slug" : event.slug}) }}" target="_blank">
-                                    <button class="text-primary bg-green-400 rounded-xl hover:bg-green-500/95 w-[85px] h-12 mr-5">
-                                        <i class="fa-solid fa-file-pen text-4xl small:text-sm"></i>
+                                    <button class="text-primary flex flex-row justify-center items-center bg-green-400 rounded-xl hover:bg-green-500/95 w-[75px] h-12 mr-5">
+                                        <img src="{{ asset('images/edit-file.png') }}" alt="edit" class="w-7 h-7">
                                     </button>
                                 </a>
                                 <a href="{{ path("app_delete_event", {"slug" : event.slug}) }}" target="_blank">
-                                    <button class="text-primary bg-red-400 rounded-xl hover:bg-red-500/95 w-[85px] h-12 mr-5">
-                                        <i class="fa-solid fa-square-minus text-4xl small:text-sm"></i>
+                                    <button class="text-primary flex flex-row justify-center items-center bg-red-400 rounded-xl hover:bg-red-500/95 w-[75px] h-12 mr-5">
+                                        <img src="{{ asset('images/delete-file.png') }}" alt="delete" class="w-7 h-7">
                                     </button>
                                 </a>
                             {% endif %}

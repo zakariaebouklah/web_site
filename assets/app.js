@@ -336,8 +336,95 @@ function showMoreMyTopics() {
 
 /*-----------------------AJAX------------------------*/
 
-const form = document.querySelector("#comment-topic-form");
+const form = document.querySelector("#comment-topic-form-add");
 
+document.addEventListener('click', function (e) {
+    if (e.target && e.target.classList.contains("edit-comment"))
+    {
+        let container = e.target.parentElement.parentElement.parentElement.parentElement;
+        console.log(this);
+        fetch(e.target.dataset.editForm)
+            .then(response => response.text())
+            .then(data => {
+                container.classList.replace("flex-row", "flex-col");
+
+                container.innerHTML += data;
+                const form = document.querySelector("#comment-topic-form-edit");
+                const textField = document.querySelector(".comment_for_topics_form_content_" + e.target.dataset.id);
+                textField.setAttribute('id', "comment_for_topics_form_content_" + e.target.dataset.id);
+                CKEDITOR.replace(textField);
+
+                let idComment = e.target.dataset.id;
+                let id = textField.getAttribute("id");
+
+                form.addEventListener("submit", e => {
+                    e.preventDefault();
+
+                    let content = CKEDITOR.instances[id].getData();
+                    const formData = new FormData(e.target);
+
+                    formData.delete("comment_for_topics_form[content]")
+                    formData.append("comment_for_topics_form[content]", content);
+
+                    console.log(content)
+                    console.log(document.querySelectorAll("p #" + id))
+                    fetch(form.action, {
+                        body: formData,
+                        method: 'POST'
+                    })
+                        .then(response => response.json())
+                        .then(json => {
+                            console.log(json);
+                            // const commentItself = document.querySelectorAll("p #" + id)
+                            // console.log(commentItself);
+                            // commentItself.innerHTML = content;
+                            form.parentElement.classList.add("hidden");
+                            handleResponse(json, container);
+                        })
+                })
+            });
+    }
+    if (e.target && e.target.classList.contains("delete-comment"))
+    {
+        let confirmBtn = document.getElementById("confirm-delete-comment");
+        confirmBtn.setAttribute("data-delete-url", e.target.dataset.deleteUrl);
+
+        let container = e.target.parentElement.parentElement.parentElement.parentElement;
+        console.log(container);
+        const modalDelete = document.querySelector("#the-delete-modal");
+        modalDelete.classList.remove("hidden");
+
+        //to remove event-listeners we clone the elements then set a new event-listener
+        let newConfirmBtn = confirmBtn.cloneNode(true);
+        confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+
+        window.addEventListener('click', e => {
+            if (e.target === modalDelete)
+            {
+                modalDelete.classList.add("hidden");
+            }
+        })
+
+        newConfirmBtn.addEventListener("click", () => {
+            console.log(container)
+
+            fetch(e.target.dataset.deleteUrl)
+                .then(response => response.json())
+                .then(data => {
+
+                    // container.innerHTML += data;
+                    console.log(data)
+
+                    container.classList.replace("flex-row", "flex-col");
+
+                    modalDelete.classList.add("hidden");
+                    handleResponse(data, container);
+                });
+        })
+    }
+})
+
+//Add comment using AJAX
 if (form !== null)
 {
     form.addEventListener("submit", function f(e){
@@ -367,18 +454,21 @@ if (form !== null)
     });
 }
 
-const handleResponse = function (response, commentList){
+const handleResponse = function (response, topicShow){
     console.log(response);
     switch (response.response) {
         case 'COMMENT_ADDED_SUCCESSFULLY':
             console.log(typeof response.html, response.html);
-            commentList.innerHTML += response.html;
-            commentList.innerHTML += response.html_flash;
+            topicShow.innerHTML += response.html;
+            topicShow.innerHTML += response.html_flash;
             break;
         case 'COMMENT_UPDATED_SUCCESSFULLY':
-            console.log(typeof response.html, response.html, response.html_flash);
-            commentList.querySelector(`[data-id="${response.id}"]`).innerHTML = response.html;
-            commentList.innerHTML += response.html_flash;
+            console.log(response.html_flash);
+            topicShow.innerHTML += response.html_flash;
+            break;
+        case 'COMMENT_DELETED_SUCCESSFULLY':
+            console.log(response.html_flash);
+            topicShow.innerHTML = response.html_flash;
             break;
     }
 }

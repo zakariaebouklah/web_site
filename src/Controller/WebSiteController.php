@@ -10,9 +10,7 @@ class WebSiteController extends AbstractController
 {
     #[Route('/', name: 'app')]
     public function root(): Response{
-        return $this->render('web_site/root.html.twig', [
-
-        ]);
+        return $this->render('web_site/root.html.twig');
     }
 
     #[Route('/site/accueil', name: 'app_accueil')]
@@ -36,16 +34,5 @@ class WebSiteController extends AbstractController
         ]);
     }
 
-    #[Route('/site/formation_doctorale', name: 'app_formation_doctorale')]
-    public function formation(): Response
-    {
-        if ($this->getUser() === null)
-        {
-            return $this->redirectToRoute("app_accueil");
-        }
 
-        return $this->render('web_site/formation.html.twig', [
-            'controller_name' => 'WebSiteController',
-        ]);
-    }
 }

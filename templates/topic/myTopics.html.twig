@@ -16,7 +16,7 @@
                 <div class="grid grid-cols-3 small:grid-cols-1 gap-5 justify-evenly">
                     {% for topic in myTopics %}
                         <div class="shadow-3xl dark:border-2 dark:border-secondary rounded-xl mb-10 hover:translate-y-1.5 hover:transition-all hover:ease-in-out hover:duration-300 hidden my-topic-box">
-                            <div class="p-5 flex flex-row justify-between">
+                            <div class="p-5 flex flex-row justify-between h-[152px]">
                                 <div>{{ topic.title }}</div>
                                 <div>{{ topic.createdAt | date('d/m/Y') }} à {{ topic.createdAt | date('H:i') }}</div>
                                 <div>Equipe :
@@ -30,20 +30,20 @@
                             <div class="p-5 flex flex-row justify-center items-center">
 
                                 <a class="text-xs font-bold" href="{{ path("app_show_topic", {"slug" : topic.slug}) }}">
-                                    <button class="dark:text-black dark:bg-thirdly text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[95px] h-12 mr-5">
-                                        Voir le contenu du thème
+                                    <button class="dark:text-black flex flex-row justify-center items-center dark:bg-thirdly text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[65px] h-12 mr-5">
+                                        <img src="{{ asset('images/conversation.png') }}" alt="delete" class="w-7 h-7">
                                     </button>
                                 </a>
 
                                 <a href="{{ path("app_edit_topic", {"slug" : topic.slug}) }}" target="_blank">
-                                    <button class="text-primary bg-green-400 rounded-xl hover:bg-green-500/95 w-[85px] h-12 mr-5">
-                                        <i class="fa-solid fa-marker text-4xl small:text-sm"></i>
+                                    <button class="text-primary bg-green-400 rounded-xl hover:bg-green-500/95 w-[65px] h-12 mr-5">
+                                        <i class="fa-solid fa-marker text-2xl small:text-sm"></i>
                                     </button>
                                 </a>
 
                                 <a href="{{ path("app_delete_topic", {"slug" : topic.slug}) }}" target="_blank">
-                                    <button class="text-primary bg-red-400 rounded-xl hover:bg-red-500/95 w-[85px] h-12 mr-5">
-                                        <i class="fa-solid fa-square-minus text-4xl small:text-sm"></i>
+                                    <button class="text-primary bg-red-400 rounded-xl hover:bg-red-500/95 w-[65px] h-12 mr-5">
+                                        <i class="fa-solid fa-square-minus text-2xl small:text-sm"></i>
                                     </button>
                                 </a>
 

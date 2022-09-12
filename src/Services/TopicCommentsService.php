@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Entity\CommentForTopics;
+use App\Form\CommentForTopicsFormType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,47 +21,21 @@ class TopicCommentsService
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\LoaderError
      */
-    public function handleTopicCommentsForm(FormInterface $topicCommentsForm): JsonResponse
+    public function handleValidForm(Request $request, CommentForTopics $comment): JsonResponse
     {
-        if ($topicCommentsForm->isValid())
-        {
-            return $this->handleValidForm($topicCommentsForm);
-        }
-        else
-        {
-            return $this->handleInValidForm($topicCommentsForm);
-        }
-    }
-
-    /**
-     * @throws \Twig\Error\SyntaxError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\LoaderError
-     */
-    public function handleValidForm(FormInterface $form): JsonResponse
-    {
-        /**
-         * @var CommentForTopics $comment
-         */
-        $comment = $form->getData();
-//        ->setContent($data->getContent());
-
-        $request = new Request();
         $request->setSession(new Session());
         $request->getSession()->getFlashBag()->add(
           'success',
-          'Votre commentaire a été ajouté. actualiser la page pour voir les autres commentaires...'
+          'Votre commentaire a été ajouté.'
         );
 
         return new JsonResponse([
             'response'=> CommentForTopics::COMMENT_ADDED_SUCCESSFULLY,
             'html'=> $this->environment->render("topic/brandTopicComment.html.twig", [
-                'comment' => $comment,
-                'slug'=> $comment->getSlug()
+                'comment' => $comment
             ]),
             'html_flash'=> $this->environment->render("topic/flash.html.twig")
         ]);
-
     }
 
     public function handleInValidForm(FormInterface $form): JsonResponse
@@ -75,27 +50,30 @@ class TopicCommentsService
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\LoaderError
      */
-    public function handleEditCommentForm(FormInterface $form): JsonResponse
+    public function handleEditCommentForm(Request $request, CommentForTopics $comment, FormInterface $form): JsonResponse
     {
-        /**
-         * @var CommentForTopics $comment
-         */
-        $comment = $form->getData();
-
-        $request = new Request();
         $request->setSession(new Session());
         $request->getSession()->getFlashBag()->add(
             'notice',
-            'Votre commentaire a été mis à jour. retourner vers la page précédente puis actualiser pour voir votre modifications...'
+            'Votre commentaire a été mis à jour. Actualisez La Page...'
         );
 
         return new JsonResponse([
             'response'=> CommentForTopics::COMMENT_UPDATED_SUCCESSFULLY,
-            'id'=> $comment->getId(),
-            'html'=> $this->environment->render("topic/brandTopicComment.html.twig", [
-                'comment' => $comment,
-                'slug'=> $comment->getSlug()
-            ]),
+            'html_flash'=>$this->environment->render("topic/flash_edit.html.twig")
+        ]);
+    }
+
+    public function handleDeleteComment(Request $request)
+    {
+        $request->setSession(new Session());
+        $request->getSession()->getFlashBag()->add(
+            'notice',
+            'Votre commentaire a été supprimé. Actualisez La Page...'
+        );
+
+        return new JsonResponse([
+            'response'=> CommentForTopics::COMMENT_DELETED_SUCCESSFULLY,
             'html_flash'=>$this->environment->render("topic/flash_edit.html.twig")
         ]);
     }
