@@ -4,7 +4,7 @@
 
 {% block main %}
 
-<main class="main">
+<main class="main mt-40">
     <div class="m-5 flex flex-col h-screen">
         {% for article in articles %}
 
@@ -93,9 +93,15 @@
         {% endfor %}
 
         {% if 'ROLE_ADMIN' in app.user.roles %}
-            <div class="items-center text-center">
-                <button class="dark:bg-secondary dark:text-black font-bold p-2 text-thirdly bg-primary rounded-sm hover:bg-cyan-800/95 w-[165px] h-16 mr-5"><a href="{{ path("app_new_article") }}" target="_blank">Ajouter Un Nouveau Article</a></button>
-            </div>
+
+            <a href="{{ path("app_new_article") }}" target="_blank">
+                <div class="items-center text-center">
+                    <button class="rounded-xl dark:bg-secondary dark:text-black font-bold p-2 text-thirdly bg-primary hover:bg-[#0F52BA] w-[165px] h-16 mr-5">
+                        Ajouter Un Nouveau Article
+                    </button>
+                </div>
+            </a>
+
         {% endif %}
     </div>
 </main>

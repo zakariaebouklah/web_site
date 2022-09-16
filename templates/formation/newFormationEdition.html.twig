@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Édition OnBoarding-Doctoring{% endblock %}
+
+{% block main %}
+
+    <main class="main mt-40">
+        <div class="m-5 h-full">
+            {{ form_start(form, {
+                'attr': {
+                    'class': 'ml-16 mr-16 shadow-3xl dark:border-2 dark:border-secondary rounded-xl h-full'
+                }
+            }) }}
+            <div class="p-5 flex flex-col justify-between">
+                {{ form_row(form.title , {
+                    label: 'Titre',
+                    'attr': {
+                        'class': 'mb-10 bg-black/5 flex flex-row justify-between p-2 focus:outline-none shadow-inner rounded-xl dark:border-2 dark:border-secondary w-full'
+                    }
+                }) }}
+                {{ form_row(form.description , {
+                    label: 'Description',
+                    'attr': {
+                        'class': 'mb-10 bg-black/5 flex flex-row justify-between p-2 focus:outline-none shadow-inner rounded-xl dark:border-2 dark:border-secondary w-full'
+                    }
+                }) }}
+                {{ form_row(form.card , {
+                    label: 'Fiche présentative de la formation',
+                    'attr': {
+                        'class': 'mb-10 bg-black/5 flex flex-row justify-between pl-2 shadow-inner rounded-xl dark:border-2 dark:border-secondary w-full'
+                    }
+                }) }}
+                {{ form_row(form.dateDebut , {
+                    label: 'Début des inscriptions',
+                    'attr': {
+                        'class': 'dark:text-green-500 mb-10 bg-black/5 flex flex-row justify-evenly pl-2 shadow-inner rounded-xl dark:border-2 dark:border-secondary w-full'
+                    }
+                }) }}
+                {{ form_row(form.dateFin , {
+                    label: 'Fin des inscriptions',
+                    'attr': {
+                        'class': 'dark:text-green-500 mb-10 bg-black/5 flex flex-row justify-evenly pl-2 shadow-inner rounded-xl dark:border-2 dark:border-secondary w-full'
+                    }
+                }) }}
+
+                <button type="submit" class="mt-3 text-primary bg-secondary rounded-xl hover:bg-[#D19900] font-bold w-[95px] h-10">Ajouter</button>
+
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </main>
+
+{% endblock %}

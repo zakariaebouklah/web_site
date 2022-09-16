@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Form;
 
@@ -19,7 +20,7 @@ class CommentForTopicsFormType extends AbstractType
     {
         $builder->add('content', CKEditorType::class);
         /**
-         * @var CommentForTopics $comment
+         * @var CommentForTopics|null $comment
          */
         $comment = $builder->getData();
 

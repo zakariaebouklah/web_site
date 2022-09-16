@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Archive des formations{% endblock %}
+
+{% block main %}
+
+    <main class="main mt-40">
+
+        {% for formation in formations %}
+
+            <div class="m-5 flex flex-col justify-center items-center shadow-3xl dark:bg-white/5 rounded-xl m-7 p-7">
+                <div class="text-3xl font-bold" >{{ formation.title }}</div>
+                <div>
+                    <img src="{{ asset('uploads/cards/' ~ formation.card ) }}" alt="{{ "formation" ~ formation.id }}">
+                </div>
+                <div class="shadow-inner bg-black/5 dark:bg-white/5 rounded-xl w-full p-5 mt-5 mb-5">{{ formation.description }}</div>
+                <div>
+                    <div>Annoncée le <span class="font-bold text-xl text-green-500">{{ formation.dateDebut | date('d/m/Y') }}</span> à <span class="font-bold text-xl text-green-500">{{ formation.dateDebut | date('H:i') }}</span></div>
+                </div>
+            </div>
+
+            <hr>
+
+        {% endfor %}
+
+    </main>
+
+{% endblock %}

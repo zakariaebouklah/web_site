@@ -17,39 +17,41 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body class="dark:bg-primary dark:text-white transition-colors duration-300 flex flex-col justify-between overflow-x-hidden">
+    <body class="dark:bg-primary dark:text-white transition-colors duration-300 flex flex-col flex-grow justify-between overflow-x-hidden h-full">
         {% if app.user %}
-        <header class="fixed bg-secondary w-screen h-16 top-0 z-20 small:w-screen small:h-10" id="nav1">
-            <div class="pt-3.5 pl-3.5 small:pt-1.5">
-                <a href="https://www.facebook.com/LaboratoireLURIGOR/" target="_blank">
-                    <i class="fa-brands fa-facebook"></i>
-                    <span class="hover:underline">La page Facebook</span>
-                </a>
-                <button id="btn" class="absolute top-5 small:top-2 right-7 small:right-4 w-10 h-5 rounded-2xl bg-white flex items-center transition duration-300 focus:outline-none shadow">
+        <header class="fixed bg-secondary w-screen h-24 top-0 z-20 small:w-screen small:h-20 flex flex-row justify-between" id="nav1">
+            <div class="flex flex-row justify-between">
+                <div class="flex flex-row">
+                    <img src="{{ asset('images/ump-bg-none.png') }}" alt="UMP" class="w-[120px] h-[90px] small:w-[130px] small:h[50px]">
+                    <img src="{{ asset('images/lurigor-bg-none.png') }}" alt="LURIGOR" class="w-[90px] h-[90px] small:w-[70px] small:h[50px]">
+                </div>
+            </div>
+            <div class="justify-content-center w-1/2 text-center items-center">
+                <button id="btn" class="absolute top-1/3 right-7 small:right-4 w-10 h-5 rounded-2xl bg-white flex items-center transition duration-300 focus:outline-none">
                     <div id="switch-toggle" class="w-6 h-6 relative rounded-full transition duration-500 transform bg-thirdly -translate-x-2 text-white">
                         <i class="fa-solid fa-lightbulb text-primary"></i>
                     </div>
                 </button>
             </div>
         </header>
-        <nav class="fixed bg-primary h-16 w-screen flex flex-row justify-between top-16 z-20 small:h-10 small:top-10" id="nav2">
-            <div class="text-center pt-3.5 ml-5 small:pt-1.5">
+        <nav class="fixed bg-primary h-16 w-screen flex flex-row justify-between top-24 z-20 small:h-10 small:top-20" id="nav2">
+            <div class="text-center pt-2 ml-5 small:pt-1.5">
                 <div id="user" class="flex flex-row">
-                    <i class="fa-solid fa-circle-user cursor-pointer text-3xl text-thirdly small:text-2xl"></i>
-                    <span class="ml-1 text-center text-base text-white p-2 font-bold small:text-sm">{{ app.user.username }}</span>
+                    <i class="md:mt-1.5 fa-solid fa-circle-user cursor-pointer text-3xl text-thirdly small:text-2xl"></i>
+                    <span class="md:ml-1 md:mt-0.5 text-center text-base text-white small:p-1.5 md:p-2 font-bold small:text-sm">{{ app.user.username }}</span>
                 </div>
-                <div class="bg-secondary w-40 h-24 rounded-xl transition-all delay-75 ease-linear duration-300 invisible" id="user-modal">
-                    <ul class="flex flex-col p-5">
-                        <li class="">
+                <div class="bg-secondary w-60 h-24 rounded-xl transition-all delay-75 ease-linear duration-300 invisible" id="user-modal">
+                    <ul class="flex flex-col justify-between p-5">
+                        <li>
                             <a href="{{ path("app_logout") }}" class="flex flex-row justify-between">
                                 <span class="font-bold text-base xl:text-sm">Déconnexion</span>
-                                <i class="fa-solid fa-right-from-bracket pt-[8px] text-blue-500"></i>
+                                <i class="fa-solid fa-right-from-bracket pt-[8px] text-primary"></i>
                             </a>
                         </li>
-                        <li>
+                        <li class="pt-2">
                             <a href="{{ path("app_user_edit", {"username": app.user.username}) }}" target="_blank" class="flex flex-row justify-between">
                                 <span class="font-bold text-base xl:text-sm">Réglages</span>
-                                <i class="fa-solid fa-gear pt-[8px] text-blue-500"></i>
+                                <i class="fa-solid fa-gear pt-[8px] text-primary"></i>
                             </a>
                         </li>
                     </ul>
@@ -59,52 +61,42 @@
                 <li class="md:hidden small:visible small:text-white">
                     <button id="MenuBtnForSmall"><i class="fa-solid fa-bars small:text-lg"></i></button>
                 </li>
-                <li data-common="items" class="text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs small:hidden"><a href="{{ path("app_accueil") }}">Accueil</a></li>
-                <li data-common="items" class="text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs small:hidden"><a href="{{ path("app_us") }}">Qui sommes nous?</a></li>
-                <li data-common="items" class="text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs small:hidden"><a href="{{ path("app_pub") }}">Publications scientifiques</a></li>
-                <li data-common="items" class="text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs small:hidden"><a href="{{ path("app_manifestation") }}">Manifestations scientifiques</a></li>
-                <li data-common="items" class="text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs small:hidden"><a href="{{ path("app_formation_doctorale") }}">Onboarding doctoring</a></li>
-                <li data-common="items" class="text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs small:hidden"><a href="{{ path("app_themes") }}">Groupes d'intérêt thématique</a></li>
-            </ul>
-        </nav>
-        <nav class="bg-white border-2 border-secondary text-primary w-screen h-32 flex flex-row mt-[127px] small:mt-[80px] dark:bg-white dark:text-primary small:z-10">
-            <div class="flex flex-row justify-start h-16 w-1/2">
-                <img src="{{ asset('images/ump.jpg') }}" alt="ump" class="w-1/2 h-[123px] small:w-8/12 small:h-[100px]">
-                <img src="{{ asset('images/LURIGOR.jpg') }}" alt="LOGO" class="w-1/4 h-[123px] small:w-7/12">
-            </div>
-            <ul class="flex flex-row justify-end justify-evenly h-16 w-1/2">
-{#                <li class="mt-[39px] text-3xl">Rechercher  <i class="fa-solid fa-magnifying-glass"></i></li>#}
-                <li class="mt-[39px] text-3xl small:text-xl small:hidden">Menu
-                    <button id="myBtn"><i class="fa-solid fa-bars"></i></button>
-                </li>
+                <li data-common="items" class="hover:text-[#D19900] text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs small:hidden"><a href="{{ path("app_accueil") }}">Accueil</a></li>
+                <li data-common="items" class="hover:text-[#D19900] text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs small:hidden"><a href="{{ path("app_us") }}">Qui sommes nous?</a></li>
+                <li data-common="items" class="hover:text-[#D19900] text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs small:hidden"><a href="{{ path("app_pub") }}">Publications scientifiques</a></li>
+                <li data-common="items" class="hover:text-[#D19900] text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs small:hidden"><a href="{{ path("app_manifestation") }}">Manifestations scientifiques</a></li>
+                <li data-common="items" class="hover:text-[#D19900] text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs small:hidden"><a href="{{ path("app_formation_doctorale") }}">Onboarding doctoring</a></li>
+                <li data-common="items" class="hover:text-[#D19900] text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs small:hidden"><a href="{{ path("app_themes") }}">Groupes d'intérêt thématique</a></li>
             </ul>
         </nav>
         <div id="menu">
             <div id="myModal" class="modal hidden">
                 <div class="modal-content">
                     <div>
+                        <div class="flex flex-row justify-end">
+                            <button class="close">&times;</button>
+                        </div>
                         <ul>
                             <li><a class="text-blue-500 hover:text-primary dark:text-white dark:hover:text-blue-400" href="{{ path("app_accueil") }}">Accueil</a></li>
-                            <div class="border-b-4 border-secondary"></div>
+                            <div class="border-b-4 border-primary dark:border-secondary"></div>
                             <br>
                             <li><a class="text-blue-500 hover:text-primary dark:text-white dark:hover:text-blue-400" href="{{ path("app_us") }}">Qui sommes nous?</a></li>
-                            <div class="border-b-4 border-secondary"></div>
+                            <div class="border-b-4 border-primary dark:border-secondary"></div>
                             <br>
                             <li><a class="text-blue-500 hover:text-primary dark:text-white dark:hover:text-blue-400" href="{{ path("app_pub") }}">Publications scientifiques</a></li>
-                            <div class="border-b-4 border-secondary"></div>
+                            <div class="border-b-4 border-primary dark:border-secondary"></div>
                             <br>
                             <li><a class="text-blue-500 hover:text-primary dark:text-white dark:hover:text-blue-400" href="{{ path("app_manifestation") }}">Manifestations scientifiques</a></li>
-                            <div class="border-b-4 border-secondary"></div>
+                            <div class="border-b-4 border-primary dark:border-secondary"></div>
                             <br>
                             <li><a class="text-blue-500 hover:text-primary dark:text-white dark:hover:text-blue-400" href="{{ path("app_formation_doctorale") }}">Onboarding doctoring</a></li>
-                            <div class="border-b-4 border-secondary"></div>
+                            <div class="border-b-4 border-primary dark:border-secondary"></div>
                             <br>
                             <li><a class="text-blue-500 hover:text-primary dark:text-white dark:hover:text-blue-400" href="{{ path("app_themes") }}">Groupes d'intérêt thématique</a></li>
-                            <div class="border-b-4 border-secondary"></div>
+                            <div class="border-b-4 border-primary dark:border-secondary"></div>
                             <br>
                         </ul>
                     </div>
-                    <span class="close">&times;</span>
                 </div>
             </div>
         </div>
@@ -113,14 +105,14 @@
                 <div>
                     <img class="h-[95px]" src="{{ asset('images/ump.jpg') }}" alt="UMP-FSJES">
                 </div>
-                <div class="flex flex-row justify-end small:justify-between pr-10">
+                <div class="flex flex-row justify-end small:justify-between items-center pr-10">
                     <a href="{{ path("app_login") }}">
-                        <button class="small:mr-1 small:mt-8 small:w-[80px] small:h-7 small:text-xs font-bold mr-5 mt-3 text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[95px] h-10">
+                        <button class="small:mr-1 small:w-[80px] small:h-7 small:text-xs font-bold mr-5 text-primary bg-secondary rounded-xl hover:bg-[#D19900] font-bold w-[125px] h-10">
                             Connexion
                         </button>
                     </a>
                     <a href="{{ path("app_register") }}">
-                        <button class="small:mr-1 small:mt-8 small:w-[80px] small:h-7 small:text-xs font-bold mt-3 text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[95px] h-10">
+                        <button class="small:mr-1 small:w-[80px] small:h-7 small:text-xs font-bold mr-5 text-primary bg-secondary rounded-xl hover:bg-[#D19900] w-[125px] h-10">
                             Inscription
                         </button>
                     </a>
@@ -128,18 +120,16 @@
             </header>
         {% endif %}
         {% block main %}{% endblock %}
-{#            {% if app.request.attributes.get('_route') != "app_events" %}#}
-{#                <footer class="flex flex-col mt-24 text-center items-center justify-center dark:bg-secondary dark:text-black h-16">#}
-{#                    Copyright © LURIGOR <script>document.write(new Date().getFullYear())</script>. Tous les droits sont réservés.#}
-{#                </footer>#}
-{#                <!-- Made By Zakariae Bouklah : https://zakariaebouklah.github.io/ -->#}
-{#            {% endif %}#}
-        {% if not app.user %}
-            <footer class="flex flex-col mt-24 text-center items-center justify-center dark:bg-secondary dark:text-black h-16">
+            <footer class="flex flex-col mt-2 text-center items-center justify-center dark:bg-secondary dark:text-black h-16 small:text-sm">
                 Copyright © LURIGOR <script>document.write(new Date().getFullYear())</script>. Tous les droits sont réservés.
             </footer>
             <!-- Made By Zakariae Bouklah : https://zakariaebouklah.github.io/ -->
-        {% endif %}
+{#        {% if not app.user %}#}
+{#            <footer class="flex flex-col mt-2 text-center items-center justify-center dark:bg-secondary dark:text-black h-16">#}
+{#                Copyright © LURIGOR <script>document.write(new Date().getFullYear())</script>. Tous les droits sont réservés.#}
+{#            </footer>#}
+{#            <!-- Made By Zakariae Bouklah : https://zakariaebouklah.github.io/ -->#}
+{#        {% endif %}#}
         {% block footer %}{% endblock %}
     </body>
 </html>

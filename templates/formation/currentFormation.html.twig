@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}OnBoarding-Doctoring{% endblock %}
+
+{% block main %}
+
+    <main class="main mt-40">
+
+        {% if current %}
+            <div class="m-5 flex flex-col justify-center items-center shadow-3xl dark:bg-white/5 rounded-xl m-7 p-7">
+                <div class="text-3xl font-bold" >{{ current.title }}</div>
+                <div>
+                    <img src="{{ asset('uploads/cards/' ~ current.card ) }}" alt="courante">
+                </div>
+                <div class="shadow-inner bg-black/5 dark:bg-white/5 rounded-xl w-full p-5 mt-5 mb-5">{{ current.description }}</div>
+                <div>
+                    <div>Annoncée le <span class="font-bold text-xl text-green-500">{{ current.dateDebut | date('d/m/Y') }}</span> à <span class="font-bold text-xl text-green-500">{{ current.dateDebut | date('H:i') }}</span></div>
+                    <div>Dernier delai des inscriptions <span class="font-bold text-xl text-red-500">{{ current.dateFin | date('d/m/Y') }}</span> à <span class="font-bold text-xl text-red-500">{{ current.dateFin | date('H:i') }}</span></div>
+                </div>
+            </div>
+
+            <a href="{{ path('app_inscription') }}">
+                <div class="mb-5 shadow-3xl rounded-xl dark:bg-white/5 dark:hover:text-black dark:hover:bg-thirdly hover:bg-blue-600 hover:transition-all hover:ease-in-out hover:duration-500 w-44 h-16 relative top-7 left-1/2 -translate-y-1/2 -translate-x-1/2">
+                    <div class="flex flex-row items-center text-center justify-center pt-1.5">Inscrivez-vous maintenant!!</div>
+                </div>
+            </a>
+        {% else %}
+            <div class="m-5 w-1/2 small:p-5 relative small:top-24 left-1/2 small:-translate-y-1/4 translate-y-1/4 -translate-x-1/2 h-80 small:h-64 shadow-3xl rounded-xl dark:border-2 dark:border-blue-600 flex flex-col justify-evenly items-center">
+                <p class="text-xl text-center small:text-xs font-bold hover:text-blue-600">Pas de formation pour le moment...</p>
+                <img src="{{ asset('images/no-task.png') }}" alt="Vide Pour le moment" class="w-32 h-32 small:w-16 small:h-16">
+            </div>
+
+            <div class="h-7 mt-7"></div>
+        {% endif %}
+
+    </main>
+
+{% endblock %}

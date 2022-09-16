@@ -7,6 +7,7 @@ parameters:
     documents_directory: '%kernel.project_dir%/public/uploads/documents'
     fiches_directory: '%kernel.project_dir%/public/uploads/fiches'
     programmes_directory: '%kernel.project_dir%/public/uploads/programmes'
+    cards_directory: '%kernel.project_dir%/public/uploads/cards'
 
 services:
     # default configuration for services in *this* file

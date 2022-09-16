@@ -3,7 +3,7 @@
 {% block title %}Accueil{% endblock %}
 
 {% block main %}
-        <main class="main">
+        <main class="main mt-44 small:mt-28">
             <h2 class="txt-type small:text-xl mt-5">
                 <span class="text-primary font-bold dark:text-white">L</span>
                 <span class="text-secondary font-bold">U</span>
@@ -13,16 +13,16 @@
                 <span class="text-secondary font-bold">O</span>
                 <span class="text-primary font-bold dark:text-white">R</span>
             </h2>
-            <h3 class="txt-type h-16 small:h-10 small:w-full small:mb-7 pr-4 small:text-sm" id="type-effect"></h3>
+            <h3 class="txt-type h-16 small:h-10 small:w-full mb-3 pr-4 small:text-sm" id="type-effect"></h3>
             <hr>
-            <div class="mt-16">
+            <div class="mt-7">
                 <img src="{{ asset('images/picCollective.jpg') }}" alt="team" class="small:w-screen">
             </div>
             <div class="mt-16">
-                <div class="border-2 border-secondary w-screen h-96 small:h-full mb-0 dark:bg-primary dark:text-primary">
+                <div class="border-t-2 border-secondary w-screen h-full small:h-full mb-0 dark:bg-primary dark:text-primary">
                     <div class="text-secondary text-3xl text-center pt-3 small:text-base small:font-bold" >Contacts</div>
                     <div class="flex flex-row small:flex-col justify-evenly small:justify-around text-blue-500 dark:text-black mt-7">
-                        <div class="small:mx-auto contacts small:w-[300px] small:justify-self-center small:m-8">
+                        <div class="dark:hover:bg-white/30 small:mx-auto contacts small:w-[300px] small:justify-self-center small:m-8">
                             <div class="pt-16 pl-7 pr-7">
                                 <p class="text-2xl dark:text-white">Directeur du Laboratoire:</p>
                                 <p class="font-bold text-primary dark:text-blue-500">Abdelouahed BERRICHI</p>
@@ -30,7 +30,7 @@
                                 <p class="dark:text-white">E-mail institutionnel : <span class="font-bold text-secondary">abd.berrichi@ump.ac.ma</span></p>
                             </div>
                         </div>
-                        <div class="small:mx-auto contacts small:w-[300px] small:justify-self-center small:m-8">
+                        <div class="dark:hover:bg-white/30 small:mx-auto contacts small:w-[300px] small:justify-self-center small:m-8">
                             <div class="pt-16 pl-7 pr-7">
                                 <p class="text-2xl dark:text-white">Directeur Adjoint:</p>
                                 <p class="font-bold text-primary dark:text-blue-500">Omar ZAHRAOUI</p>
@@ -38,6 +38,16 @@
                                 <p class="dark:text-white">E-mail institutionnel : <span class="font-bold text-secondary">omarzah.prf.univ@gmail.com</span></p>
                             </div>
                         </div>
+                    </div>
+                    <div class="flex flex-row items-center justify-center w-full mb-3">
+                        <a href="https://www.facebook.com/LaboratoireLURIGOR/" target="_blank" class="hover:rounded-xl hover:shadow-3xl dark:hover:bg-white/30">
+                            <div class="w-52 h-60 p-5 flex flex-col justify-between small:w-40 small:h-52">
+                                <div class="items-center text-center">
+                                    <img src="{{ asset('images/facebook.png') }}" alt="facebook">
+                                </div>
+                                <div class="text-center dark:text-white">La Page Facebook</div>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>

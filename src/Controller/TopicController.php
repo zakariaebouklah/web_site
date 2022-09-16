@@ -59,7 +59,12 @@ class TopicController extends AbstractController
             return $this->redirectToRoute("app_accueil");
         }
 
-        $relatedTs = $this->getUser()->getRelatedTopics();
+        /**
+         * @var User $user
+         */
+
+        $user = $this->getUser();
+        $relatedTs = $user->getRelatedTopics();
 
         return $this->render('topic/related.html.twig', [
             'relatedTs'=>$relatedTs

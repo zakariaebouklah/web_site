@@ -11,6 +11,8 @@ framework:
                 base_path: 'uploads/fiches/'
             programmes:
                 base_path: 'uploads/programmes/'
+            cards:
+                base_path: 'uploads/cards/'
 
     # Enables session support. Note that the session will ONLY be started if you read or write from it.
     # Remove or comment this section to explicitly disable session support.

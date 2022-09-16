@@ -54,6 +54,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: CommentForTopics::class)]
     private Collection $topicComments;
 
+    #[ORM\OneToMany(mappedBy: 'subscriber', targetEntity: Subscription::class)]
+    private Collection $userSubscriptions;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
@@ -61,6 +64,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->userTopics = new ArrayCollection();
         $this->relatedTopics = new ArrayCollection();
         $this->topicComments = new ArrayCollection();
+        $this->userSubscriptions = new ArrayCollection();
     }
 
 
@@ -300,6 +304,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString(): string
     {
         return "@" . $this->username;
+    }
+
+    /**
+     * @return Collection<int, Subscription>
+     */
+    public function getSubscriptions(): Collection
+    {
+        return $this->userSubscriptions;
+    }
+
+    public function addSubscription(Subscription $subscription): self
+    {
+        if (!$this->userSubscriptions->contains($subscription)) {
+            $this->userSubscriptions->add($subscription);
+            $subscription->setSubscriber($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubscription(Subscription $subscription): self
+    {
+        if ($this->userSubscriptions->removeElement($subscription)) {
+            // set the owning side to null (unless already changed)
+            if ($subscription->getSubscriber() === $this) {
+                $subscription->setSubscriber(null);
+            }
+        }
+
+        return $this;
     }
 
 }

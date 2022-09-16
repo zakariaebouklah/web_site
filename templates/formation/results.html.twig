@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résultats des inscriptions{% endblock %}
+
+{% block main %}
+
+    <main class="main mt-40 small:mt-32">
+
+        <div class="m-7 flex flex-col justify-between space-y-7">
+            <div id="count" class="shadow-3xl rounded-xl p-5 dark:border-2 dark:border-secondary">
+                <div>
+                    <p class="text-xl font-bold">{{ subscriptions | length }} Réponses</p>
+                </div>
+                <div>
+                    <p>
+                        {% if activeFormation %}
+                            La période d'inscription est <span class="text-green-500 font-bold">Ouverte.</span>
+                        {% else %}
+                            La période d'inscription est <span class="text-purple-500 font-bold">Clôturée.</span>.
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            <div class="shadow-3xl rounded-xl p-5 dark:border-2 dark:border-secondary" id="names">
+                <div class="font-bold text-lg bg-black/10 dark:bg-secondary dark:text-black rounded-md p-2.5 my-3">Nom et prénom</div>
+                <div id="scroll-div" class="overflow-hidden overflow-y-scroll h-52">
+                    <div id="scroll-content" class="mr-5">
+                        {% for subscription in subscriptions %}
+                            <p class="bg-black/5 dark:bg-white/30 p-1.5 my-1 rounded-md">{{ subscription.fullName }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="shadow-3xl rounded-xl p-5 dark:border-2 dark:border-secondary" id="addresses">
+                <div class="font-bold text-lg bg-black/10 dark:bg-secondary dark:text-black rounded-md p-2.5 my-3">Adresse e-mail institutionnel</div>
+                <div id="scroll-div" class="overflow-hidden overflow-y-scroll h-52">
+                    <div id="scroll-content" class="mr-5">
+                        {% for subscription in subscriptions %}
+                            <p class="bg-black/5 dark:bg-white/30 p-1.5 my-1 rounded-md">{{ subscription.uMPMail }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="shadow-3xl rounded-xl p-5 dark:border-2 dark:border-secondary" id="phones">
+                <div class="font-bold text-lg bg-black/10 dark:bg-secondary dark:text-black rounded-md p-2.5 my-3">Numéro de téléphone</div>
+                <div id="scroll-div" class="overflow-hidden overflow-y-scroll h-52">
+                    <div id="scroll-content" class="mr-5">
+                        {% for subscription in subscriptions %}
+                            <p class="bg-black/5 dark:bg-white/30 p-1.5 my-1 rounded-md">{{ subscription.phone }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="shadow-3xl rounded-xl p-5 dark:border-2 dark:border-secondary" id="labos">
+                <div class="font-bold text-lg bg-black/10 dark:bg-secondary dark:text-black rounded-md p-2.5 my-3">Laboratoire  d'attache</div>
+                <div>
+                    {{ render_chart(chartForLabos) }}
+                </div>
+            </div>
+            <div class="shadow-3xl rounded-xl p-5 dark:border-2 dark:border-secondary" id="universities">
+                <div class="font-bold text-lg bg-black/10 dark:bg-secondary dark:text-black rounded-md p-2.5 my-3">Etablissement d'attache relevant du Pôle thématique Droit, Economie et gestion de l'Université Mohammed Premier</div>
+                <div>
+                    {{ render_chart(chartForInstitution) }}
+                </div>
+            </div>
+            <div class="shadow-3xl rounded-xl p-5 dark:border-2 dark:border-secondary" id="themes">
+                <div class="font-bold text-lg bg-black/10 dark:bg-secondary dark:text-black rounded-md p-2.5 my-3">Thème de recherche</div>
+                <div id="scroll-div" class="overflow-hidden overflow-y-scroll h-52">
+                    <div id="scroll-content" class="mr-5">
+                        {% for subscription in subscriptions %}
+                            <p class="bg-black/5 dark:bg-white/30 p-1.5 my-1 rounded-md">{{ subscription.searchTheme }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="shadow-3xl rounded-xl p-5 dark:border-2 dark:border-secondary" id="year">
+                <div class="font-bold text-lg bg-black/10 dark:bg-secondary dark:text-black rounded-md p-2.5 my-3">Année d'inscription au cycle doctoral</div>
+                <div>
+                    {{ render_chart(chartForYear) }}
+                </div>
+            </div>
+            <div class="shadow-3xl rounded-xl p-5 dark:border-2 dark:border-secondary" id="ateliers">
+                <div class="font-bold text-lg bg-black/10 dark:bg-secondary dark:text-black rounded-md p-2.5 my-3">Ateliers de formation</div>
+                <div>
+                    {{ render_chart(chartForAteliers) }}
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+{% endblock %}

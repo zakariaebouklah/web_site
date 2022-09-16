@@ -23,8 +23,11 @@ class TopicCommentsService
      */
     public function handleValidForm(Request $request, CommentForTopics $comment): JsonResponse
     {
-        $request->setSession(new Session());
-        $request->getSession()->getFlashBag()->add(
+        /**
+         * @var Session $session
+         */
+        $session = $request->getSession();
+        $session->getFlashBag()->add(
           'success',
           'Votre commentaire a été ajouté.'
         );
@@ -52,8 +55,11 @@ class TopicCommentsService
      */
     public function handleEditCommentForm(Request $request, CommentForTopics $comment, FormInterface $form): JsonResponse
     {
-        $request->setSession(new Session());
-        $request->getSession()->getFlashBag()->add(
+        /**
+         * @var Session $session
+         */
+        $session = $request->getSession();
+        $session->getFlashBag()->add(
             'notice',
             'Votre commentaire a été mis à jour. Actualisez La Page...'
         );
@@ -64,10 +70,15 @@ class TopicCommentsService
         ]);
     }
 
-    public function handleDeleteComment(Request $request)
+    public function handleDeleteComment(Request $request): JsonResponse
     {
         $request->setSession(new Session());
-        $request->getSession()->getFlashBag()->add(
+
+        /**
+         * @var Session $session
+         */
+        $session = $request->getSession();
+        $session->getFlashBag()->add(
             'notice',
             'Votre commentaire a été supprimé. Actualisez La Page...'
         );

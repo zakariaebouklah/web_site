@@ -13,10 +13,10 @@
         @apply fixed left-0 top-0 w-full h-full overflow-auto bg-primary bg-opacity-70 flex justify-center items-center z-30;
     }
     .modal-content {
-        @apply z-30 dark:bg-[#242424] bg-white p-[20px] border-2 border-secondary w-[80%] opacity-100 flex flex-col font-bold dark:opacity-100 rounded-xl;
+        @apply z-30 bg-[#D19900] dark:bg-primary p-[20px] border-2 border-secondary w-[80%] opacity-100 flex flex-col font-bold dark:opacity-100 rounded-xl;
     }
     .close {
-        @apply text-center text-red-900 text-4xl border-2 border-red-900 bg-red-400 font-bold cursor-pointer rounded-xl w-32 m-auto;
+        @apply text-center content-center text-red-900 text-2xl border-2 border-red-900 hover:bg-red-400 font-bold cursor-pointer rounded-md w-20;
     }
     .root-dir {
         @apply absolute top-0 right-0 left-0 bottom-0 m-auto bg-cover overflow-hidden flex justify-center items-center;
@@ -34,6 +34,6 @@
         @apply relative top-52 left-1/2 -translate-y-1/2 -translate-x-1/2;
     }
     .main {
-        @apply w-screen min-h-[100%] small:overflow-x-hidden;
+        @apply w-screen min-h-screen small:overflow-x-hidden;
     }
 }
