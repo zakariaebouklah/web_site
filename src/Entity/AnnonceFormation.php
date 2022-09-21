@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: AnnonceFormationRepository::class)]
 class AnnonceFormation
@@ -36,6 +37,12 @@ class AnnonceFormation
 
     #[ORM\Column]
     private ?\DateTimeImmutable $dateFin = null;
+
+    /**
+     * @Gedmo\Slug(fields={"card"})
+     */
+    #[ORM\Column(type: Types::TEXT)]
+    private string $slug;
 
     #[ORM\Column(length: 255)]
     private ?string $status = null;
@@ -160,6 +167,18 @@ class AnnonceFormation
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

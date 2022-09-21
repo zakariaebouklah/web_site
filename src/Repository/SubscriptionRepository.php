@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\AnnonceFormation;
 use App\Entity\Subscription;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -40,30 +42,10 @@ class SubscriptionRepository extends ServiceEntityRepository
         }
     }
 
-//    public function findInstitutionsStats(AnnonceFormation $formation, string $institution): array
-//    {
-//        return $this->createQueryBuilder('i')
-//                    ->where('i.annonceFormation = :latestFormation')
-//                    ->andWhere('i.homeInstitution = :institution')
-//                    ->setParameter('latestFormation',$formation)
-//                    ->setParameter('institution',$institution)
-//                    ->getQuery()
-//                    ->getArrayResult()
-//            ;
-//    }
-
-    public function findAtelierStats(AnnonceFormation $formation, string $atelier): array
-    {
-        return $this->createQueryBuilder('a')
-                    ->where('a.annonceFormation = :latestFormation')
-                    ->andWhere(':atelier IN a.ateliersDeFormation')
-                    ->setParameter('latestFormation',$formation)
-                    ->setParameter('atelier',$atelier)
-                    ->getQuery()
-                    ->getArrayResult()
-            ;
-    }
-
+    /**
+     * @param AnnonceFormation $formation
+     * @return array
+     */
     public function findInstitutions(AnnonceFormation $formation): array
     {
         return $this->createQueryBuilder('i')
@@ -75,6 +57,51 @@ class SubscriptionRepository extends ServiceEntityRepository
             ->getArrayResult()
             ;
     }
+
+    /**
+     * @param AnnonceFormation $formation
+     * @return array
+     */
+    public function findAteliers(AnnonceFormation $formation): array
+    {
+        $entityManager = $this->getEntityManager();
+        $rsm = new ResultSetMappingBuilder($entityManager);
+        $rsm->addScalarResult('name', 'name');
+        $rsm->addScalarResult('count', 'count');
+
+        $sql = 'select a.name as name, count(sa.atelier_id) as count from subscription s 
+                    INNER JOIN subscription_atelier sa ON s.id = sa.subscription_id 
+                    INNER JOIN atelier a ON a.id = sa.atelier_id 
+                    WHERE s.annonce_formation_id = :formation 
+                    GROUP BY a.name;';
+        $query = $entityManager->createNativeQuery($sql, $rsm);
+        $query->setParameter('formation', $formation->getId(), Types::INTEGER);
+
+        return $query->getResult();
+    }
+
+    /**
+     * @param AnnonceFormation $formation
+     * @return array
+     */
+    public function findYears(AnnonceFormation $formation): array
+    {
+        $entityManager = $this->getEntityManager();
+        $rsm = new ResultSetMappingBuilder($entityManager);
+        $rsm->addScalarResult('inscription_year', 'year');
+        $rsm->addScalarResult('count', 'count');
+
+        $sql = 'SELECT s.inscription_year, COUNT(s.inscription_year) as count FROM subscription s 
+                    WHERE s.annonce_formation_id = :formation 
+                    GROUP BY s.inscription_year;';
+
+        $query = $entityManager->createNativeQuery($sql, $rsm);
+        $query->setParameter('formation', $formation->getId(), Types::INTEGER);
+
+        return $query->getResult();
+    }
+
+
 
 //    /**
 //     * @return Subscription[] Returns an array of Subscription objects

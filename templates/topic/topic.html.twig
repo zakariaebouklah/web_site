@@ -25,21 +25,21 @@
                 <label class="text-xl font-bold text-blue-500 dark:text-white">Titre descriptif du sujet</label>
                 {{ form_widget(form.title, {
                     'attr': {
-                        'class': 'mb-5 p-3 focus:outline-none shadow-inner rounded-xl dark:border-2 dark:border-secondary bg-black/5 w-full'
+                        'class': 'mb-5 p-3 focus:outline-none shadow-inner rounded-xl dark:bg-white/10 bg-black/5 w-full'
                     }
                 }) }}
 
                 <label class="text-xl font-bold text-blue-500 mt-5 dark:text-white">Dans quel projet ce sujet appartient?</label>
                 {{ form_widget(form.project, {
                     'attr': {
-                        'class': 'mb-5 p-3 focus:outline-none shadow-inner rounded-xl dark:border-2 dark:border-secondary bg-black/5 w-full'
+                        'class': 'mb-5 p-3 focus:outline-none shadow-inner rounded-xl dark:bg-white/10 bg-black/5 w-full'
                     }
                 }) }}
 
                 <label class="text-xl font-bold text-blue-500 mt-5 dark:text-white">Membres d'équipe concerné(e)s par ce sujet <span class="text-sm">( Maintenir le bouton CTRL pour la selection multiple )</span></label>
                 {{ form_widget(form.members, {
                     'attr': {
-                        'class': 'mb-5 p-3 focus:outline-none shadow-inner rounded-xl dark:border-2 dark:border-secondary bg-black/5 w-full text-blue-500'
+                        'class': 'mb-5 p-3 focus:outline-none shadow-inner rounded-xl dark:bg-white/10 bg-black/5 w-full text-blue-500'
                     }
                 }) }}
 
@@ -50,7 +50,7 @@
                     }
                 }) }}
 
-                <button type="submit" class="mt-5 text-primary bg-secondary rounded-xl hover:bg-[#D19900] w-[95px] h-10 pr-3 pl-3">
+                <button type="submit" class="mt-5 font-bold text-primary bg-secondary rounded-xl hover:bg-[#D19900] w-[105px] h-10 px-3">
                     {% if edit %}
                         Enregistrer
                     {% else %}

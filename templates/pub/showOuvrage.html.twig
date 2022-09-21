@@ -6,12 +6,12 @@
 
     <main class="main mt-40">
         <div class="m-5">
-            <div class="shadow-3xl dark:border-2 dark:border-secondary rounded-xl mb-10 hover:translate-y-1.5 hover:transition-all hover:ease-in-out hover:duration-300">
-                <div class="p-5 flex flex-row justify-between">
+            <div class="shadow-3xl dark:bg-white/5 rounded-xl mb-10 hover:translate-y-1.5 hover:transition-all hover:ease-in-out hover:duration-300">
+                <div class="p-5 flex flex-row justify-between items-center">
                     <div>{{ ouvrage.title }}</div>
                     <div>{{ ouvrage.createdAt | date('d/m/Y') }} à {{ ouvrage.createdAt | date('H:i') }}</div>
                     <div>
-                        <button class="text-primary bg-green-400 rounded-xl hover:bg-green-500/95 w-32 h-16">
+                        <button class="text-primary bg-green-400 rounded-xl hover:bg-green-500/95 w-36 h-9 px-3 text-center">
                             <a href="{{ asset(ouvrage.document, 'docs') }}" target="_blank">Obtenir le fichier</a>
                         </button>
                     </div>

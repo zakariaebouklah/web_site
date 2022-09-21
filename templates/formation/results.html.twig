@@ -16,7 +16,7 @@
                         {% if activeFormation %}
                             La période d'inscription est <span class="text-green-500 font-bold">Ouverte.</span>
                         {% else %}
-                            La période d'inscription est <span class="text-purple-500 font-bold">Clôturée.</span>.
+                            La période d'inscription est <span class="text-purple-500 font-bold">Clôturée.</span>
                         {% endif %}
                     </p>
                 </div>
@@ -53,8 +53,12 @@
             </div>
             <div class="shadow-3xl rounded-xl p-5 dark:border-2 dark:border-secondary" id="labos">
                 <div class="font-bold text-lg bg-black/10 dark:bg-secondary dark:text-black rounded-md p-2.5 my-3">Laboratoire  d'attache</div>
-                <div>
-                    {{ render_chart(chartForLabos) }}
+                <div id="scroll-div" class="overflow-hidden overflow-y-scroll h-52">
+                    <div id="scroll-content" class="mr-5">
+                        {% for subscription in subscriptions %}
+                            <p class="bg-black/5 dark:bg-white/30 p-1.5 my-1 rounded-md">{{ subscription.homeLaboratory }}</p>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
             <div class="shadow-3xl rounded-xl p-5 dark:border-2 dark:border-secondary" id="universities">

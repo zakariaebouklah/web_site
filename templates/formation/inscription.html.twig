@@ -9,17 +9,20 @@
         {% if not form %}
 
             <div class="m-5 w-1/2 small:p-5 relative small:top-24 left-1/2 small:-translate-y-1/4 translate-y-1/4 -translate-x-1/2 h-80 small:h-64 shadow-3xl rounded-xl dark:border-2 dark:border-green-500 flex flex-col justify-evenly items-center">
+                <img src="{{ asset('images/double-check.png') }}" alt="ok" class="w-16 h-16 small:w-10 small:h-10 absolute -top-7 -right-7 small:-right-2 small:-top-5 rotate-12">
                 <p class="text-xl text-center small:text-xs font-bold hover:text-green-500">Vous êtes déjà inscrit dans la formation</p>
-                <img src="{{ asset('images/valide.png') }}" alt="déjaInscrit" class="w-32 h-32 small:w-16 small:h-16">
+                <img src="{{ asset('images/valide.png') }}" alt="déjaInscrit" class="w-32 h-32 small:w-16 small:h-16 animate-bounce relative">
             </div>
 
             <div class="h-7 mt-7"></div>
         {% else%}
 
+            <p class="text-center my-9 small:my-5 md:font-bold small:text-sm">Inscrivez-vous et embarquez à bord du Onboarding doctoring !</p>
             <div class="m-5 h-full">
+
                 {{ form_start(form, {
                     'attr': {
-                        'class': 'ml-16 mr-16 shadow-3xl dark:border-2 dark:border-secondary rounded-xl h-full'
+                        'class': 'ml-16 mr-16 shadow-3xl dark:border-2 dark:border-secondary rounded-xl h-full small:ml-0.5 small:mr-0.5'
                     }
                 }) }}
                 <div class="p-5 flex flex-col justify-between">
@@ -68,7 +71,7 @@
                         }
                     }) }}
                     <label class="text-xl text-blue-700 dark:text-secondary">Ateliers de formation : Vous pouvez vous inscrire à autant d'ateliers que vous voulez</label>
-                    {{ form_widget(form.ateliersDeFormation , {
+                    {{ form_widget(form.ateliers , {
                         'attr': {
                             'class': 'mb-10 bg-black/5 justify-between p-5 shadow-inner rounded-xl dark:border-2 dark:border-secondary w-full'
                         }

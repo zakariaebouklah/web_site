@@ -116,29 +116,50 @@ window.addEventListener('load', typewriter);
 
 /*-------------------------User Settings/Logout------------------*/
 
-const user = document.querySelector("#user");
+const btnUserModal = document.querySelector("#arrow");
 const userModal = document.querySelector("#user-modal");
 
-if (user !== null)
+if (btnUserModal)
 {
-    user.addEventListener("mouseover", () => {
-        userModal.classList.remove("invisible");
-        userModal.classList.add("visible");
+    btnUserModal.addEventListener("click", function () {
+        if (btnUserModal.classList.contains("rotate-180"))
+        {
+            btnUserModal.classList.remove("rotate-180");
+            btnUserModal.classList.add("rotate-0");
+            userModal.classList.remove("visible");
+            userModal.classList.add("invisible");
+        } else {
+            btnUserModal.classList.remove("rotate-0");
+            btnUserModal.classList.add("rotate-180");
+            userModal.classList.remove("invisible");
+            userModal.classList.add("visible");
+        }
     })
 }
 
-if (userModal !== null)
-{
-    userModal.addEventListener("mouseover", () => {
-        userModal.classList.remove("invisible");
-        userModal.classList.add("visible");
-    })
+// const user = document.querySelector("#user");
+// const userModal = document.querySelector("#user-modal");
 
-    userModal.addEventListener("mouseout", () => {
-        userModal.classList.remove("visible");
-        userModal.classList.add("invisible");
-    })
-}
+// if (user !== null)
+// {
+//     user.addEventListener("mouseover", () => {
+//         userModal.classList.remove("invisible");
+//         userModal.classList.add("visible");
+//     })
+// }
+//
+// if (userModal !== null)
+// {
+//     userModal.addEventListener("mouseover", () => {
+//         userModal.classList.remove("invisible");
+//         userModal.classList.add("visible");
+//     })
+//
+//     userModal.addEventListener("mouseout", () => {
+//         userModal.classList.remove("visible");
+//         userModal.classList.add("invisible");
+//     })
+// }
 
 /*-------------------------Load More Functionality------------------*/
 

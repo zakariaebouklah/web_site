@@ -57,6 +57,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'subscriber', targetEntity: Subscription::class)]
     private Collection $userSubscriptions;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $lastSeen = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $profile = null;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
@@ -332,6 +338,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $subscription->setSubscriber(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLastSeen(): ?\DateTimeImmutable
+    {
+        return $this->lastSeen;
+    }
+
+    public function setLastSeen(\DateTimeImmutable $lastSeen): self
+    {
+        $this->lastSeen = $lastSeen;
+
+        return $this;
+    }
+
+    public function getProfile(): ?string
+    {
+        return $this->profile;
+    }
+
+    public function setProfile(?string $profile): self
+    {
+        $this->profile = $profile;
 
         return $this;
     }

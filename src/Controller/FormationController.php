@@ -17,6 +17,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 
@@ -125,13 +127,16 @@ class FormationController extends AbstractController
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     #[Route('/résultats_d\'inscription', name: "app_results")]
-    public function resultsFormation(ChartBuilderInterface $chartBuilder, SubscriptionRepository $repository, AnnonceFormationRepository $annonceFormationRepository): Response
+    public function resultsFormation(CacheInterface $cache, ChartBuilderInterface $chartBuilder, SubscriptionRepository $repository, AnnonceFormationRepository $annonceFormationRepository): Response
     {
         /**
          * @var AnnonceFormation $activeFormation
-         * @var AnnonceFormation $latestFormation
          */
         $activeFormation = $annonceFormationRepository->findCurrentFormation();
+
+        /**
+         * @var AnnonceFormation $latestFormation
+         */
         $latestFormation = $annonceFormationRepository->findOneBy([], ['droppedAt'=>'DESC']);
 
         /**
@@ -143,29 +148,74 @@ class FormationController extends AbstractController
         /**
          * getting the institutions stats.
          */
-//        $FSJES = $repository->findInstitutionsStats($latestFormation, "Faculté des Sciences Juridiques, Economiques et Sociales d'Oujda");
-//        $ENCG = $repository->findInstitutionsStats($latestFormation, "Ecole Nationale de Commerce et de Gestion d'Oujda");
-//        $EST = $repository->findInstitutionsStats($latestFormation, "Ecole Supérieure de Technologie d'Oujda");
-//        $FPN = $repository->findInstitutionsStats($latestFormation, "Faculté Pluridisciplinaire de Nador");
-//        $Other = $repository->findInstitutionsStats($latestFormation, "Autres...");
 
-        dd($repository->findInstitutions($latestFormation));
+        $valuesForInstitution = $cache->get('institution_cache', function (ItemInterface $item) use ($repository, $latestFormation) {
+            $item->expiresAfter(3600);
+
+            $arr = $repository->findInstitutions($latestFormation);
+
+            $institutions = [];
+            $counts = [];
+
+            foreach ($arr as $elm)
+            {
+                $institutions[] = $elm['homeInstitution'];
+                $counts[] = $elm['count'];
+            }
+
+            return ['institutions' => $institutions, 'counts' => $counts];
+        });
 
         /**
          * getting the ateliers stats.
          */
 
-//        $DI = $repository->findAtelierStats($latestFormation, "");
+//        $cache->delete('atelier_cache');
+        $valuesForAtelier = $cache->get('atelier_cache', function (ItemInterface $item) use ($repository, $latestFormation) {
+            $item->expiresAfter(3600);
+
+            $arr = $repository->findAteliers($latestFormation);
+
+            $labels = [];
+            $counts = [];
+
+            foreach ($arr as $elm)
+            {
+                $labels[] = $elm['name'];
+                $counts[] = $elm['count'];
+            }
+
+            return ['labels' => $labels, 'counts' => $counts];
+        });
+
+        /**
+         * getting the years stats.
+         */
+
+        $valuesForYears = $cache->get('years_cache', function (ItemInterface $item) use ($repository, $latestFormation) {
+            $item->expiresAfter(3600);
+
+            $arr = $repository->findYears($latestFormation);
+
+            $years = [];
+            $counts = [];
+
+            foreach ($arr as $elm)
+            {
+                $years[] = $elm['year'];
+                $counts[] = $elm['count'];
+            }
+
+            return ['years' => $years, 'counts' => $counts];
+        });
+
+        /**
+         * Charts...
+         */
 
         $chartForInstitution = $chartBuilder->createChart(Chart::TYPE_BAR);
         $chartForInstitution->setData([
-            'labels'=>[
-                'Faculté des Sciences Juridiques, Economiques et Sociales d\'Oujda',
-                'Ecole Nationale de Commerce et de Gestion d\'Oujda',
-                'Ecole Supérieure de Technologie d\'Oujda',
-                'Faculté Pluridisciplinaire de Nador',
-                'Autres...',
-                ],
+            'labels'=>$valuesForInstitution['institutions'],
             'datasets'=>[
                 [
                     'backgroundColor' => [
@@ -176,7 +226,7 @@ class FormationController extends AbstractController
                         'rgb(160, 123, 230)',
                     ],
                     'borderColor' => 'rgb(0, 0, 0)',
-                    'data' => [count($FSJES), count($ENCG), count($EST), count($FPN), count($Other)],
+                    'data' => $valuesForInstitution['counts'],
                     'axis'=>'y',
                     'borderWidth'=>2
                 ]
@@ -195,14 +245,7 @@ class FormationController extends AbstractController
 
         $chartForYear = $chartBuilder->createChart(Chart::TYPE_PIE);
         $chartForYear->setData([
-            'labels'=>[
-                'Première année',
-                'Deuxième année',
-                'Troisième année',
-                'Quatrième année',
-                'Cinquième année',
-                'Sixième année'
-            ],
+            'labels'=>$valuesForYears['years'],
             'datasets'=>[
                 [
                     'backgroundColor' => [
@@ -214,7 +257,7 @@ class FormationController extends AbstractController
                         'rgb(111, 29, 87)'
                     ],
                     'borderColor' => 'rgb(0, 0, 0)',
-                    'data' => [15, 10, 5, 2, 20, 30],
+                    'data' => $valuesForYears['counts'],
                 ]
             ]
         ]);
@@ -229,62 +272,54 @@ class FormationController extends AbstractController
 
         /*--------------------------------------------------------------------------------*/
 
-        $chartForLabos = $chartBuilder->createChart(Chart::TYPE_BAR);
-        $chartForLabos->setData([
-            'labels'=>[
-                'Communication éducation linguistique et Humanités numériques',
-                'GRET',
-                'Interdisciplinaire de Recherche Economiques, Économétriques et Managériales',
-                'LARGAIM',
-                'LERITEDA',
-                'LIRAM',
-                'LURIGOR',
-                'LURICOR',
-                'MARSAG ENCGT',
-                'MADEO',
-                'Économie sociale et solidaire et développement local',
-            ],
-            'datasets'=>[
-                [
-                    'backgroundColor' => [
-                        'rgb(255, 185, 49)'
-                    ],
-                    'borderColor' => 'rgb(0, 0, 0)',
-                    'data' => [15, 10, 5, 2, 20, 30, 12, 6, 5, 18, 7],
-                ]
-            ]
-        ]);
-        $chartForLabos->setOptions([
-            'indexAxis'=>'y',
-            'plugins'=> [
-                'legend'=>[
-                    'display'=> false
-                ]
-            ]
-        ]);
+//        $chartForLabos = $chartBuilder->createChart(Chart::TYPE_BAR);
+//        $chartForLabos->setData([
+//            'labels'=>[
+//                'Communication éducation linguistique et Humanités numériques',
+//                'GRET',
+//                'Interdisciplinaire de Recherche Economiques, Économétriques et Managériales',
+//                'LARGAIM',
+//                'LERITEDA',
+//                'LIRAM',
+//                'LURIGOR',
+//                'LURICOR',
+//                'MARSAG ENCGT',
+//                'MADEO',
+//                'Économie sociale et solidaire et développement local',
+//            ],
+//            'datasets'=>[
+//                [
+//                    'backgroundColor' => [
+//                        'rgb(255, 185, 49)'
+//                    ],
+//                    'borderColor' => 'rgb(0, 0, 0)',
+//                    'data' => [15, 10, 5, 2, 20, 30, 12, 6, 5, 18, 7],
+//                ]
+//            ]
+//        ]);
+//        $chartForLabos->setOptions([
+//            'indexAxis'=>'y',
+//            'plugins'=> [
+//                'legend'=>[
+//                    'display'=> false
+//                ]
+//            ]
+//        ]);
 
         /*--------------------------------------------------------------------------------*/
 
+
+
         $chartForAteliers = $chartBuilder->createChart(Chart::TYPE_BAR);
         $chartForAteliers->setData([
-            'labels'=>[
-                'Le doctorat n’est pas un long fleuve tranquille (DEKHISSI Ilyass - EST - UMP Oujda)',
-                'Développer son esprit scientifique par les 2C : Connaissance & Conscience  (MAJIDI Fouzia - FSJES - UMP Oujda)',
-                'Interdisciplinaire de Recherche Economiques, Économétriques et Managériales',
-                'La motivation dans la recherche scientifique (BERRICHI Abdelouahed - FSJES - UMP Oujda)',
-                'Spécifier son objet de recherche (EL ATTAR Abdellilah - FSJES - UMP Oujda)',
-                'Conduire son projet de recherche selon la perspective quantitative et qualitative (Karim BENNIS - FSJES - USMBA Fès)',
-                'Design de recherche : construire son modèle de recherche dans une perspective hypothético-déductive (HAFIANE Mohammed Amine - FSJES - UMP Oujda)',
-                'Réussir son étude empirique : De l’opérationnalisation à la modélisation par les équations structurelles et la vérification des hypothèses (EDDAOU Mohammed - FSJES- UMP Oujda)',
-                'L’art de rédiger son article scientifique (FIKRI Khalid - FSJES - UMP Oujda)',
-            ],
+            'labels'=> $valuesForAtelier['labels'],
             'datasets'=>[
                 [
                     'backgroundColor' => [
                         'rgb(255, 185, 49)'
                     ],
                     'borderColor' => 'rgb(0, 0, 0)',
-                    'data' => [15, 10, 5, 2, 20, 30, 12, 6, 5],
+                    'data' => $valuesForAtelier['counts'],
                 ]
             ]
         ]);
@@ -304,7 +339,6 @@ class FormationController extends AbstractController
             'activeFormation'=>$activeFormation,
             'chartForInstitution'=>$chartForInstitution,
             'chartForYear'=>$chartForYear,
-            'chartForLabos'=>$chartForLabos,
             'chartForAteliers'=>$chartForAteliers
         ]);
     }
@@ -357,8 +391,23 @@ class FormationController extends AbstractController
         }
 
         return $this->render('formation/newFormationEdition.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'edit' => false
         ]);
+    }
+
+    /**
+     * Cache Demo
+     */
+    #[Route('/cache', name: 'app_cache')]
+    public function cacher(CacheInterface $cache): void
+    {
+        $value = $cache->get('yes', function (ItemInterface $item) {
+            $item->expiresAfter(60);
+
+            return rand(1, 100);
+        });
+        dd($value);
     }
 
 }

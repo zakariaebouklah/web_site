@@ -5,16 +5,17 @@
 {% block main %}
 
     <main class="main mt-40">
-        <div class="m-5 topic-container">
-            <div class="shadow-3xl dark:border-2 dark:border-secondary rounded-xl" data-id="{{ topic.id }}">
+        <div class="m-7 topic-container">
+            <div class="relative shadow-3xl dark:bg-white/5 rounded-xl" data-id="{{ topic.id }}">
+                <img src="{{ asset('images/bubble-chat.png') }}" alt="topic-chat" class="-rotate-12 w-16 h-16 small:w-10 small:h-10 absolute -top-3.5 -left-2 small:-right-2 small:-top-5">
                 <div class="p-5">
                     <div class="text-center text-3xl font-bold mb-3">{{ topic.title }}</div>
                     <div class="text-center">Dans le Projet <em class="text-center font-bold">{{ topic.project }}</em></div>
-                    <div class="flex flex-row justify-between">
+                    <div class="flex flex-row justify-between m-3">
                         <div class="w-full text-center">Déposé Le <span class="text-xl font-bold">{{ topic.createdAt | date('d/m/Y') }}</span> à <span class="text-xl font-bold">{{ topic.createdAt | date('H:i') }}</span></div>
                     </div>
-                    <div class="ml-5 mr-5 mt-7 mb-7">
-                        <p>{{ topic.content | raw }}</p>
+                    <div class="shadow-inner bg-black/5 dark:bg-white/10 p-2.5 rounded-xl small:text-sm overflow-hidden overflow-x-scroll">
+                        {{ topic.content | raw }}
                     </div>
                 </div>
                 <hr>

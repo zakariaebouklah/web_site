@@ -8,6 +8,8 @@ parameters:
     fiches_directory: '%kernel.project_dir%/public/uploads/fiches'
     programmes_directory: '%kernel.project_dir%/public/uploads/programmes'
     cards_directory: '%kernel.project_dir%/public/uploads/cards'
+    profile_directory: '%kernel.project_dir%/public/uploads/profiles'
+    timezone: 'Africa/Casablanca'
 
 services:
     # default configuration for services in *this* file
@@ -23,6 +25,10 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+
+    App\Services\RequestListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

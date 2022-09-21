@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Atelier;
 use App\Entity\Subscription;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -43,19 +45,10 @@ class SubscriptionFormType extends AbstractType
                     'Sixième année'=>'Sixième année',
                 ]
             ])
-            ->add('ateliersDeFormation', ChoiceType::class, [
-                'choices'=>[
-                    'Le doctorat n’est pas un long fleuve tranquille (DEKHISSI Ilyass - EST - UMP Oujda)'=>'Le doctorat n’est pas un long fleuve tranquille (DEKHISSI Ilyass - EST - UMP Oujda)',
-                    'Développer son esprit scientifique par les 2C : Connaissance & Conscience  (MAJIDI Fouzia - FSJES - UMP Oujda)'=>'Développer son esprit scientifique par les 2C : Connaissance & Conscience  (MAJIDI Fouzia - FSJES - UMP Oujda)',
-                    'La motivation dans la recherche scientifique (BERRICHI Abdelouahed - FSJES - UMP Oujda)'=>'La motivation dans la recherche scientifique (BERRICHI Abdelouahed - FSJES - UMP Oujda)',
-                    'Spécifier son objet de recherche (EL ATTAR Abdellilah - FSJES - UMP Oujda)'=>'Spécifier son objet de recherche (EL ATTAR Abdellilah - FSJES - UMP Oujda)',
-                    'Conduire son projet de recherche selon la perspective quantitative et qualitative (Karim BENNIS - FSJES - USMBA Fès)'=>'Conduire son projet de recherche selon la perspective quantitative et qualitative (Karim BENNIS - FSJES - USMBA Fès)',
-                    'Design de recherche : construire son modèle de recherche dans une perspective hypothético-déductive (HAFIANE Mohammed Amine - FSJES - UMP Oujda)'=>'Design de recherche : construire son modèle de recherche dans une perspective hypothético-déductive (HAFIANE Mohammed Amine - FSJES - UMP Oujda)',
-                    'Réussir son étude empirique : De l’opérationnalisation à la modélisation par les équations structurelles et la vérification des hypothèses (EDDAOU Mohammed - FSJES- UMP Oujda)'=>'Réussir son étude empirique : De l’opérationnalisation à la modélisation par les équations structurelles et la vérification des hypothèses (EDDAOU Mohammed - FSJES- UMP Oujda)',
-                    'L’art de rédiger son article scientifique (FIKRI Khalid - FSJES - UMP Oujda)'=>'L’art de rédiger son article scientifique (FIKRI Khalid - FSJES - UMP Oujda)',
-                ],
+            ->add('ateliers', EntityType::class , [
+                'class'=>Atelier::class,
                 'multiple'=>true,
-                'expanded'=>true
+                'expanded'=>true,
             ])
         ;
     }

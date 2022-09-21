@@ -15,7 +15,7 @@
                         </div>
                         <div class="p-5 flex flex-row justify-center items-center">
                             <a class="text-xs font-bold" href="{{ path("app_ouvrage", {"slug" : ouvrage.slug}) }}">
-                                <button class="dark:text-black dark:bg-thirdly flex flex-row justify-center items-center text-primary bg-secondary rounded-xl hover:bg-yellow-500/95 w-[75px] h-12 mr-5">
+                                <button class="dark:text-black dark:bg-thirdly flex flex-row justify-center items-center text-primary bg-secondary rounded-xl hover:bg-[#D19900] w-[75px] h-12 mr-5">
                                     <img src="{{ asset('images/access.png') }}" alt="delete" class="w-7 h-7">
                                 </button>
                             </a>
@@ -36,9 +36,9 @@
                 {% endfor %}
             </div>
             {% if 'ROLE_ADMIN' in app.user.roles %}
-                <a href="{{ path("app_new_article") }}" target="_blank">
+                <a href="{{ path("app_new_ouvrage") }}" target="_blank">
                     <div class="items-center text-center">
-                        <button class="dark:bg-secondary dark:text-black font-bold p-2 text-thirdly bg-primary hover:bg-[#0F52BA] w-[165px] h-16 mr-5 rounded-xl">
+                        <button class="dark:bg-secondary text-black font-bold p-2 hover:bg-primary hover:text-secondary dark:hover:text-primary w-[165px] h-16 mr-5 rounded-xl shadow-3xl">
                             Ajouter Un Nouveau Ouvrage
                         </button>
                     </div>

@@ -17,36 +17,36 @@
 
         {{ form_start(form, {
             'attr': {
-                'class': 'ml-16 mr-16 shadow-3xl dark:border-2 dark:border-secondary rounded-xl h-full'
+                'class': 'ml-16 mr-16 shadow-3xl dark:bg-white/5 rounded-xl h-full'
             }
         }) }}
         <div class="p-5 flex flex-col justify-between">
             {{ form_row(form.title , {
                 label: 'titre de l\'événement',
                 'attr': {
-                    'class': 'mb-5 p-3 focus:outline-none shadow-inner rounded-xl dark:border-2 dark:border-secondary bg-black/5 w-full'
+                    'class': 'mb-5 p-3 focus:outline-none shadow-inner rounded-xl dark:bg-white/10 bg-black/5 w-full'
                 }
             }) }}
             {{ form_row(form.description , {
                 label: 'description de l\'événement',
                 'attr': {
-                    'class': 'mb-5 p-3 focus:outline-none shadow-inner rounded-xl dark:border-2 dark:border-secondary bg-black/5 w-full'
+                    'class': 'mb-5 p-3 focus:outline-none shadow-inner rounded-xl dark:bg-white/10 bg-black/5 w-full'
                 }
             }) }}
             {{ form_row(form.fiche , {
                 label: 'fiche de l\'événement',
                 'attr': {
-                    'class': 'mb-5 p-3 focus:outline-none shadow-inner rounded-xl dark:border-2 dark:border-secondary bg-black/5 w-full'
+                    'class': 'mb-5 p-3 focus:outline-none shadow-inner rounded-xl dark:bg-white/10 bg-black/5 w-full'
                 }
             }) }}
             {{ form_row(form.programme , {
                 label: 'programme de l\'événement',
                 'attr': {
-                    'class': 'mb-5 p-3 focus:outline-none shadow-inner rounded-xl dark:border-2 dark:border-secondary bg-black/5 w-full'
+                    'class': 'mb-5 p-3 focus:outline-none shadow-inner rounded-xl dark:bg-white/10 bg-black/5 w-full'
                 }
             }) }}
 
-            <button type="submit" class="mt-3 text-primary bg-secondary rounded-xl hover:bg-[#D19900] font-bold w-[95px] h-10">
+            <button type="submit" class="mt-3 text-primary bg-secondary rounded-xl hover:bg-[#D19900] font-bold w-[105px] h-10 px-2.5">
                 {% if edit %}
                     Enregistrer
                 {% else %}

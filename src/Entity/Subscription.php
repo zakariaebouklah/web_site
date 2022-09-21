@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SubscriptionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SubscriptionRepository::class)]
@@ -34,12 +36,6 @@ class Subscription
     #[ORM\Column(length: 255)]
     private ?string $inscriptionYear = null;
 
-    /**
-     * @var array<string>
-     */
-    #[ORM\Column(length: 255)]
-    private ?array $ateliersDeFormation = null;
-
     #[ORM\ManyToOne(inversedBy: 'subscriptions')]
     #[ORM\JoinColumn(nullable: false)]
     private ?AnnonceFormation $annonceFormation = null;
@@ -50,6 +46,14 @@ class Subscription
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\ManyToMany(targetEntity: Atelier::class, inversedBy: 'subscriptions')]
+    private Collection $ateliers;
+
+    public function __construct()
+    {
+        $this->ateliers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -140,24 +144,6 @@ class Subscription
         return $this;
     }
 
-    /**
-     * @return string[]|null
-     */
-    public function getAteliersDeFormation(): ?array
-    {
-        return $this->ateliersDeFormation;
-    }
-
-    /**
-     * @param array<string> $ateliersDeFormation
-     */
-    public function setAteliersDeFormation(array $ateliersDeFormation): self
-    {
-        $this->ateliersDeFormation = $ateliersDeFormation;
-
-        return $this;
-    }
-
     public function getAnnonceFormation(): ?AnnonceFormation
     {
         return $this->annonceFormation;
@@ -190,6 +176,30 @@ class Subscription
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Atelier>
+     */
+    public function getAteliers(): Collection
+    {
+        return $this->ateliers;
+    }
+
+    public function addAtelier(Atelier $atelier): self
+    {
+        if (!$this->ateliers->contains($atelier)) {
+            $this->ateliers->add($atelier);
+        }
+
+        return $this;
+    }
+
+    public function removeAtelier(Atelier $atelier): self
+    {
+        $this->ateliers->removeElement($atelier);
 
         return $this;
     }

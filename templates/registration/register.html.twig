@@ -3,13 +3,13 @@
 {% block title %}Inscription!{% endblock %}
 
 {% block main %}
-    <div class="flex flex-row items-center justify-center small:flex-col small:justify-between">
+    <div class="flex flex-row items-center justify-center space-x-16 small:flex-col small:justify-between">
         <div>
-            <img src="{{ asset('images/Lurigor500.jpg') }}" alt="Lurigor" class="mt-5">
+            <img src="{{ asset('images/Lurigor500.jpg') }}" alt="Lurigor" class="mt-5 mb-5 rounded-xl">
         </div>
         {{ form_start(registrationForm, {
             'attr' : {
-                'class': 'ml-16 mr-16 h-[470px] w-[550px] small:w-[350px] rounded-xl shadow-3xl'
+                'class': 'ml-16 mr-16 h-[500px] w-[550px] small:w-[350px] rounded-xl shadow-3xl dark:bg-white/5'
             }
         }) }}
 

@@ -37,11 +37,16 @@ module.exports = {
             thirdly: 'hsl(210.9,52.2%,86.9%)'
         },
         animation : {
-            'blink': 'blinker 1s linear infinite'
+            'blink': 'blinker 1s linear infinite',
+            'rotation': 'spinner 3s ease-in-out infinite'
         },
         keyframes: {
             blinker: {
                     '50%': {'opacity': '0'}
+            },
+            spinner: {
+                '0%': { transform: 'rotate(0deg)' },
+                '100%': { transform: 'rotate(360deg)' },
             }
         }
     },

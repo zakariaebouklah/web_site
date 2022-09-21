@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello Zaki!{% endblock %}
+
+{% block main %}
+
+    <main class="main mt-44 small:mt-28">
+
+        <div class="m-7">
+            <p class="m-7 text-lg">Active users : <span class="text-green-400 font-bold">{{ activeUsers | length}}</span></p>
+
+            <table class="w-full">
+                <thead class="bg-green-500 text-black">
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Password</th>
+                    <th>last Seen At</th>
+                    <th>Roles</th>
+                </tr>
+                </thead>
+                <tbody class="bg-green-300 text-[#242424] text-center">
+                {% for user in activeUsers %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.password }}</td>
+                        <td class="font-bold">{{ user.lastSeen | date('d-m-y H:i:s') }}</td>
+                        <td>{{ user.roles | join(', ') }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <p class="m-7 text-lg">All users : <span class="text-[#D19900] font-bold">{{ users | length}}</span></p>
+
+            <table>
+                <thead class="bg-[#D19900] text-black">
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Password</th>
+                    <th>last Seen At</th>
+                    <th>N° of articles</th>
+                    <th>N° of articles comments</th>
+                    <th>N° of topics as creator</th>
+                    <th>N° of topics as participant</th>
+                    <th>N° of topic comments</th>
+                    <th>N° of subscriptions</th>
+                </tr>
+                </thead>
+                <tbody class="bg-secondary text-[#242424] text-center">
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.password }}</td>
+                        <td class="font-bold">{{ user.lastSeen | date('d-m-y H:i:s') }}</td>
+                        <td>{{ user.articles | length }}</td>
+                        <td>{{ user.articleComments | length }}</td>
+                        <td>{{ user.userTopics | length }}</td>
+                        <td>{{ user.relatedTopics | length }}</td>
+                        <td>{{ user.topicComments | length }}</td>
+                        <td>{{ user.subscriptions | length }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+{% endblock %}

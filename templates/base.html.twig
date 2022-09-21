@@ -20,37 +20,45 @@
     <body class="dark:bg-primary dark:text-white transition-colors duration-300 flex flex-col flex-grow justify-between overflow-x-hidden h-full">
         {% if app.user %}
         <header class="fixed bg-secondary w-screen h-24 top-0 z-20 small:w-screen small:h-20 flex flex-row justify-between" id="nav1">
-            <div class="flex flex-row justify-between">
+            <div class="flex flex-row justify-between w-1/2">
                 <div class="flex flex-row">
-                    <img src="{{ asset('images/ump-bg-none.png') }}" alt="UMP" class="w-[120px] h-[90px] small:w-[130px] small:h[50px]">
-                    <img src="{{ asset('images/lurigor-bg-none.png') }}" alt="LURIGOR" class="w-[90px] h-[90px] small:w-[70px] small:h[50px]">
+                    <img src="{{ asset('images/output-onlinepngtools.png') }}" alt="UMP">
+                    <img src="{{ asset('images/lurigor-bg-none.png') }}" alt="LURIGOR" class="w-40">
                 </div>
             </div>
             <div class="justify-content-center w-1/2 text-center items-center">
-                <button id="btn" class="absolute top-1/3 right-7 small:right-4 w-10 h-5 rounded-2xl bg-white flex items-center transition duration-300 focus:outline-none">
+                <button id="btn" class="absolute top-1/3 right-7 small:right-4 w-10 h-5 rounded-2xl bg-white flex items-center transition duration-500 focus:outline-none">
                     <div id="switch-toggle" class="w-6 h-6 relative rounded-full transition duration-500 transform bg-thirdly -translate-x-2 text-white">
                         <i class="fa-solid fa-lightbulb text-primary"></i>
                     </div>
                 </button>
             </div>
         </header>
-        <nav class="fixed bg-primary h-16 w-screen flex flex-row justify-between top-24 z-20 small:h-10 small:top-20" id="nav2">
+        <nav class="fixed dark:border-b-2 dark:border-b-thirdly bg-primary h-16 w-screen flex flex-row justify-between top-24 z-20 small:h-10 small:top-20" id="nav2">
             <div class="text-center pt-2 ml-5 small:pt-1.5">
                 <div id="user" class="flex flex-row">
-                    <i class="md:mt-1.5 fa-solid fa-circle-user cursor-pointer text-3xl text-thirdly small:text-2xl"></i>
-                    <span class="md:ml-1 md:mt-0.5 text-center text-base text-white small:p-1.5 md:p-2 font-bold small:text-sm">{{ app.user.username }}</span>
+                    {% if app.user.profile %}
+                        <img src="{{ asset('uploads/profiles/' ~ app.user.profile) }}" alt="profile" class="rounded-full w-[50px] h-[50px] small:w-[32px] small:h-[32px]">
+                    {% else %}
+                        <i class="md:mt-1.5 fa-solid fa-circle-user text-3xl text-thirdly small:text-2xl"></i>
+                    {% endif %}
+                    <span class="md:ml-1 md:mt-0.5 text-center text-lg text-white small:p-1.5 md:p-2 font-bold small:text-sm">{{ app.user.username }}</span>
+                    <button id="arrow" class="w-7 h-7 small:w-5 small:h-5 mt-3 small:mt-2 transition-all ease-in-out duration-300">
+                        <img src="{{ asset('images/down-arrow.png') }}" alt="arrow">
+                    </button>
                 </div>
-                <div class="bg-secondary w-60 h-24 rounded-xl transition-all delay-75 ease-linear duration-300 invisible" id="user-modal">
+                <div class="bg-secondary w-60 h-32 rounded-xl transition-all ease-in-out duration-500 invisible" id="user-modal">
                     <ul class="flex flex-col justify-between p-5">
                         <li>
                             <a href="{{ path("app_logout") }}" class="flex flex-row justify-between">
-                                <span class="font-bold text-base xl:text-sm">Déconnexion</span>
+                                <span class="hover:border-2 hover:border-black hover:transition-all hover:ease-in-out hover:duration-300 hover:rounded-md hover:bg-[#D19900] p-1 font-bold text-base xl:text-sm">Déconnexion</span>
                                 <i class="fa-solid fa-right-from-bracket pt-[8px] text-primary"></i>
                             </a>
                         </li>
-                        <li class="pt-2">
-                            <a href="{{ path("app_user_edit", {"username": app.user.username}) }}" target="_blank" class="flex flex-row justify-between">
-                                <span class="font-bold text-base xl:text-sm">Réglages</span>
+                        <hr class="mt-2 mb-2">
+                        <li>
+                            <a href="{{ path("app_user_stuffs", {"username": app.user.username}) }}" target="_blank" class="flex flex-row justify-between">
+                                <span class="hover:border-2 hover:border-black hover:transition-all hover:ease-in-out hover:duration-300 hover:rounded-md hover:bg-[#D19900] p-1 font-bold text-base xl:text-sm">Réglages</span>
                                 <i class="fa-solid fa-gear pt-[8px] text-primary"></i>
                             </a>
                         </li>
@@ -61,12 +69,12 @@
                 <li class="md:hidden small:visible small:text-white">
                     <button id="MenuBtnForSmall"><i class="fa-solid fa-bars small:text-lg"></i></button>
                 </li>
-                <li data-common="items" class="hover:text-[#D19900] text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs small:hidden"><a href="{{ path("app_accueil") }}">Accueil</a></li>
-                <li data-common="items" class="hover:text-[#D19900] text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs small:hidden"><a href="{{ path("app_us") }}">Qui sommes nous?</a></li>
-                <li data-common="items" class="hover:text-[#D19900] text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs small:hidden"><a href="{{ path("app_pub") }}">Publications scientifiques</a></li>
-                <li data-common="items" class="hover:text-[#D19900] text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs small:hidden"><a href="{{ path("app_manifestation") }}">Manifestations scientifiques</a></li>
-                <li data-common="items" class="hover:text-[#D19900] text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs small:hidden"><a href="{{ path("app_formation_doctorale") }}">Onboarding doctoring</a></li>
-                <li data-common="items" class="hover:text-[#D19900] text-secondary text-lg text-center pt-3.5 xl:text-base sm:text-xs small:hidden"><a href="{{ path("app_themes") }}">Groupes d'intérêt thématique</a></li>
+                <li data-common="items" class="hover:text-[#D19900] text-secondary text-lg text-center pt-3.5 xl:text-sm sm:text-xs small:hidden"><a href="{{ path("app_accueil") }}">Accueil</a></li>
+                <li data-common="items" class="hover:text-[#D19900] text-secondary text-lg text-center pt-3.5 xl:text-sm sm:text-xs small:hidden"><a href="{{ path("app_us") }}">Qui sommes nous?</a></li>
+                <li data-common="items" class="hover:text-[#D19900] text-secondary text-lg text-center pt-3.5 xl:text-sm sm:text-xs small:hidden"><a href="{{ path("app_pub") }}">Publications scientifiques</a></li>
+                <li data-common="items" class="hover:text-[#D19900] text-secondary text-lg text-center pt-3.5 xl:text-sm sm:text-xs small:hidden"><a href="{{ path("app_manifestation") }}">Manifestations scientifiques</a></li>
+                <li data-common="items" class="hover:text-[#D19900] text-secondary text-lg text-center pt-3.5 xl:text-sm sm:text-xs small:hidden"><a href="{{ path("app_formation_doctorale") }}">Onboarding doctoring</a></li>
+                <li data-common="items" class="hover:text-[#D19900] text-secondary text-lg text-center pt-3.5 xl:text-sm sm:text-xs small:hidden"><a href="{{ path("app_themes") }}">Groupes d'intérêt thématique</a></li>
             </ul>
         </nav>
         <div id="menu">
@@ -101,7 +109,7 @@
             </div>
         </div>
         {% else %}
-            <header class="bg-white shadow-3xl h-24 w-screen flex flex-row justify-between">
+            <header class="bg-white dark:bg-primary shadow-3xl h-24 w-screen flex flex-row justify-between fixed z-30">
                 <div>
                     <img class="h-[95px]" src="{{ asset('images/ump.jpg') }}" alt="UMP-FSJES">
                 </div>
@@ -118,18 +126,21 @@
                     </a>
                 </div>
             </header>
+            <header class="bg-secondary h-44 flex flex-row justify-end items-end">
+                <div class="justify-content-center w-12 text-center items-center mb-7 mr-14">
+                    <button id="btn" class="top-1/3 right-7 small:right-4 w-10 h-5 rounded-2xl bg-white items-center transition duration-300 focus:outline-none">
+                        <div id="switch-toggle" class="w-6 h-6 relative rounded-full transition duration-500 transform bg-thirdly -translate-x-2 text-white">
+                            <i class="fa-solid fa-lightbulb text-primary"></i>
+                        </div>
+                    </button>
+                </div>
+            </header>
         {% endif %}
         {% block main %}{% endblock %}
             <footer class="flex flex-col mt-2 text-center items-center justify-center dark:bg-secondary dark:text-black h-16 small:text-sm">
                 Copyright © LURIGOR <script>document.write(new Date().getFullYear())</script>. Tous les droits sont réservés.
             </footer>
             <!-- Made By Zakariae Bouklah : https://zakariaebouklah.github.io/ -->
-{#        {% if not app.user %}#}
-{#            <footer class="flex flex-col mt-2 text-center items-center justify-center dark:bg-secondary dark:text-black h-16">#}
-{#                Copyright © LURIGOR <script>document.write(new Date().getFullYear())</script>. Tous les droits sont réservés.#}
-{#            </footer>#}
-{#            <!-- Made By Zakariae Bouklah : https://zakariaebouklah.github.io/ -->#}
-{#        {% endif %}#}
         {% block footer %}{% endblock %}
     </body>
 </html>
