@@ -42,7 +42,7 @@ class Topic
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'relatedTopics')]
     private Collection $members;
 
-    #[ORM\OneToMany(mappedBy: 'topic', targetEntity: CommentForTopics::class)]
+    #[ORM\OneToMany(mappedBy: 'topic', targetEntity: CommentForTopics::class, cascade: ['persist', 'remove'])]
     private Collection $comments;
 
     public function __construct()

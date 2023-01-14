@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
@@ -21,6 +22,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+    /**
+     * @Assert\NotBlank(message="l'adresse mail est obligatoire...")
+     */
+    #[Assert\Regex("/[^@]{3,}@ump.ac.ma/", "Essayer un mot de passe de la form xxxx.zzzz@ump.ac.ma")]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
@@ -31,6 +36,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     /**
+     * @Assert\NotBlank(message="le mot de passe est obligatoire...")
      * @var string The hashed password
      */
     #[ORM\Column]

@@ -26,7 +26,7 @@ class AnnonceFormation
     #[ORM\Column(length: 255)]
     private ?string $card = null;
 
-    #[ORM\OneToMany(mappedBy: 'annonceFormation', targetEntity: Subscription::class)]
+    #[ORM\OneToMany(mappedBy: 'annonceFormation', targetEntity: Subscription::class, cascade: ['persist', 'remove'])]
     private Collection $subscriptions;
 
     #[ORM\Column]

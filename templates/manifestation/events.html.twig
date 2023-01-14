@@ -8,7 +8,7 @@
         <div class="m-5 h-screen">
             <div class="grid grid-cols-3 small:grid-cols-1 gap-5 justify-evenly" id="container">
                 {% for event in events %}
-                    <div class="shadow-3xl dark:border-2 dark:border-secondary rounded-xl mb-10 hover:translate-y-1.5 hover:transition-all hover:ease-in-out hover:duration-300 hidden box">
+                    <div class="shadow-3xl dark:border-2 dark:border-secondary rounded-xl mb-10 hover:-translate-y-1.5 hover:transition-all hover:ease-in-out hover:duration-300 hidden box">
                         <div class="p-5 flex flex-col justify-between">
                             <div class="text-center text-3xl font-bold">
                                 <em>{{ event.title }}</em>

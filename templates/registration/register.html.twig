@@ -18,12 +18,14 @@
             {{ form_row(registrationForm.email, {
                 label: 'Adresse Mail',
                 'attr': {
+                    'placeholder' : "Entrer une adresse de la forme: xxxx.zzzz@ump.ac.ma...",
                     'class': 'bg-black/5 justify-between p-2 focus:outline-none shadow-inner rounded-xl dark:border-2 dark:border-secondary w-full'
                 }
             }) }}
-            {{ form_row(registrationForm.plainPassword, {
+            {{ form_row(registrationForm.password, {
                 label: 'Mot de passe',
                 'attr': {
+                    'placeholder' : "Entrez un mot de passe avec un minimum de 9 caractères...",
                     'class': 'bg-black/5 justify-between p-2 focus:outline-none shadow-inner rounded-xl dark:border-2 dark:border-secondary w-full'
                 }
             }) }}
@@ -37,6 +39,11 @@
                 <label>Termes et conditions</label>
                 {{ form_widget(registrationForm.agreeTerms) }}
             </div>
+
+{#            {% if form_errors(registrationForm) is not null %}#}
+{#                <strong class="font-bold">{{ form_errors(registrationForm.email) }}</strong>#}
+{#                <strong class="font-bold">{{ form_errors(registrationForm.plainPassword) }}</strong>#}
+{#            {% endif %}#}
 
             <button type="submit" class="mt-5 small:text-sm text-primary bg-secondary rounded-xl hover:bg-[#D19900] w-[125px] h-10 font-bold">S'inscrire</button>
         </div>
